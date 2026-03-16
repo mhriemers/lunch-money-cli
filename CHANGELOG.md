@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.1](https://github.com/mhriemers/lunch-money-cli/compare/v1.0.0...v1.0.1) (2026-03-16)
+
+
+### Bug Fixes
+
+* add include-component-in-tag to match existing tag format ([#7](https://github.com/mhriemers/lunch-money-cli/issues/7)) ([40e46f4](https://github.com/mhriemers/lunch-money-cli/commit/40e46f40e0017384caa225da63d2249a32588575))
+* combine release-please and publish into single workflow ([#2](https://github.com/mhriemers/lunch-money-cli/issues/2)) ([42c4ed3](https://github.com/mhriemers/lunch-money-cli/commit/42c4ed38302e80222c2a87dbcf7854ab8879faea))
+* use PAT for release-please to trigger CI on release PRs ([#8](https://github.com/mhriemers/lunch-money-cli/issues/8)) ([e9e7d08](https://github.com/mhriemers/lunch-money-cli/commit/e9e7d0892a5689be036b00daea690c0121cb4f15))
+* use release-please-config.json instead of workflow-level release-type ([#6](https://github.com/mhriemers/lunch-money-cli/issues/6)) ([d3c759d](https://github.com/mhriemers/lunch-money-cli/commit/d3c759d613267192fe297d5dd5a905e8a60e5101))
+
 ## 1.0.0 (2026-03-16)
 
 ### Features

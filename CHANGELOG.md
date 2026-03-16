@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/mhriemers/lunch-money-cli/compare/v1.0.1...v1.0.2) (2026-03-16)
+
+
+### Bug Fixes
+
+* upgrade to Node 24 for npm OIDC publish ([#9](https://github.com/mhriemers/lunch-money-cli/issues/9)) ([ae85a5d](https://github.com/mhriemers/lunch-money-cli/commit/ae85a5dbbeba4d2d3592756a09b073e079e33b2a))
+
 ## [1.0.1](https://github.com/mhriemers/lunch-money-cli/compare/v1.0.0...v1.0.1) (2026-03-16)
 
 

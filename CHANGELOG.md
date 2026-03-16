@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/mhriemers/lunch-money-cli/compare/v1.0.3...v1.0.4) (2026-03-16)
+
+
+### Bug Fixes
+
+* split release and publish into separate workflows ([#13](https://github.com/mhriemers/lunch-money-cli/issues/13)) ([c390518](https://github.com/mhriemers/lunch-money-cli/commit/c39051881186caf2f5038fe57f06124035998b91))
+
 ## [1.0.3](https://github.com/mhriemers/lunch-money-cli/compare/v1.0.2...v1.0.3) (2026-03-16)
 
 

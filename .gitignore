@@ -1,0 +1,10 @@
+node_modules/
+dist/
+oclif.manifest.json
+.env
+.env.*
+.DS_Store
+.claude/
+*.tgz
+.vscode/
+.idea/

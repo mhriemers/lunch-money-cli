@@ -29,7 +29,7 @@
   "scripts": {
     "build": "tsc && oclif manifest",
     "dev": "tsx src/index.ts",
-    "test": "vitest run",
+    "test": "mocha",
     "prepublishOnly": "npm run build",
     "postpack": "rm -f oclif.manifest.json"
   },
@@ -59,10 +59,12 @@
   },
   "devDependencies": {
     "@oclif/test": "^4.1.16",
+    "@types/mocha": "^10",
     "@types/node": "^25.3.3",
     "oclif": "^4",
+    "chai": "^5",
+    "mocha": "^11",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.0"
+    "typescript": "^5.9.3"
   }
 }

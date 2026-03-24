@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/mhriemers/lunch-money-cli/compare/v1.0.4...v1.1.0) (2026-03-24)
+
+
+### Features
+
+* sync command descriptions with Lunch Money v2 OpenAPI spec ([#27](https://github.com/mhriemers/lunch-money-cli/issues/27)) ([49265be](https://github.com/mhriemers/lunch-money-cli/commit/49265be45326ac96d9813d15e241182de2a68e52))
+
 ## [1.0.4](https://github.com/mhriemers/lunch-money-cli/compare/v1.0.3...v1.0.4) (2026-03-16)
 
 

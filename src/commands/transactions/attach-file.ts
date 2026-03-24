@@ -1,15 +1,15 @@
-import { Args, Flags } from "@oclif/core";
-import { BaseCommand } from "../../base-command.js";
 import type { AttachFileToTransactionBody } from "@lunch-money/lunch-money-js-v2";
 
-export default class TransactionsAttachFile extends BaseCommand {
-  static override description = "Attach a file to a transaction";
+import { Args, Flags } from "@oclif/core";
 
+import { BaseCommand } from "../../base-command.js";
+
+export default class TransactionsAttachFile extends BaseCommand {
   static override args = {
     "transaction-id": Args.integer({ description: "Transaction ID", required: true }),
   };
-
-  static override flags = {
+static override description = "Attach a file to a transaction";
+static override flags = {
     file: Flags.string({ description: "Path or URL of the file to attach", required: true }),
     notes: Flags.string({ description: "Notes for the attachment" }),
   };

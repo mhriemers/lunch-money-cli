@@ -29,6 +29,8 @@
   "scripts": {
     "build": "tsc && oclif manifest",
     "dev": "tsx src/index.ts",
+    "lint": "eslint",
+    "posttest": "npm run lint",
     "test": "mocha",
     "prepublishOnly": "npm run build",
     "postpack": "rm -f oclif.manifest.json"
@@ -58,12 +60,17 @@
     "@oclif/plugin-plugins": "^5"
   },
   "devDependencies": {
+    "@eslint/compat": "^1",
+    "@oclif/prettier-config": "^0.2.1",
     "@oclif/test": "^4.1.16",
     "@types/mocha": "^10",
     "@types/node": "^25.3.3",
-    "oclif": "^4",
     "chai": "^6",
+    "eslint": "^9",
+    "eslint-config-oclif": "^6",
+    "eslint-config-prettier": "^10",
     "mocha": "^11",
+    "oclif": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }

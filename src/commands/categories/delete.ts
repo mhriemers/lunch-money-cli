@@ -1,15 +1,15 @@
-import { Args, Flags } from "@oclif/core";
-import { BaseCommand } from "../../base-command.js";
 import type { DeleteCategoryParams } from "@lunch-money/lunch-money-js-v2";
 
-export default class CategoriesDelete extends BaseCommand {
-  static override description = "Delete a category";
+import { Args, Flags } from "@oclif/core";
 
+import { BaseCommand } from "../../base-command.js";
+
+export default class CategoriesDelete extends BaseCommand {
   static override args = {
     id: Args.integer({ description: "Category ID", required: true }),
   };
-
-  static override flags = {
+static override description = "Delete a category";
+static override flags = {
     force: Flags.boolean({ description: "Force delete even with dependencies" }),
   };
 
@@ -19,6 +19,6 @@ export default class CategoriesDelete extends BaseCommand {
     const params: DeleteCategoryParams = {};
     if (flags.force) params.force = true;
     await client.categories.delete(args.id, params);
-    return this.output({ success: true, deleted_id: args.id }, `Deleted category ${args.id}.`);
+    return this.output({ deleted_id: args.id, success: true }, `Deleted category ${args.id}.`);
   }
 }

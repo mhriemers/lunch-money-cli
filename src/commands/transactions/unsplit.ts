@@ -1,12 +1,12 @@
 import { Args } from "@oclif/core";
+
 import { BaseCommand } from "../../base-command.js";
 
 export default class TransactionsUnsplit extends BaseCommand {
-  static override description = "Reverse a transaction split";
-
   static override args = {
     id: Args.integer({ description: "Transaction ID to unsplit", required: true }),
   };
+static override description = "Reverse a transaction split";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(TransactionsUnsplit);

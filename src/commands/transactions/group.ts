@@ -1,12 +1,13 @@
+import type { GroupTransactionsBody } from "@lunch-money/lunch-money-js-v2";
+
 import { Flags } from "@oclif/core";
+
 import { BaseCommand } from "../../base-command.js";
 import { parseJsonArg } from "../../client.js";
-import type { GroupTransactionsBody } from "@lunch-money/lunch-money-js-v2";
 
 export default class TransactionsGroup extends BaseCommand {
   static override description = "Group multiple transactions together";
-
-  static override flags = {
+static override flags = {
     data: Flags.string({ description: "JSON object with group details", required: true }),
   };
 

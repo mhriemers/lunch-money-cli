@@ -1,14 +1,14 @@
 import { Args } from "@oclif/core";
+
 import { BaseCommand } from "../../base-command.js";
-import { formatDetail } from "../../formatters.js";
 import { tagFields } from "../../columns.js";
+import { formatDetail } from "../../formatters.js";
 
 export default class TagsGet extends BaseCommand {
-  static override description = "Get a specific tag";
-
   static override args = {
     id: Args.integer({ description: "Tag ID", required: true }),
   };
+static override description = "Get a specific tag";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(TagsGet);

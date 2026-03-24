@@ -1,16 +1,17 @@
-import { Flags } from "@oclif/core";
-import { BaseCommand } from "../../base-command.js";
 import type { CreateTagBody } from "@lunch-money/lunch-money-js-v2";
+
+import { Flags } from "@oclif/core";
+
+import { BaseCommand } from "../../base-command.js";
 
 export default class TagsCreate extends BaseCommand {
   static override description = "Create a new tag";
-
-  static override flags = {
-    name: Flags.string({ description: "Tag name", required: true }),
-    description: Flags.string({ description: "Tag description" }),
-    "text-color": Flags.string({ description: "Text color (hex code)" }),
-    "background-color": Flags.string({ description: "Background color (hex code)" }),
+static override flags = {
     archived: Flags.boolean({ description: "Mark as archived" }),
+    "background-color": Flags.string({ description: "Background color (hex code)" }),
+    description: Flags.string({ description: "Tag description" }),
+    name: Flags.string({ description: "Tag name", required: true }),
+    "text-color": Flags.string({ description: "Text color (hex code)" }),
   };
 
   async run(): Promise<unknown> {

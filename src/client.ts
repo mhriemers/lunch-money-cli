@@ -11,14 +11,16 @@ export function createClient(): LunchMoneyClient {
   if (!apiKey) {
     throw new Error("No API key found. Provide one via: --api-key flag, LUNCH_MONEY_API_KEY env var, or run 'lm auth'");
   }
+
   return new LunchMoneyClient({ apiKey });
 }
 
 export function parseIntArg(value: string, name: string): number {
-  const n = parseInt(value, 10);
-  if (isNaN(n)) {
-    throw new Error(`${name} must be a valid integer`);
+  const n = Number.parseInt(value, 10);
+  if (Number.isNaN(n)) {
+    throw new TypeError(`${name} must be a valid integer`);
   }
+
   return n;
 }
 

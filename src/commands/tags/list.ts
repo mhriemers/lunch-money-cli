@@ -1,6 +1,6 @@
 import { BaseCommand } from "../../base-command.js";
-import { formatTable } from "../../formatters.js";
 import { tagColumns } from "../../columns.js";
+import { formatTable } from "../../formatters.js";
 
 export default class TagsList extends BaseCommand {
   static override description = "List all tags";

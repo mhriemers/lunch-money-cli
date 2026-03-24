@@ -1,6 +1,6 @@
 import { BaseCommand } from "../../base-command.js";
-import { formatDetail } from "../../formatters.js";
 import { userFields } from "../../columns.js";
+import { formatDetail } from "../../formatters.js";
 
 export default class UserMe extends BaseCommand {
   static override description = "Get current user profile";

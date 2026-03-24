@@ -1,15 +1,16 @@
-import { Flags } from "@oclif/core";
-import { BaseCommand } from "../../base-command.js";
-import { formatTable } from "../../formatters.js";
-import { recurringColumns } from "../../columns.js";
 import type { GetAllRecurringItemsParams } from "@lunch-money/lunch-money-js-v2";
+
+import { Flags } from "@oclif/core";
+
+import { BaseCommand } from "../../base-command.js";
+import { recurringColumns } from "../../columns.js";
+import { formatTable } from "../../formatters.js";
 
 export default class RecurringList extends BaseCommand {
   static override description = "List all recurring items";
-
-  static override flags = {
-    "start-date": Flags.string({ description: "Start date (YYYY-MM-DD)" }),
+static override flags = {
     "end-date": Flags.string({ description: "End date (YYYY-MM-DD)" }),
+    "start-date": Flags.string({ description: "Start date (YYYY-MM-DD)" }),
   };
 
   async run(): Promise<unknown> {

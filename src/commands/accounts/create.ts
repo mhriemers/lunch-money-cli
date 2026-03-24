@@ -6,21 +6,21 @@ import { BaseCommand } from "../../base-command.js";
 import { parseJsonArg } from "../../client.js";
 
 export default class AccountsCreate extends BaseCommand {
-  static override description = "Create a new manual account";
+  static override description = "Create a new manually-managed account. Requires name, type, and balance at minimum.";
 static override flags = {
-    balance: Flags.string({ description: "Current balance", required: true }),
-    "balance-as-of": Flags.string({ description: "Date/time the balance was last updated (ISO 8601)" }),
-    "closed-on": Flags.string({ description: "Date the account was closed (YYYY-MM-DD or null)" }),
-    currency: Flags.string({ description: "Currency code" }),
-    "custom-metadata": Flags.string({ description: "Custom metadata JSON" }),
-    "display-name": Flags.string({ description: "Display name" }),
-    "exclude-from-transactions": Flags.boolean({ description: "Exclude account from transactions" }),
-    "external-id": Flags.string({ description: "External ID" }),
-    "institution-name": Flags.string({ description: "Institution name" }),
-    name: Flags.string({ description: "Account name", required: true }),
-    status: Flags.string({ description: "Status: active or closed" }),
-    subtype: Flags.string({ description: "Account subtype (e.g., checking, savings, brokerage, depository)" }),
-    type: Flags.string({ description: 'Account type: cash, credit, investment, "real estate", loan, vehicle, cryptocurrency, "employee compensation", "other liability", "other asset"', required: true }),
+    balance: Flags.string({ description: "Current balance as a numeric string up to 4 decimal places (e.g. '195.50'). Do not include currency symbols.", required: true }),
+    "balance-as-of": Flags.string({ description: "Date/time the balance was last updated in ISO 8601 format. Accepts date (YYYY-MM-DD) or datetime string." }),
+    "closed-on": Flags.string({ description: "Date the account was closed (YYYY-MM-DD format or 'null'). If set, --status must also be 'closed'." }),
+    currency: Flags.string({ description: "Three-letter lowercase currency code in ISO 4217 format (e.g. 'usd', 'eur'). Defaults to account's primary currency." }),
+    "custom-metadata": Flags.string({ description: "JSON object with additional account data. Must be valid JSON and not exceed 4096 characters when stringified. Example: '{\"key\": \"value\"}'" }),
+    "display-name": Flags.string({ description: "Display name for the account. Must be unique across all manual accounts. If not set, derived from institution_name and name." }),
+    "exclude-from-transactions": Flags.boolean({ description: "If set, transactions may not be assigned to this manual account" }),
+    "external-id": Flags.string({ description: "Optional user-defined ID for the account (max 75 characters)" }),
+    "institution-name": Flags.string({ description: "Name of institution holding the account (1-50 characters)" }),
+    name: Flags.string({ description: "Name of the manual account (1-45 characters)", required: true }),
+    status: Flags.string({ description: "Account status. Allowed values: 'active' (default), 'closed'" }),
+    subtype: Flags.string({ description: "Optional account subtype (1-100 characters). Examples: retirement, checking, savings, 'prepaid credit card'" }),
+    type: Flags.string({ description: "Primary account type. Allowed values: cash, credit, cryptocurrency, 'employee compensation', investment, loan, 'other liability', 'other asset', 'real estate', vehicle", required: true }),
   };
 
   async run(): Promise<unknown> {

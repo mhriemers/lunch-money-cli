@@ -6,9 +6,9 @@ import { formatDetail } from "../../formatters.js";
 
 export default class AccountsGet extends BaseCommand {
   static override args = {
-    id: Args.integer({ description: "Account ID", required: true }),
+    id: Args.integer({ description: "Unique identifier of the manual account to retrieve (integer)", required: true }),
   };
-static override description = "Get a specific manual account";
+static override description = "Retrieve details of a specific manually-managed account by its ID";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(AccountsGet);

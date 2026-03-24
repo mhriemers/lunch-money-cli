@@ -7,26 +7,26 @@ import { parseJsonArg } from "../../client.js";
 
 export default class TransactionsUpdate extends BaseCommand {
   static override args = {
-    id: Args.integer({ description: "Transaction ID", required: true }),
+    id: Args.integer({ description: "Unique identifier of the transaction to update (integer)", required: true }),
   };
-static override description = "Update a single transaction";
+static override description = "Update properties of an existing transaction. Only provided fields are updated. Split or grouped transactions cannot be modified; use split/unsplit/group/ungroup commands instead.";
 static override flags = {
-    "additional-tag-ids": Flags.string({ description: "JSON array of additional tag IDs to add" }),
-    amount: Flags.string({ description: "Transaction amount" }),
-    "category-id": Flags.integer({ description: "Category ID" }),
-    currency: Flags.string({ description: "Currency code" }),
-    "custom-metadata": Flags.string({ description: "Custom metadata JSON" }),
-    data: Flags.string({ description: "Full update body as JSON (overrides other options)" }),
-    date: Flags.string({ description: "Transaction date (YYYY-MM-DD)" }),
-    "external-id": Flags.string({ description: "External ID" }),
-    "manual-account-id": Flags.integer({ description: "Manual account ID" }),
-    notes: Flags.string({ description: "Transaction notes" }),
-    "original-name": Flags.string({ description: "Original transaction name" }),
-    payee: Flags.string({ description: "Payee name" }),
-    "plaid-account-id": Flags.integer({ description: "Plaid account ID" }),
-    "recurring-id": Flags.integer({ description: "Recurring item ID" }),
-    status: Flags.string({ description: "Status: reviewed or unreviewed" }),
-    "tag-ids": Flags.string({ description: "JSON array of tag IDs" }),
+    "additional-tag-ids": Flags.string({ description: "JSON array of tag IDs (integers) to add to existing tags. Cannot be used with --tag-ids." }),
+    amount: Flags.string({ description: "Numeric amount without currency symbol (e.g. '4.25'). Positive=debit, negative=credit. May not be updated on locked synced accounts." }),
+    "category-id": Flags.integer({ description: "Category ID to assign, or use --data with null to clear (integer)" }),
+    currency: Flags.string({ description: "Three-letter lowercase currency code in ISO 4217 format (e.g. 'usd')" }),
+    "custom-metadata": Flags.string({ description: "JSON object with additional transaction data. Max 4096 characters when stringified." }),
+    data: Flags.string({ description: "Full update request body as a JSON string. When provided, all other flags are ignored. Must conform to the transaction update schema." }),
+    date: Flags.string({ description: "Transaction date in ISO 8601 format (YYYY-MM-DD)" }),
+    "external-id": Flags.string({ description: "User-defined external ID (max 75 characters). Transaction must have a manual_account_id. Must be unique per account." }),
+    "manual-account-id": Flags.integer({ description: "Manual account ID to associate. Set to null via --data to disassociate. Cannot be set together with plaid-account-id. (integer)" }),
+    notes: Flags.string({ description: "Transaction notes (max 350 characters). Set to empty string to clear." }),
+    "original-name": Flags.string({ description: "Original payee name from source. Cannot be changed (ignored if set)." }),
+    payee: Flags.string({ description: "Payee name (max 140 characters)" }),
+    "plaid-account-id": Flags.integer({ description: "Plaid account ID to associate. Account must allow transaction modifications. Cannot be set together with manual-account-id. (integer)" }),
+    "recurring-id": Flags.integer({ description: "ID of the associated recurring item (integer)" }),
+    status: Flags.string({ description: "Transaction status. Allowed values: 'reviewed', 'unreviewed'" }),
+    "tag-ids": Flags.string({ description: "JSON array of tag IDs (integers). Overwrites all existing tags. Cannot be used with --additional-tag-ids. Set to '[]' to remove all tags." }),
   };
 
   async run(): Promise<unknown> {

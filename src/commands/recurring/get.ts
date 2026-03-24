@@ -6,9 +6,9 @@ import { formatDetail } from "../../formatters.js";
 
 export default class RecurringGet extends BaseCommand {
   static override args = {
-    id: Args.integer({ description: "Recurring item ID", required: true }),
+    id: Args.integer({ description: "Unique identifier of the recurring item to retrieve (integer)", required: true }),
   };
-static override description = "Get a specific recurring item";
+static override description = "Retrieve details of a specific recurring item by its ID, including transaction criteria, overrides, and match information";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(RecurringGet);

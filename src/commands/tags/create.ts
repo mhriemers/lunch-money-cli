@@ -5,13 +5,13 @@ import { Flags } from "@oclif/core";
 import { BaseCommand } from "../../base-command.js";
 
 export default class TagsCreate extends BaseCommand {
-  static override description = "Create a new tag";
+  static override description = "Create a new tag. Tag name must be unique.";
 static override flags = {
-    archived: Flags.boolean({ description: "Mark as archived" }),
-    "background-color": Flags.string({ description: "Background color (hex code)" }),
-    description: Flags.string({ description: "Tag description" }),
-    name: Flags.string({ description: "Tag name", required: true }),
-    "text-color": Flags.string({ description: "Text color (hex code)" }),
+    archived: Flags.boolean({ description: "If set, the tag is archived and hidden when creating/updating transactions in the app" }),
+    "background-color": Flags.string({ description: "Background color as a hex code (e.g. 'FFE7D4')" }),
+    description: Flags.string({ description: "Description of the tag (max 200 characters)" }),
+    name: Flags.string({ description: "Name of the new tag (1-100 characters). Must not match any existing tag name.", required: true }),
+    "text-color": Flags.string({ description: "Text color as a hex code (e.g. '333')" }),
   };
 
   async run(): Promise<unknown> {

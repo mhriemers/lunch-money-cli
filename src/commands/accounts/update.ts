@@ -7,24 +7,24 @@ import { parseJsonArg } from "../../client.js";
 
 export default class AccountsUpdate extends BaseCommand {
   static override args = {
-    id: Args.integer({ description: "Account ID", required: true }),
+    id: Args.integer({ description: "Unique identifier of the manual account to update (integer)", required: true }),
   };
-static override description = "Update a manual account";
+static override description = "Update properties of an existing manually-managed account. Only provided fields are updated; omitted fields remain unchanged.";
 static override flags = {
-    balance: Flags.string({ description: "New balance" }),
-    "balance-as-of": Flags.string({ description: "Date/time the balance was last updated (ISO 8601)" }),
-    "closed-on": Flags.string({ description: "Date the account was closed (YYYY-MM-DD or null)" }),
-    currency: Flags.string({ description: "Currency code" }),
-    "custom-metadata": Flags.string({ description: "Custom metadata JSON" }),
-    data: Flags.string({ description: "Full update body as JSON (overrides other options)" }),
-    "display-name": Flags.string({ description: "New display name" }),
-    "exclude-from-transactions": Flags.string({ description: "Exclude account from transactions (true/false)" }),
-    "external-id": Flags.string({ description: "External ID" }),
-    "institution-name": Flags.string({ description: "New institution name" }),
-    name: Flags.string({ description: "New name" }),
-    status: Flags.string({ description: "Status: active or closed" }),
-    subtype: Flags.string({ description: "Account subtype (e.g., checking, savings, brokerage, depository)" }),
-    type: Flags.string({ description: 'Account type: cash, credit, investment, "real estate", loan, vehicle, cryptocurrency, "employee compensation", "other liability", "other asset"' }),
+    balance: Flags.string({ description: "New balance as a numeric string up to 4 decimal places (e.g. '195.50'). Do not include currency symbols." }),
+    "balance-as-of": Flags.string({ description: "Date/time for the balance update in ISO 8601 format. Ignored if --balance is not also set. Defaults to current time when --balance is provided." }),
+    "closed-on": Flags.string({ description: "Date the account was closed (YYYY-MM-DD format or 'null'). If updating a non-closed account, --status must also be set to 'closed'." }),
+    currency: Flags.string({ description: "New three-letter lowercase currency code in ISO 4217 format (e.g. 'usd', 'eur')" }),
+    "custom-metadata": Flags.string({ description: "JSON object with additional account data. Must be valid JSON, max 4096 characters when stringified. Example: '{\"key\": \"value\"}'" }),
+    data: Flags.string({ description: "Full update request body as a JSON string. When provided, all other flags are ignored. Must conform to the manual account update schema." }),
+    "display-name": Flags.string({ description: "New display name for the account. Must be unique across all manual accounts." }),
+    "exclude-from-transactions": Flags.string({ description: "Whether transactions may be assigned to this account ('true' or 'false')" }),
+    "external-id": Flags.string({ description: "Optional user-defined ID for the account (max 75 characters)" }),
+    "institution-name": Flags.string({ description: "New institution name (1-50 characters)" }),
+    name: Flags.string({ description: "New name for the account (1-45 characters)" }),
+    status: Flags.string({ description: "Account status. Allowed values: 'active', 'closed'. If set to 'closed', the closed_on date defaults to today unless also specified." }),
+    subtype: Flags.string({ description: "New account subtype (1-100 characters). Examples: retirement, checking, savings, 'prepaid credit card'" }),
+    type: Flags.string({ description: "New primary account type. Allowed values: cash, credit, cryptocurrency, 'employee compensation', investment, loan, 'other liability', 'other asset', 'real estate', vehicle" }),
   };
 
   async run(): Promise<unknown> {

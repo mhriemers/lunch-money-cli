@@ -4,9 +4,9 @@ import { BaseCommand } from "../../base-command.js";
 
 export default class TransactionsDelete extends BaseCommand {
   static override args = {
-    id: Args.integer({ description: "Transaction ID", required: true }),
+    id: Args.integer({ description: "Unique identifier of the transaction to delete (integer)", required: true }),
   };
-static override description = "Delete a single transaction";
+static override description = "Delete a transaction by ID. Split or grouped transactions must be unsplit/ungrouped first. This action is not reversible.";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(TransactionsDelete);

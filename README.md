@@ -102,7 +102,7 @@ All commands support:
 
 ## `lm accounts create`
 
-Create a new manual account
+Create a new manually-managed account. Requires name, type, and balance at minimum.
 
 ```
 USAGE
@@ -112,73 +112,80 @@ USAGE
     <value>]
 
 FLAGS
-  --balance=<value>            (required) Current balance
-  --balance-as-of=<value>      Date/time the balance was last updated (ISO 8601)
-  --closed-on=<value>          Date the account was closed (YYYY-MM-DD or null)
-  --currency=<value>           Currency code
-  --custom-metadata=<value>    Custom metadata JSON
-  --display-name=<value>       Display name
-  --exclude-from-transactions  Exclude account from transactions
-  --external-id=<value>        External ID
-  --institution-name=<value>   Institution name
-  --name=<value>               (required) Account name
-  --status=<value>             Status: active or closed
-  --subtype=<value>            Account subtype (e.g., checking, savings, brokerage, depository)
-  --type=<value>               (required) Account type: cash, credit, investment, "real estate", loan, vehicle,
-                               cryptocurrency, "employee compensation", "other liability", "other asset"
+  --balance=<value>            (required) Current balance as a numeric string up to 4 decimal places (e.g. '195.50'). Do
+                               not include currency symbols.
+  --balance-as-of=<value>      Date/time the balance was last updated in ISO 8601 format. Accepts date (YYYY-MM-DD) or
+                               datetime string.
+  --closed-on=<value>          Date the account was closed (YYYY-MM-DD format or 'null'). If set, --status must also be
+                               'closed'.
+  --currency=<value>           Three-letter lowercase currency code in ISO 4217 format (e.g. 'usd', 'eur'). Defaults to
+                               account's primary currency.
+  --custom-metadata=<value>    JSON object with additional account data. Must be valid JSON and not exceed 4096
+                               characters when stringified. Example: '{"key": "value"}'
+  --display-name=<value>       Display name for the account. Must be unique across all manual accounts. If not set,
+                               derived from institution_name and name.
+  --exclude-from-transactions  If set, transactions may not be assigned to this manual account
+  --external-id=<value>        Optional user-defined ID for the account (max 75 characters)
+  --institution-name=<value>   Name of institution holding the account (1-50 characters)
+  --name=<value>               (required) Name of the manual account (1-45 characters)
+  --status=<value>             Account status. Allowed values: 'active' (default), 'closed'
+  --subtype=<value>            Optional account subtype (1-100 characters). Examples: retirement, checking, savings,
+                               'prepaid credit card'
+  --type=<value>               (required) Primary account type. Allowed values: cash, credit, cryptocurrency, 'employee
+                               compensation', investment, loan, 'other liability', 'other asset', 'real estate', vehicle
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Create a new manual account
+  Create a new manually-managed account. Requires name, type, and balance at minimum.
 ```
 
 _See code: [src/commands/accounts/create.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/accounts/create.ts)_
 
 ## `lm accounts delete ID`
 
-Delete a manual account
+Delete a manually-managed account. If transactions exist for this account, they will show a warning in the web view.
 
 ```
 USAGE
   $ lm accounts delete ID [--json]
 
 ARGUMENTS
-  ID  Account ID
+  ID  Unique identifier of the manual account to delete (integer)
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Delete a manual account
+  Delete a manually-managed account. If transactions exist for this account, they will show a warning in the web view.
 ```
 
 _See code: [src/commands/accounts/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/accounts/delete.ts)_
 
 ## `lm accounts get ID`
 
-Get a specific manual account
+Retrieve details of a specific manually-managed account by its ID
 
 ```
 USAGE
   $ lm accounts get ID [--json]
 
 ARGUMENTS
-  ID  Account ID
+  ID  Unique identifier of the manual account to retrieve (integer)
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Get a specific manual account
+  Retrieve details of a specific manually-managed account by its ID
 ```
 
 _See code: [src/commands/accounts/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/accounts/get.ts)_
 
 ## `lm accounts list`
 
-List all manual accounts
+Retrieve a list of all manually-managed accounts (not synced via Plaid) associated with the user's account
 
 ```
 USAGE
@@ -188,14 +195,14 @@ GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  List all manual accounts
+  Retrieve a list of all manually-managed accounts (not synced via Plaid) associated with the user's account
 ```
 
 _See code: [src/commands/accounts/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/accounts/list.ts)_
 
 ## `lm accounts update ID`
 
-Update a manual account
+Update properties of an existing manually-managed account. Only provided fields are updated; omitted fields remain unchanged.
 
 ```
 USAGE
@@ -205,30 +212,39 @@ USAGE
     <value>]
 
 ARGUMENTS
-  ID  Account ID
+  ID  Unique identifier of the manual account to update (integer)
 
 FLAGS
-  --balance=<value>                    New balance
-  --balance-as-of=<value>              Date/time the balance was last updated (ISO 8601)
-  --closed-on=<value>                  Date the account was closed (YYYY-MM-DD or null)
-  --currency=<value>                   Currency code
-  --custom-metadata=<value>            Custom metadata JSON
-  --data=<value>                       Full update body as JSON (overrides other options)
-  --display-name=<value>               New display name
-  --exclude-from-transactions=<value>  Exclude account from transactions (true/false)
-  --external-id=<value>                External ID
-  --institution-name=<value>           New institution name
-  --name=<value>                       New name
-  --status=<value>                     Status: active or closed
-  --subtype=<value>                    Account subtype (e.g., checking, savings, brokerage, depository)
-  --type=<value>                       Account type: cash, credit, investment, "real estate", loan, vehicle,
-                                       cryptocurrency, "employee compensation", "other liability", "other asset"
+  --balance=<value>                    New balance as a numeric string up to 4 decimal places (e.g. '195.50'). Do not
+                                       include currency symbols.
+  --balance-as-of=<value>              Date/time for the balance update in ISO 8601 format. Ignored if --balance is not
+                                       also set. Defaults to current time when --balance is provided.
+  --closed-on=<value>                  Date the account was closed (YYYY-MM-DD format or 'null'). If updating a
+                                       non-closed account, --status must also be set to 'closed'.
+  --currency=<value>                   New three-letter lowercase currency code in ISO 4217 format (e.g. 'usd', 'eur')
+  --custom-metadata=<value>            JSON object with additional account data. Must be valid JSON, max 4096 characters
+                                       when stringified. Example: '{"key": "value"}'
+  --data=<value>                       Full update request body as a JSON string. When provided, all other flags are
+                                       ignored. Must conform to the manual account update schema.
+  --display-name=<value>               New display name for the account. Must be unique across all manual accounts.
+  --exclude-from-transactions=<value>  Whether transactions may be assigned to this account ('true' or 'false')
+  --external-id=<value>                Optional user-defined ID for the account (max 75 characters)
+  --institution-name=<value>           New institution name (1-50 characters)
+  --name=<value>                       New name for the account (1-45 characters)
+  --status=<value>                     Account status. Allowed values: 'active', 'closed'. If set to 'closed', the
+                                       closed_on date defaults to today unless also specified.
+  --subtype=<value>                    New account subtype (1-100 characters). Examples: retirement, checking, savings,
+                                       'prepaid credit card'
+  --type=<value>                       New primary account type. Allowed values: cash, credit, cryptocurrency, 'employee
+                                       compensation', investment, loan, 'other liability', 'other asset', 'real estate',
+                                       vehicle
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Update a manual account
+  Update properties of an existing manually-managed account. Only provided fields are updated; omitted fields remain
+  unchanged.
 ```
 
 _See code: [src/commands/accounts/update.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/accounts/update.ts)_
@@ -252,28 +268,29 @@ _See code: [src/commands/auth.ts](https://github.com/mhriemers/lunch-money-cli/b
 
 ## `lm budgets delete`
 
-Remove a budget for a category and period
+Remove a budget entry for a specific category and budget period start date
 
 ```
 USAGE
   $ lm budgets delete --category-id <value> --start-date <value> [--json]
 
 FLAGS
-  --category-id=<value>  (required) Category ID
-  --start-date=<value>   (required) Budget period start date (YYYY-MM-DD)
+  --category-id=<value>  (required) ID of the category whose budget should be removed (integer)
+  --start-date=<value>   (required) Start date of the budget period to remove (YYYY-MM-DD). Must be a valid budget
+                         period start date.
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Remove a budget for a category and period
+  Remove a budget entry for a specific category and budget period start date
 ```
 
 _See code: [src/commands/budgets/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/budgets/delete.ts)_
 
 ## `lm budgets settings`
 
-Get budget settings (period granularity, etc.)
+Retrieve budget period and display settings for the account, including granularity (week/month/twice a month), quantity, anchor date, and display preferences
 
 ```
 USAGE
@@ -283,14 +300,15 @@ GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Get budget settings (period granularity, etc.)
+  Retrieve budget period and display settings for the account, including granularity (week/month/twice a month),
+  quantity, anchor date, and display preferences
 ```
 
 _See code: [src/commands/budgets/settings.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/budgets/settings.ts)_
 
 ## `lm budgets upsert`
 
-Create or update a budget for a category and period
+Create or update a budget for a category and period. If a budget exists for the given start_date and category_id, it is updated; otherwise a new one is created. The start_date must be a valid budget period start for the account.
 
 ```
 USAGE
@@ -298,24 +316,27 @@ USAGE
     [--notes <value>]
 
 FLAGS
-  --amount=<value>       (required) Budget amount
-  --category-id=<value>  (required) Category ID
-  --currency=<value>     Currency code
-  --notes=<value>        Budget notes
-  --start-date=<value>   (required) Budget period start date (YYYY-MM-DD)
+  --amount=<value>       (required) Budget amount as a number or numeric string (e.g. '500' or '250.50')
+  --category-id=<value>  (required) ID of the category this budget applies to (integer)
+  --currency=<value>     Three-letter lowercase currency code in ISO 4217 format. Defaults to account's primary currency
+                         if omitted.
+  --notes=<value>        Optional notes for the budget period (max 350 characters)
+  --start-date=<value>   (required) Start date of the budget period (YYYY-MM-DD). Must be a valid budget period start
+                         date for the account. Use 'lm budgets settings' to check period configuration.
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Create or update a budget for a category and period
+  Create or update a budget for a category and period. If a budget exists for the given start_date and category_id, it
+  is updated; otherwise a new one is created. The start_date must be a valid budget period start for the account.
 ```
 
 _See code: [src/commands/budgets/upsert.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/budgets/upsert.ts)_
 
 ## `lm categories create`
 
-Create a new category
+Create a new category or category group. Set --is-group to create a category group, optionally with --children to assign existing categories to it.
 
 ```
 USAGE
@@ -324,94 +345,103 @@ USAGE
     <value>]
 
 FLAGS
-  --archived             Mark as archived
-  --children=<value>     JSON array of child category IDs (for groups)
-  --collapsed            Collapse category group
-  --description=<value>  Category description
-  --exclude-from-budget  Exclude from budget
-  --exclude-from-totals  Exclude from totals
-  --group-id=<value>     Parent category group ID
-  --is-group             Create as category group
-  --is-income            Mark as income category
-  --name=<value>         (required) Category name
-  --order=<value>        Sort order
+  --archived             If set, the category is archived and hidden in the Lunch Money app
+  --children=<value>     JSON array of category IDs (integers) or new category names (strings) to add to the group. Only
+                         valid when --is-group is set. Example: '[123, 456]' or '[123, "New Category"]'
+  --collapsed            If set, the category group appears collapsed in the Lunch Money app
+  --description=<value>  Description of the category (max 200 characters)
+  --exclude-from-budget  If set, transactions in this category will be excluded from the budget
+  --exclude-from-totals  If set, transactions in this category will be excluded from totals
+  --group-id=<value>     ID of an existing category group to assign this new category to. Cannot be set if --is-group is
+                         also set. (integer)
+  --is-group             If set, creates a category group instead of a regular category
+  --is-income            If set, transactions in this category will be treated as income
+  --name=<value>         (required) Name of the new category (1-100 characters). Must not match any existing category or
+                         category group name.
+  --order=<value>        Display position index on the categories page (integer). Null-order categories appear
+                         alphabetically after ordered ones.
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Create a new category
+  Create a new category or category group. Set --is-group to create a category group, optionally with --children to
+  assign existing categories to it.
 ```
 
 _See code: [src/commands/categories/create.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/categories/create.ts)_
 
 ## `lm categories delete ID`
 
-Delete a category
+Delete a category or category group. Fails if dependencies exist (budgets, transactions, rules, children, recurring items) unless --force is set.
 
 ```
 USAGE
   $ lm categories delete ID [--json] [--force]
 
 ARGUMENTS
-  ID  Category ID
+  ID  Unique identifier of the category to delete (integer)
 
 FLAGS
-  --force  Force delete even with dependencies
+  --force  Force deletion even if there are dependent budgets, transactions, rules, children, or recurring items
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Delete a category
+  Delete a category or category group. Fails if dependencies exist (budgets, transactions, rules, children, recurring
+  items) unless --force is set.
 ```
 
 _See code: [src/commands/categories/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/categories/delete.ts)_
 
 ## `lm categories get ID`
 
-Get a specific category by ID
+Retrieve details of a specific category or category group by its ID. For category groups, the response includes child categories in the 'children' property.
 
 ```
 USAGE
   $ lm categories get ID [--json]
 
 ARGUMENTS
-  ID  Category ID
+  ID  Unique identifier of the category to retrieve (integer)
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Get a specific category by ID
+  Retrieve details of a specific category or category group by its ID. For category groups, the response includes child
+  categories in the 'children' property.
 ```
 
 _See code: [src/commands/categories/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/categories/get.ts)_
 
 ## `lm categories list`
 
-List all categories
+Retrieve a list of all categories associated with the user's account. Returns nested category groups by default.
 
 ```
 USAGE
   $ lm categories list [--json] [--flatten] [--is-group <value>]
 
 FLAGS
-  --flatten           Flatten nested category groups
-  --is-group=<value>  Only return category groups (true) or non-groups (false)
+  --flatten           Return a flattened list instead of nested category groups. Categories are sorted by their order;
+                      null-order categories appear alphabetically after ordered ones.
+  --is-group=<value>  Filter by group status. If 'true', only category groups are returned. If 'false', only non-group
+                      categories are returned. Overrides --flatten when set.
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  List all categories
+  Retrieve a list of all categories associated with the user's account. Returns nested category groups by default.
 ```
 
 _See code: [src/commands/categories/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/categories/list.ts)_
 
 ## `lm categories update ID`
 
-Update an existing category
+Update properties of an existing category or category group. Only provided fields are updated; omitted fields remain unchanged.
 
 ```
 USAGE
@@ -420,26 +450,33 @@ USAGE
     [--is-income <value>] [--name <value>] [--order <value>]
 
 ARGUMENTS
-  ID  Category ID
+  ID  Unique identifier of the category to update (integer)
 
 FLAGS
-  --archived=<value>             Archive status (true/false)
-  --children=<value>             JSON array of child category IDs
-  --collapsed=<value>            Collapse category group (true/false/null)
-  --description=<value>          New description
-  --exclude-from-budget=<value>  Exclude from budget (true/false)
-  --exclude-from-totals=<value>  Exclude from totals (true/false)
-  --group-id=<value>             Move to category group (ID or null)
-  --is-group=<value>             Is category group (true/false/null)
-  --is-income=<value>            Is income category (true/false)
-  --name=<value>                 New name
-  --order=<value>                Sort order (number or null)
+  --archived=<value>             Whether the category is archived ('true' or 'false')
+  --children=<value>             JSON array of category IDs (integers) or new category names (strings) to set as
+                                 children. Replaces existing children. Only valid for category groups. Example: '[123,
+                                 456]'
+  --collapsed=<value>            Whether the category group appears collapsed in the Lunch Money app ('true', 'false',
+                                 or 'null')
+  --description=<value>          New description for the category (max 200 characters). Pass empty string to clear.
+  --exclude-from-budget=<value>  Whether transactions in this category are excluded from the budget ('true' or 'false')
+  --exclude-from-totals=<value>  Whether transactions in this category are excluded from totals ('true' or 'false')
+  --group-id=<value>             ID of a category group to move this category into, or 'null' to remove from a group
+                                 (integer or 'null')
+  --is-group=<value>             Cannot be used to convert between category and category group. Must match current
+                                 status. ('true', 'false', or 'null')
+  --is-income=<value>            Whether transactions in this category are treated as income ('true' or 'false')
+  --name=<value>                 New name for the category (1-100 characters)
+  --order=<value>                Display position index (integer or 'null'). Position is relative to other categories in
+                                 the same group.
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Update an existing category
+  Update properties of an existing category or category group. Only provided fields are updated; omitted fields remain
+  unchanged.
 ```
 
 _See code: [src/commands/categories/update.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/categories/update.ts)_
@@ -466,27 +503,27 @@ _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v6.2.3
 
 ## `lm plaid-accounts get ID`
 
-Get a specific Plaid account
+Retrieve details of a specific Plaid-synced account by its ID
 
 ```
 USAGE
   $ lm plaid-accounts get ID [--json]
 
 ARGUMENTS
-  ID  Plaid account ID
+  ID  Unique identifier of the Plaid account to retrieve (integer)
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Get a specific Plaid account
+  Retrieve details of a specific Plaid-synced account by its ID
 ```
 
 _See code: [src/commands/plaid-accounts/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/plaid-accounts/get.ts)_
 
 ## `lm plaid-accounts list`
 
-List all Plaid-connected accounts
+Retrieve a list of all accounts synced via Plaid associated with the user's account
 
 ```
 USAGE
@@ -496,29 +533,33 @@ GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  List all Plaid-connected accounts
+  Retrieve a list of all accounts synced via Plaid associated with the user's account
 ```
 
 _See code: [src/commands/plaid-accounts/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/plaid-accounts/list.ts)_
 
 ## `lm plaid-accounts sync`
 
-Trigger a manual sync for Plaid accounts
+Trigger a fetch for latest data from Plaid. Returns 202 on success. Rate limited to once per minute. Fetching is a background job; track results via plaid_last_successful_update, last_fetch, and last_import fields.
 
 ```
 USAGE
   $ lm plaid-accounts sync [--json] [--end-date <value>] [--plaid-account-id <value>] [--start-date <value>]
 
 FLAGS
-  --end-date=<value>          End date for the sync (YYYY-MM-DD)
-  --plaid-account-id=<value>  Specific Plaid account ID to sync
-  --start-date=<value>        Start date for the sync (YYYY-MM-DD)
+  --end-date=<value>          End of the date range to fetch transactions for (YYYY-MM-DD). Required if --start-date is
+                              set.
+  --plaid-account-id=<value>  Specific Plaid account ID to fetch. If not set, triggers a fetch for all eligible
+                              accounts. (integer)
+  --start-date=<value>        Start of the date range to fetch transactions for (YYYY-MM-DD). Required if --end-date is
+                              set.
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Trigger a manual sync for Plaid accounts
+  Trigger a fetch for latest data from Plaid. Returns 202 on success. Rate limited to once per minute. Fetching is a
+  background job; track results via plaid_last_successful_update, last_fetch, and last_import fields.
 ```
 
 _See code: [src/commands/plaid-accounts/sync.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/plaid-accounts/sync.ts)_
@@ -815,48 +856,52 @@ _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/
 
 ## `lm recurring get ID`
 
-Get a specific recurring item
+Retrieve details of a specific recurring item by its ID, including transaction criteria, overrides, and match information
 
 ```
 USAGE
   $ lm recurring get ID [--json]
 
 ARGUMENTS
-  ID  Recurring item ID
+  ID  Unique identifier of the recurring item to retrieve (integer)
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Get a specific recurring item
+  Retrieve details of a specific recurring item by its ID, including transaction criteria, overrides, and match
+  information
 ```
 
 _See code: [src/commands/recurring/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/recurring/get.ts)_
 
 ## `lm recurring list`
 
-List all recurring items
+Retrieve all recurring items. The optional date range controls which period is used to populate the 'matches' field showing expected vs found transactions.
 
 ```
 USAGE
   $ lm recurring list [--json] [--end-date <value>] [--start-date <value>]
 
 FLAGS
-  --end-date=<value>    End date (YYYY-MM-DD)
-  --start-date=<value>  Start date (YYYY-MM-DD)
+  --end-date=<value>    End of date range for populating the matches field (YYYY-MM-DD). Required if --start-date is
+                        set.
+  --start-date=<value>  Start of date range for populating the matches field (YYYY-MM-DD). Defaults to current month if
+                        omitted. Required if --end-date is set.
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  List all recurring items
+  Retrieve all recurring items. The optional date range controls which period is used to populate the 'matches' field
+  showing expected vs found transactions.
 ```
 
 _See code: [src/commands/recurring/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/recurring/list.ts)_
 
 ## `lm summary get`
 
-Get budget summary for a date range
+Retrieve a summary of the user's budget for a date range. For aligned date ranges (matching budget period boundaries), includes budgeted and available amounts per category.
 
 ```
 USAGE
@@ -864,26 +909,34 @@ USAGE
     [--include-occurrences] [--include-past-budget-dates] [--include-rollover-pool] [--include-totals]
 
 FLAGS
-  --end-date=<value>              (required) End date (YYYY-MM-DD)
-  --include-exclude-from-budgets  Include categories with 'Exclude from Budgets' flag
-  --include-occurrences           Include occurrences array for each category
-  --include-past-budget-dates     Include three prior budget occurrences (requires --include-occurrences)
-  --include-rollover-pool         Include rollover pool section
-  --include-totals                Include top-level totals section
-  --start-date=<value>            (required) Start date (YYYY-MM-DD)
+  --end-date=<value>              (required) End of date range in ISO 8601 format (YYYY-MM-DD). For aligned responses,
+                                  use the last day of a budget period.
+  --include-exclude-from-budgets  Include categories that have the 'Exclude from Budgets' flag set in the returned
+                                  categories array
+  --include-occurrences           Include an 'occurrences' array for each category with per-period budget details
+                                  (activity, budgeted amount, notes). Only populated for aligned responses.
+  --include-past-budget-dates     Include the three budget periods prior to the start date in the occurrences array.
+                                  Requires --include-occurrences to also be set.
+  --include-rollover-pool         Include a 'rollover_pool' section with the current rollover pool balance and all
+                                  previous adjustments
+  --include-totals                Include a top-level 'totals' section summarizing inflow and outflow across all
+                                  transactions for the date range
+  --start-date=<value>            (required) Start of date range in ISO 8601 format (YYYY-MM-DD). For aligned responses,
+                                  use the first day of a budget period.
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Get budget summary for a date range
+  Retrieve a summary of the user's budget for a date range. For aligned date ranges (matching budget period boundaries),
+  includes budgeted and available amounts per category.
 ```
 
 _See code: [src/commands/summary/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/summary/get.ts)_
 
 ## `lm tags create`
 
-Create a new tag
+Create a new tag. Tag name must be unique.
 
 ```
 USAGE
@@ -891,67 +944,67 @@ USAGE
     [--text-color <value>]
 
 FLAGS
-  --archived                  Mark as archived
-  --background-color=<value>  Background color (hex code)
-  --description=<value>       Tag description
-  --name=<value>              (required) Tag name
-  --text-color=<value>        Text color (hex code)
+  --archived                  If set, the tag is archived and hidden when creating/updating transactions in the app
+  --background-color=<value>  Background color as a hex code (e.g. 'FFE7D4')
+  --description=<value>       Description of the tag (max 200 characters)
+  --name=<value>              (required) Name of the new tag (1-100 characters). Must not match any existing tag name.
+  --text-color=<value>        Text color as a hex code (e.g. '333')
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Create a new tag
+  Create a new tag. Tag name must be unique.
 ```
 
 _See code: [src/commands/tags/create.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/tags/create.ts)_
 
 ## `lm tags delete ID`
 
-Delete a tag
+Delete a tag. Fails if transactions or rules depend on it unless --force is set.
 
 ```
 USAGE
   $ lm tags delete ID [--json] [--force]
 
 ARGUMENTS
-  ID  Tag ID
+  ID  Unique identifier of the tag to delete (integer)
 
 FLAGS
-  --force  Force delete even with dependencies
+  --force  Force deletion even if transactions or rules depend on this tag
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Delete a tag
+  Delete a tag. Fails if transactions or rules depend on it unless --force is set.
 ```
 
 _See code: [src/commands/tags/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/tags/delete.ts)_
 
 ## `lm tags get ID`
 
-Get a specific tag
+Retrieve details of a specific tag by its ID
 
 ```
 USAGE
   $ lm tags get ID [--json]
 
 ARGUMENTS
-  ID  Tag ID
+  ID  Unique identifier of the tag to retrieve (integer)
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Get a specific tag
+  Retrieve details of a specific tag by its ID
 ```
 
 _See code: [src/commands/tags/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/tags/get.ts)_
 
 ## `lm tags list`
 
-List all tags
+Retrieve a list of all tags associated with the user's account
 
 ```
 USAGE
@@ -961,14 +1014,14 @@ GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  List all tags
+  Retrieve a list of all tags associated with the user's account
 ```
 
 _See code: [src/commands/tags/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/tags/list.ts)_
 
 ## `lm tags update ID`
 
-Update a tag
+Update properties of an existing tag. Only provided fields are updated; omitted fields remain unchanged.
 
 ```
 USAGE
@@ -976,194 +1029,214 @@ USAGE
     <value>] [--text-color <value>]
 
 ARGUMENTS
-  ID  Tag ID
+  ID  Unique identifier of the tag to update (integer)
 
 FLAGS
-  --archived=<value>          Archive status (true/false)
-  --background-color=<value>  Background color (hex code or null)
-  --description=<value>       New description
-  --name=<value>              New name
-  --text-color=<value>        Text color (hex code or null)
+  --archived=<value>          Whether the tag is archived ('true' or 'false')
+  --background-color=<value>  Background color as a hex code or 'null' to clear (e.g. 'FFE7D4' or 'null')
+  --description=<value>       New description for the tag (max 200 characters)
+  --name=<value>              New name for the tag (1-100 characters)
+  --text-color=<value>        Text color as a hex code or 'null' to clear (e.g. '333' or 'null')
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Update a tag
+  Update properties of an existing tag. Only provided fields are updated; omitted fields remain unchanged.
 ```
 
 _See code: [src/commands/tags/update.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/tags/update.ts)_
 
 ## `lm transactions attach-file TRANSACTION-ID`
 
-Attach a file to a transaction
+Attach a file to a transaction. File must be under 10MB. Allowed types: image/jpeg, image/png, application/pdf, image/heic, image/heif.
 
 ```
 USAGE
   $ lm transactions attach-file TRANSACTION-ID --file <value> [--json] [--notes <value>]
 
 ARGUMENTS
-  TRANSACTION-ID  Transaction ID
+  TRANSACTION-ID  Unique identifier of the transaction to attach the file to (integer)
 
 FLAGS
-  --file=<value>   (required) Path or URL of the file to attach
-  --notes=<value>  Notes for the attachment
+  --file=<value>   (required) Path to the local file or URL to attach. Must be under 10MB. Allowed types: JPEG, PNG,
+                   PDF, HEIC, HEIF.
+  --notes=<value>  Optional notes about the file attachment
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Attach a file to a transaction
+  Attach a file to a transaction. File must be under 10MB. Allowed types: image/jpeg, image/png, application/pdf,
+  image/heic, image/heif.
 ```
 
 _See code: [src/commands/transactions/attach-file.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/transactions/attach-file.ts)_
 
 ## `lm transactions create`
 
-Create one or more transactions
+Insert one or more transactions (1-500 per request). Returns created transactions and any skipped duplicates.
 
 ```
 USAGE
   $ lm transactions create --transactions <value> [--json] [--apply-rules] [--skip-balance-update] [--skip-duplicates]
 
 FLAGS
-  --apply-rules           Apply account rules to new transactions
-  --skip-balance-update   Don't update manual account balance
-  --skip-duplicates       Skip duplicate transactions
-  --transactions=<value>  (required) JSON array of transaction objects
+  --apply-rules
+      If set, account rules associated with each transaction's manual_account_id will be applied
+
+  --skip-balance-update
+      If set, manual account balances will not be updated when transactions are inserted
+
+  --skip-duplicates
+      If set, skip transactions matching an existing transaction's date, payee, amount, and account. Deduplication by
+      external_id always occurs regardless.
+
+  --transactions=<value>
+      (required) JSON array of transaction objects (1-500). Each requires 'date' (YYYY-MM-DD) and 'amount' (numeric,
+      positive=debit, negative=credit). Optional fields: payee (string, max 140 chars), category_id (integer), currency
+      (3-letter ISO 4217 code), notes (max 350 chars), status ('reviewed'|'unreviewed'), tag_ids (integer array),
+      manual_account_id, plaid_account_id, external_id (max 75 chars), custom_metadata (JSON object, max 4096 chars),
+      recurring_id, original_name. Example: '[{"date":"2024-01-15","amount":42.50,"payee":"Coffee Shop"}]'
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Create one or more transactions
+  Insert one or more transactions (1-500 per request). Returns created transactions and any skipped duplicates.
 ```
 
 _See code: [src/commands/transactions/create.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/transactions/create.ts)_
 
 ## `lm transactions delete ID`
 
-Delete a single transaction
+Delete a transaction by ID. Split or grouped transactions must be unsplit/ungrouped first. This action is not reversible.
 
 ```
 USAGE
   $ lm transactions delete ID [--json]
 
 ARGUMENTS
-  ID  Transaction ID
+  ID  Unique identifier of the transaction to delete (integer)
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Delete a single transaction
+  Delete a transaction by ID. Split or grouped transactions must be unsplit/ungrouped first. This action is not
+  reversible.
 ```
 
 _See code: [src/commands/transactions/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/transactions/delete.ts)_
 
 ## `lm transactions delete-attachment FILE-ID`
 
-Delete a transaction attachment
+Delete a file attachment from a transaction
 
 ```
 USAGE
   $ lm transactions delete-attachment FILE-ID [--json]
 
 ARGUMENTS
-  FILE-ID  File attachment ID
+  FILE-ID  Unique identifier of the file attachment to delete (integer)
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Delete a transaction attachment
+  Delete a file attachment from a transaction
 ```
 
 _See code: [src/commands/transactions/delete-attachment.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/transactions/delete-attachment.ts)_
 
 ## `lm transactions delete-many`
 
-Batch delete multiple transactions
+Delete multiple transactions in a single request. This action is not reversible.
 
 ```
 USAGE
   $ lm transactions delete-many --ids <value> [--json]
 
 FLAGS
-  --ids=<value>  (required) JSON array of transaction IDs to delete
+  --ids=<value>  (required) JSON array of transaction IDs to delete (integers). Example: '[123, 456, 789]'
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Batch delete multiple transactions
+  Delete multiple transactions in a single request. This action is not reversible.
 ```
 
 _See code: [src/commands/transactions/delete-many.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/transactions/delete-many.ts)_
 
 ## `lm transactions get ID`
 
-Get a single transaction by ID
+Retrieve a single transaction by ID. Includes plaid_metadata, custom_metadata, and files fields. For group/split parents, also includes children.
 
 ```
 USAGE
   $ lm transactions get ID [--json]
 
 ARGUMENTS
-  ID  Transaction ID
+  ID  Unique identifier of the transaction to retrieve (integer)
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Get a single transaction by ID
+  Retrieve a single transaction by ID. Includes plaid_metadata, custom_metadata, and files fields. For group/split
+  parents, also includes children.
 ```
 
 _See code: [src/commands/transactions/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/transactions/get.ts)_
 
 ## `lm transactions get-attachment-url FILE-ID`
 
-Get download URL for a transaction attachment
+Get a signed download URL for a transaction file attachment. The URL expires after a limited time.
 
 ```
 USAGE
   $ lm transactions get-attachment-url FILE-ID [--json]
 
 ARGUMENTS
-  FILE-ID  File attachment ID
+  FILE-ID  Unique identifier of the file attachment to download (integer)
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Get download URL for a transaction attachment
+  Get a signed download URL for a transaction file attachment. The URL expires after a limited time.
 ```
 
 _See code: [src/commands/transactions/get-attachment-url.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/transactions/get-attachment-url.ts)_
 
 ## `lm transactions group`
 
-Group multiple transactions together
+Group existing transactions into a single grouped transaction. The grouped transaction amount equals the sum of its children. Original transactions are hidden after grouping.
 
 ```
 USAGE
   $ lm transactions group --data <value> [--json]
 
 FLAGS
-  --data=<value>  (required) JSON object with group details
+  --data=<value>  (required) JSON object with group details. Required fields: 'ids' (array of 2-500 transaction IDs),
+                  'date' (YYYY-MM-DD), 'payee' (string, max 140 chars). Optional: category_id (integer), notes (max 350
+                  chars), status ('reviewed'|'unreviewed', default 'reviewed'), tag_ids (integer array). Example:
+                  '{"ids":[123,456],"date":"2024-01-15","payee":"Grouped"}'
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Group multiple transactions together
+  Group existing transactions into a single grouped transaction. The grouped transaction amount equals the sum of its
+  children. Original transactions are hidden after grouping.
 ```
 
 _See code: [src/commands/transactions/group.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/transactions/group.ts)_
 
 ## `lm transactions list`
 
-List transactions with optional filters
+Retrieve transactions with optional filters. Returns most recent transactions up to --limit (default 1000, max 2000). Use --offset for pagination when has_more is true.
 
 ```
 USAGE
@@ -1174,102 +1247,125 @@ USAGE
     [--tag-id <value>] [--updated-since <value>]
 
 FLAGS
-  --category-id=<value>        Filter by category ID
-  --created-since=<value>      Filter by creation date (YYYY-MM-DD or ISO 8601)
-  --end-date=<value>           End date (YYYY-MM-DD)
-  --include-children           Include child transactions in groups/splits
-  --include-files              Include file attachment info
-  --include-group-children     Include transactions that are part of groups
-  --include-metadata           Include custom/plaid metadata
-  --include-pending            Include pending transactions
-  --include-split-parents      Include original split transactions
-  --is-group-parent            Only return transaction groups
-  --is-pending                 Only return pending transactions
-  --limit=<value>              Max number of transactions to return
-  --manual-account-id=<value>  Filter by manual account ID
-  --offset=<value>             Offset for pagination
-  --plaid-account-id=<value>   Filter by Plaid account ID
-  --recurring-id=<value>       Filter by recurring item ID
-  --start-date=<value>         Start date (YYYY-MM-DD)
-  --status=<value>             Filter by status: reviewed, unreviewed, delete_pending
-  --tag-id=<value>             Filter by tag ID
-  --updated-since=<value>      Filter by update date (YYYY-MM-DD or ISO 8601)
+  --category-id=<value>        Filter by category ID. Also matches category groups. Set to 0 for uncategorized
+                               transactions only. (integer)
+  --created-since=<value>      Filter to transactions created after this timestamp. Accepts YYYY-MM-DD or ISO 8601
+                               datetime. Date-only values are interpreted as midnight UTC.
+  --end-date=<value>           End of date range (YYYY-MM-DD). Required if --start-date is set.
+  --include-children           Populate the 'children' property with transactions that make up a group or split.
+                               Default: false.
+  --include-files              Include the 'files' property with attachment details for each transaction. Default:
+                               false.
+  --include-group-children     Include individual transactions that are part of a transaction group. Normally hidden
+                               after grouping. Default: false.
+  --include-metadata           Include plaid_metadata and custom_metadata fields in response. Default: false.
+  --include-pending            Include pending (not yet posted) transactions in results. Ignored if --is-pending is also
+                               set. Default: false.
+  --include-split-parents      Include parent transactions that were split. These are normally hidden after splitting.
+                               Use with caution. Default: false.
+  --is-group-parent            If set, only return transaction groups (where is_group_parent is true)
+  --is-pending                 Filter by pending status. Takes precedence over --include-pending. Pending transactions
+                               always have status 'unreviewed'.
+  --limit=<value>              Maximum number of transactions to return (1-2000, default 1000). Response includes
+                               has_more=true if more are available.
+  --manual-account-id=<value>  Filter by manual account ID. Set to 0 to exclude manual account transactions. Setting
+                               both this and --plaid-account-id to 0 returns cash transactions. (integer)
+  --offset=<value>             Number of records to skip for pagination (integer)
+  --plaid-account-id=<value>   Filter by Plaid account ID. Set to 0 to exclude Plaid account transactions. Setting both
+                               this and --manual-account-id to 0 returns cash transactions. (integer)
+  --recurring-id=<value>       Filter to transactions matching this recurring item ID (integer)
+  --start-date=<value>         Start of date range (YYYY-MM-DD). Required if --end-date is set.
+  --status=<value>             Filter by status. Allowed values: 'reviewed' (user reviewed or auto-reviewed via
+                               recurring item), 'unreviewed' (needs review), 'delete_pending' (deleted by synced account
+                               after user update)
+  --tag-id=<value>             Filter to transactions that have this tag ID (integer)
+  --updated-since=<value>      Filter to transactions updated after this timestamp. Accepts YYYY-MM-DD or ISO 8601
+                               datetime. Date-only values are interpreted as midnight UTC.
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  List transactions with optional filters
+  Retrieve transactions with optional filters. Returns most recent transactions up to --limit (default 1000, max 2000).
+  Use --offset for pagination when has_more is true.
 ```
 
 _See code: [src/commands/transactions/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/transactions/list.ts)_
 
 ## `lm transactions split ID`
 
-Split a transaction into multiple parts
+Split a transaction into child transactions. The sum of child amounts must equal the parent amount. After splitting, the parent is hidden and children are shown instead.
 
 ```
 USAGE
   $ lm transactions split ID --parts <value> [--json]
 
 ARGUMENTS
-  ID  Transaction ID to split
+  ID  Unique identifier of the transaction to split (integer). Cannot be a recurring, grouped, or already-split
+      transaction.
 
 FLAGS
-  --parts=<value>  (required) JSON array of split parts [{amount, payee, date, category_id, tag_ids, notes}]
+  --parts=<value>  (required) JSON array of child transaction objects (2-500). Each requires 'amount' (numeric, must sum
+                   to parent amount). Optional fields per child: payee (max 140 chars, inherits from parent), date
+                   (YYYY-MM-DD, inherits from parent), category_id (integer, inherits from parent), tag_ids (integer
+                   array), notes (max 350 chars, inherits from parent). Example: '[{"amount":25.00,"payee":"Split
+                   1"},{"amount":17.45,"payee":"Split 2"}]'
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Split a transaction into multiple parts
+  Split a transaction into child transactions. The sum of child amounts must equal the parent amount. After splitting,
+  the parent is hidden and children are shown instead.
 ```
 
 _See code: [src/commands/transactions/split.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/transactions/split.ts)_
 
 ## `lm transactions ungroup ID`
 
-Ungroup a transaction group
+Delete a transaction group and restore the original transactions to their normal ungrouped state
 
 ```
 USAGE
   $ lm transactions ungroup ID [--json]
 
 ARGUMENTS
-  ID  Transaction group ID
+  ID  Unique identifier of the transaction group to ungroup (integer). Must be a transaction where is_group_parent is
+      true.
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Ungroup a transaction group
+  Delete a transaction group and restore the original transactions to their normal ungrouped state
 ```
 
 _See code: [src/commands/transactions/ungroup.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/transactions/ungroup.ts)_
 
 ## `lm transactions unsplit ID`
 
-Reverse a transaction split
+Reverse a previously split transaction. Deletes the split children and restores the parent to its normal unsplit state.
 
 ```
 USAGE
   $ lm transactions unsplit ID [--json]
 
 ARGUMENTS
-  ID  Transaction ID to unsplit
+  ID  The split_parent_id of the split transaction to restore (integer)
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Reverse a transaction split
+  Reverse a previously split transaction. Deletes the split children and restores the parent to its normal unsplit
+  state.
 ```
 
 _See code: [src/commands/transactions/unsplit.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/transactions/unsplit.ts)_
 
 ## `lm transactions update ID`
 
-Update a single transaction
+Update properties of an existing transaction. Only provided fields are updated. Split or grouped transactions cannot be modified; use split/unsplit/group/ungroup commands instead.
 
 ```
 USAGE
@@ -1279,58 +1375,70 @@ USAGE
     <value>] [--recurring-id <value>] [--status <value>] [--tag-ids <value>]
 
 ARGUMENTS
-  ID  Transaction ID
+  ID  Unique identifier of the transaction to update (integer)
 
 FLAGS
-  --additional-tag-ids=<value>  JSON array of additional tag IDs to add
-  --amount=<value>              Transaction amount
-  --category-id=<value>         Category ID
-  --currency=<value>            Currency code
-  --custom-metadata=<value>     Custom metadata JSON
-  --data=<value>                Full update body as JSON (overrides other options)
-  --date=<value>                Transaction date (YYYY-MM-DD)
-  --external-id=<value>         External ID
-  --manual-account-id=<value>   Manual account ID
-  --notes=<value>               Transaction notes
-  --original-name=<value>       Original transaction name
-  --payee=<value>               Payee name
-  --plaid-account-id=<value>    Plaid account ID
-  --recurring-id=<value>        Recurring item ID
-  --status=<value>              Status: reviewed or unreviewed
-  --tag-ids=<value>             JSON array of tag IDs
+  --additional-tag-ids=<value>  JSON array of tag IDs (integers) to add to existing tags. Cannot be used with --tag-ids.
+  --amount=<value>              Numeric amount without currency symbol (e.g. '4.25'). Positive=debit, negative=credit.
+                                May not be updated on locked synced accounts.
+  --category-id=<value>         Category ID to assign, or use --data with null to clear (integer)
+  --currency=<value>            Three-letter lowercase currency code in ISO 4217 format (e.g. 'usd')
+  --custom-metadata=<value>     JSON object with additional transaction data. Max 4096 characters when stringified.
+  --data=<value>                Full update request body as a JSON string. When provided, all other flags are ignored.
+                                Must conform to the transaction update schema.
+  --date=<value>                Transaction date in ISO 8601 format (YYYY-MM-DD)
+  --external-id=<value>         User-defined external ID (max 75 characters). Transaction must have a manual_account_id.
+                                Must be unique per account.
+  --manual-account-id=<value>   Manual account ID to associate. Set to null via --data to disassociate. Cannot be set
+                                together with plaid-account-id. (integer)
+  --notes=<value>               Transaction notes (max 350 characters). Set to empty string to clear.
+  --original-name=<value>       Original payee name from source. Cannot be changed (ignored if set).
+  --payee=<value>               Payee name (max 140 characters)
+  --plaid-account-id=<value>    Plaid account ID to associate. Account must allow transaction modifications. Cannot be
+                                set together with manual-account-id. (integer)
+  --recurring-id=<value>        ID of the associated recurring item (integer)
+  --status=<value>              Transaction status. Allowed values: 'reviewed', 'unreviewed'
+  --tag-ids=<value>             JSON array of tag IDs (integers). Overwrites all existing tags. Cannot be used with
+                                --additional-tag-ids. Set to '[]' to remove all tags.
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Update a single transaction
+  Update properties of an existing transaction. Only provided fields are updated. Split or grouped transactions cannot
+  be modified; use split/unsplit/group/ungroup commands instead.
 ```
 
 _See code: [src/commands/transactions/update.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/transactions/update.ts)_
 
 ## `lm transactions update-many`
 
-Batch update multiple transactions
+Update multiple transactions in a single request (1-500). Each transaction object must include an 'id' field plus at least one field to update.
 
 ```
 USAGE
   $ lm transactions update-many --transactions <value> [--json]
 
 FLAGS
-  --transactions=<value>  (required) JSON array of transaction updates (each must have id)
+  --transactions=<value>  (required) JSON array of transaction update objects (1-500). Each must have 'id' (integer) and
+                          at least one updatable field. Updatable fields: date, amount, payee, category_id, notes,
+                          currency, status, tag_ids, additional_tag_ids, external_id, custom_metadata, recurring_id,
+                          manual_account_id, plaid_account_id. Example:
+                          '[{"id":123,"category_id":456},{"id":789,"status":"reviewed"}]'
 
 GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Batch update multiple transactions
+  Update multiple transactions in a single request (1-500). Each transaction object must include an 'id' field plus at
+  least one field to update.
 ```
 
 _See code: [src/commands/transactions/update-many.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/transactions/update-many.ts)_
 
 ## `lm user me`
 
-Get current user profile
+Get details about the user associated with the API token, including name, email, account ID, budget name, and primary currency
 
 ```
 USAGE
@@ -1340,7 +1448,8 @@ GLOBAL FLAGS
   --json  Format output as json.
 
 DESCRIPTION
-  Get current user profile
+  Get details about the user associated with the API token, including name, email, account ID, budget name, and primary
+  currency
 ```
 
 _See code: [src/commands/user/me.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/user/me.ts)_

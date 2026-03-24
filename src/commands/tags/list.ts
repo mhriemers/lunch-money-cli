@@ -3,7 +3,7 @@ import { tagColumns } from "../../columns.js";
 import { formatTable } from "../../formatters.js";
 
 export default class TagsList extends BaseCommand {
-  static override description = "List all tags";
+  static override description = "Retrieve a list of all tags associated with the user's account";
 
   async run(): Promise<unknown> {
     const client = this.createClient();

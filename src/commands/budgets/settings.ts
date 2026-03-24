@@ -3,7 +3,7 @@ import { budgetSettingsFields } from "../../columns.js";
 import { formatDetail } from "../../formatters.js";
 
 export default class BudgetsSettings extends BaseCommand {
-  static override description = "Get budget settings (period granularity, etc.)";
+  static override description = "Retrieve budget period and display settings for the account, including granularity (week/month/twice a month), quantity, anchor date, and display preferences";
 
   async run(): Promise<unknown> {
     const client = this.createClient();

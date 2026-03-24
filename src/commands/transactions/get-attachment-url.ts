@@ -4,9 +4,9 @@ import { BaseCommand } from "../../base-command.js";
 
 export default class TransactionsGetAttachmentUrl extends BaseCommand {
   static override args = {
-    "file-id": Args.integer({ description: "File attachment ID", required: true }),
+    "file-id": Args.integer({ description: "Unique identifier of the file attachment to download (integer)", required: true }),
   };
-static override description = "Get download URL for a transaction attachment";
+static override description = "Get a signed download URL for a transaction file attachment. The URL expires after a limited time.";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(TransactionsGetAttachmentUrl);

@@ -3,7 +3,7 @@ import { accountColumns } from "../../columns.js";
 import { formatTable } from "../../formatters.js";
 
 export default class AccountsList extends BaseCommand {
-  static override description = "List all manual accounts";
+  static override description = "Retrieve a list of all manually-managed accounts (not synced via Plaid) associated with the user's account";
 
   async run(): Promise<unknown> {
     const client = this.createClient();

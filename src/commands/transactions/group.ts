@@ -6,9 +6,9 @@ import { BaseCommand } from "../../base-command.js";
 import { parseJsonArg } from "../../client.js";
 
 export default class TransactionsGroup extends BaseCommand {
-  static override description = "Group multiple transactions together";
+  static override description = "Group existing transactions into a single grouped transaction. The grouped transaction amount equals the sum of its children. Original transactions are hidden after grouping.";
 static override flags = {
-    data: Flags.string({ description: "JSON object with group details", required: true }),
+    data: Flags.string({ description: "JSON object with group details. Required fields: 'ids' (array of 2-500 transaction IDs), 'date' (YYYY-MM-DD), 'payee' (string, max 140 chars). Optional: category_id (integer), notes (max 350 chars), status ('reviewed'|'unreviewed', default 'reviewed'), tag_ids (integer array). Example: '{\"ids\":[123,456],\"date\":\"2024-01-15\",\"payee\":\"Grouped\"}'", required: true }),
   };
 
   async run(): Promise<unknown> {

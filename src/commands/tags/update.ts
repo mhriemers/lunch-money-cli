@@ -6,15 +6,15 @@ import { BaseCommand } from "../../base-command.js";
 
 export default class TagsUpdate extends BaseCommand {
   static override args = {
-    id: Args.integer({ description: "Tag ID", required: true }),
+    id: Args.integer({ description: "Unique identifier of the tag to update (integer)", required: true }),
   };
-static override description = "Update a tag";
+static override description = "Update properties of an existing tag. Only provided fields are updated; omitted fields remain unchanged.";
 static override flags = {
-    archived: Flags.string({ description: "Archive status (true/false)" }),
-    "background-color": Flags.string({ description: "Background color (hex code or null)" }),
-    description: Flags.string({ description: "New description" }),
-    name: Flags.string({ description: "New name" }),
-    "text-color": Flags.string({ description: "Text color (hex code or null)" }),
+    archived: Flags.string({ description: "Whether the tag is archived ('true' or 'false')" }),
+    "background-color": Flags.string({ description: "Background color as a hex code or 'null' to clear (e.g. 'FFE7D4' or 'null')" }),
+    description: Flags.string({ description: "New description for the tag (max 200 characters)" }),
+    name: Flags.string({ description: "New name for the tag (1-100 characters)" }),
+    "text-color": Flags.string({ description: "Text color as a hex code or 'null' to clear (e.g. '333' or 'null')" }),
   };
 
   async run(): Promise<unknown> {

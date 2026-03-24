@@ -6,6 +6,7 @@
   "bin": {
     "lm": "./bin/run.js"
   },
+  "exports": "./dist/index.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -27,13 +28,13 @@
     "topicSeparator": " "
   },
   "scripts": {
-    "build": "tsc && oclif manifest",
+    "build": "shx rm -rf dist && tsc",
     "dev": "tsx src/index.ts",
     "lint": "eslint",
+    "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "npm run lint",
-    "test": "mocha",
-    "prepublishOnly": "npm run build",
-    "postpack": "rm -f oclif.manifest.json"
+    "prepack": "npm run build && oclif manifest && oclif readme",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -71,6 +72,7 @@
     "eslint-config-prettier": "^10",
     "mocha": "^11",
     "oclif": "^4",
+    "shx": "^0.3.3",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }

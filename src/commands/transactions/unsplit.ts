@@ -4,9 +4,9 @@ import { BaseCommand } from "../../base-command.js";
 
 export default class TransactionsUnsplit extends BaseCommand {
   static override args = {
-    id: Args.integer({ description: "Transaction ID to unsplit", required: true }),
+    id: Args.integer({ description: "The split_parent_id of the split transaction to restore (integer)", required: true }),
   };
-static override description = "Reverse a transaction split";
+static override description = "Reverse a previously split transaction. Deletes the split children and restores the parent to its normal unsplit state.";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(TransactionsUnsplit);

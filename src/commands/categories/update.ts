@@ -7,21 +7,21 @@ import { parseJsonArg } from "../../client.js";
 
 export default class CategoriesUpdate extends BaseCommand {
   static override args = {
-    id: Args.integer({ description: "Category ID", required: true }),
+    id: Args.integer({ description: "Unique identifier of the category to update (integer)", required: true }),
   };
-static override description = "Update an existing category";
+static override description = "Update properties of an existing category or category group. Only provided fields are updated; omitted fields remain unchanged.";
 static override flags = {
-    archived: Flags.string({ description: "Archive status (true/false)" }),
-    children: Flags.string({ description: "JSON array of child category IDs" }),
-    collapsed: Flags.string({ description: "Collapse category group (true/false/null)" }),
-    description: Flags.string({ description: "New description" }),
-    "exclude-from-budget": Flags.string({ description: "Exclude from budget (true/false)" }),
-    "exclude-from-totals": Flags.string({ description: "Exclude from totals (true/false)" }),
-    "group-id": Flags.string({ description: "Move to category group (ID or null)" }),
-    "is-group": Flags.string({ description: "Is category group (true/false/null)" }),
-    "is-income": Flags.string({ description: "Is income category (true/false)" }),
-    name: Flags.string({ description: "New name" }),
-    order: Flags.string({ description: "Sort order (number or null)" }),
+    archived: Flags.string({ description: "Whether the category is archived ('true' or 'false')" }),
+    children: Flags.string({ description: "JSON array of category IDs (integers) or new category names (strings) to set as children. Replaces existing children. Only valid for category groups. Example: '[123, 456]'" }),
+    collapsed: Flags.string({ description: "Whether the category group appears collapsed in the Lunch Money app ('true', 'false', or 'null')" }),
+    description: Flags.string({ description: "New description for the category (max 200 characters). Pass empty string to clear." }),
+    "exclude-from-budget": Flags.string({ description: "Whether transactions in this category are excluded from the budget ('true' or 'false')" }),
+    "exclude-from-totals": Flags.string({ description: "Whether transactions in this category are excluded from totals ('true' or 'false')" }),
+    "group-id": Flags.string({ description: "ID of a category group to move this category into, or 'null' to remove from a group (integer or 'null')" }),
+    "is-group": Flags.string({ description: "Cannot be used to convert between category and category group. Must match current status. ('true', 'false', or 'null')" }),
+    "is-income": Flags.string({ description: "Whether transactions in this category are treated as income ('true' or 'false')" }),
+    name: Flags.string({ description: "New name for the category (1-100 characters)" }),
+    order: Flags.string({ description: "Display position index (integer or 'null'). Position is relative to other categories in the same group." }),
   };
 
   async run(): Promise<unknown> {

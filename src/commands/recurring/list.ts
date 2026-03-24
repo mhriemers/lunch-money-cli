@@ -7,10 +7,10 @@ import { recurringColumns } from "../../columns.js";
 import { formatTable } from "../../formatters.js";
 
 export default class RecurringList extends BaseCommand {
-  static override description = "List all recurring items";
+  static override description = "Retrieve all recurring items. The optional date range controls which period is used to populate the 'matches' field showing expected vs found transactions.";
 static override flags = {
-    "end-date": Flags.string({ description: "End date (YYYY-MM-DD)" }),
-    "start-date": Flags.string({ description: "Start date (YYYY-MM-DD)" }),
+    "end-date": Flags.string({ description: "End of date range for populating the matches field (YYYY-MM-DD). Required if --start-date is set." }),
+    "start-date": Flags.string({ description: "Start of date range for populating the matches field (YYYY-MM-DD). Defaults to current month if omitted. Required if --end-date is set." }),
   };
 
   async run(): Promise<unknown> {

@@ -6,19 +6,19 @@ import { BaseCommand } from "../../base-command.js";
 import { parseJsonArg } from "../../client.js";
 
 export default class CategoriesCreate extends BaseCommand {
-  static override description = "Create a new category";
+  static override description = "Create a new category or category group. Set --is-group to create a category group, optionally with --children to assign existing categories to it.";
 static override flags = {
-    archived: Flags.boolean({ description: "Mark as archived" }),
-    children: Flags.string({ description: "JSON array of child category IDs (for groups)" }),
-    collapsed: Flags.boolean({ description: "Collapse category group" }),
-    description: Flags.string({ description: "Category description" }),
-    "exclude-from-budget": Flags.boolean({ description: "Exclude from budget" }),
-    "exclude-from-totals": Flags.boolean({ description: "Exclude from totals" }),
-    "group-id": Flags.integer({ description: "Parent category group ID" }),
-    "is-group": Flags.boolean({ description: "Create as category group" }),
-    "is-income": Flags.boolean({ description: "Mark as income category" }),
-    name: Flags.string({ description: "Category name", required: true }),
-    order: Flags.integer({ description: "Sort order" }),
+    archived: Flags.boolean({ description: "If set, the category is archived and hidden in the Lunch Money app" }),
+    children: Flags.string({ description: "JSON array of category IDs (integers) or new category names (strings) to add to the group. Only valid when --is-group is set. Example: '[123, 456]' or '[123, \"New Category\"]'" }),
+    collapsed: Flags.boolean({ description: "If set, the category group appears collapsed in the Lunch Money app" }),
+    description: Flags.string({ description: "Description of the category (max 200 characters)" }),
+    "exclude-from-budget": Flags.boolean({ description: "If set, transactions in this category will be excluded from the budget" }),
+    "exclude-from-totals": Flags.boolean({ description: "If set, transactions in this category will be excluded from totals" }),
+    "group-id": Flags.integer({ description: "ID of an existing category group to assign this new category to. Cannot be set if --is-group is also set. (integer)" }),
+    "is-group": Flags.boolean({ description: "If set, creates a category group instead of a regular category" }),
+    "is-income": Flags.boolean({ description: "If set, transactions in this category will be treated as income" }),
+    name: Flags.string({ description: "Name of the new category (1-100 characters). Must not match any existing category or category group name.", required: true }),
+    order: Flags.integer({ description: "Display position index on the categories page (integer). Null-order categories appear alphabetically after ordered ones." }),
   };
 
   async run(): Promise<unknown> {

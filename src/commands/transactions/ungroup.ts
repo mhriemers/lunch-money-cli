@@ -4,9 +4,9 @@ import { BaseCommand } from "../../base-command.js";
 
 export default class TransactionsUngroup extends BaseCommand {
   static override args = {
-    id: Args.integer({ description: "Transaction group ID", required: true }),
+    id: Args.integer({ description: "Unique identifier of the transaction group to ungroup (integer). Must be a transaction where is_group_parent is true.", required: true }),
   };
-static override description = "Ungroup a transaction group";
+static override description = "Delete a transaction group and restore the original transactions to their normal ungrouped state";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(TransactionsUngroup);

@@ -7,10 +7,10 @@ import { categoryColumns } from "../../columns.js";
 import { formatTable } from "../../formatters.js";
 
 export default class CategoriesList extends BaseCommand {
-  static override description = "List all categories";
+  static override description = "Retrieve a list of all categories associated with the user's account. Returns nested category groups by default.";
 static override flags = {
-    flatten: Flags.boolean({ description: "Flatten nested category groups" }),
-    "is-group": Flags.string({ description: "Only return category groups (true) or non-groups (false)" }),
+    flatten: Flags.boolean({ description: "Return a flattened list instead of nested category groups. Categories are sorted by their order; null-order categories appear alphabetically after ordered ones." }),
+    "is-group": Flags.string({ description: "Filter by group status. If 'true', only category groups are returned. If 'false', only non-group categories are returned. Overrides --flatten when set." }),
   };
 
   async run(): Promise<unknown> {

@@ -4,9 +4,9 @@ import { BaseCommand } from "../../base-command.js";
 import { parseJsonArg } from "../../client.js";
 
 export default class TransactionsDeleteMany extends BaseCommand {
-  static override description = "Batch delete multiple transactions";
+  static override description = "Delete multiple transactions in a single request. This action is not reversible.";
 static override flags = {
-    ids: Flags.string({ description: "JSON array of transaction IDs to delete", required: true }),
+    ids: Flags.string({ description: "JSON array of transaction IDs to delete (integers). Example: '[123, 456, 789]'", required: true }),
   };
 
   async run(): Promise<unknown> {

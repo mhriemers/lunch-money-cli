@@ -1,0 +1,81 @@
+{
+  "name": "lunch-money-cli",
+  "version": "1.1.0",
+  "description": "CLI for Lunch Money personal finance management",
+  "type": "module",
+  "bin": {
+    "lm": "./bin/run.js"
+  },
+  "exports": "./dist/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "bin",
+    "oclif.manifest.json"
+  ],
+  "oclif": {
+    "bin": "lm",
+    "dirname": "lunch-money-cli",
+    "commands": "./dist/commands",
+    "hooks": {
+      "init": "./dist/hooks/init"
+    },
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-plugins"
+    ],
+    "topicSeparator": " "
+  },
+  "scripts": {
+    "build": "shx rm -rf dist && tsc",
+    "dev": "tsx bin/dev.js",
+    "lint": "eslint",
+    "postpack": "shx rm -f oclif.manifest.json",
+    "posttest": "npm run lint",
+    "prepack": "npm run build && oclif manifest && oclif readme --readme-path ../../README.md",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mhriemers/lunch-money-cli.git",
+    "directory": "packages/cli"
+  },
+  "keywords": [
+    "lunch-money",
+    "cli",
+    "finance"
+  ],
+  "author": "Martijn Riemers",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "bugs": {
+    "url": "https://github.com/mhriemers/lunch-money-cli/issues"
+  },
+  "homepage": "https://github.com/mhriemers/lunch-money-cli#readme",
+  "dependencies": {
+    "@lunch-money/lunch-money-js-v2": "^2.9.0",
+    "@oclif/core": "^4",
+    "@oclif/plugin-help": "^6",
+    "@oclif/plugin-plugins": "^5",
+    "lunch-money-cli-core": "^0.0.0"
+  },
+  "devDependencies": {
+    "@eslint/compat": "^1",
+    "@oclif/prettier-config": "^0.2.1",
+    "@oclif/test": "^4.1.16",
+    "@types/mocha": "^10",
+    "@types/node": "^25.3.3",
+    "chai": "^6",
+    "eslint": "^9",
+    "eslint-config-oclif": "^6",
+    "eslint-config-prettier": "^10",
+    "mocha": "^11",
+    "oclif": "^4",
+    "shx": "^0.3.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

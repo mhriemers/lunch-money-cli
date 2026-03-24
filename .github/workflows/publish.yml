@@ -22,4 +22,20 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm test
-      - run: npm publish
+
+      - name: Determine package to publish
+        id: pkg
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          if [[ "$TAG" == lunch-money-cli-core-v* ]]; then
+            echo "dir=packages/cli-core" >> "$GITHUB_OUTPUT"
+          elif [[ "$TAG" == lunch-money-cli-v* ]]; then
+            echo "dir=packages/cli" >> "$GITHUB_OUTPUT"
+          else
+            echo "Unknown tag format: $TAG"
+            exit 1
+          fi
+
+      - name: Publish package
+        working-directory: ${{ steps.pkg.outputs.dir }}
+        run: npm publish --provenance --access public

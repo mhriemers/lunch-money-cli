@@ -1,9 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "packages": {
-    ".": {
+    "packages/cli-core": {
       "release-type": "node",
-      "include-component-in-tag": false
+      "component": "lunch-money-cli-core"
+    },
+    "packages/cli": {
+      "release-type": "node",
+      "component": "lunch-money-cli"
     }
   }
 }

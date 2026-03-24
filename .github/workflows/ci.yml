@@ -32,5 +32,5 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - run: npx oclif readme
+      - run: cd packages/cli && npx oclif readme --readme-path ../../README.md
       - run: git diff --exit-code README.md

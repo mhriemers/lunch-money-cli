@@ -1,0 +1,49 @@
+{
+  "name": "lunch-money-cli-core",
+  "version": "1.0.0",
+  "description": "Core library for lunch-money-cli plugins: base command, config, formatters, and API client utilities",
+  "type": "module",
+  "exports": "./dist/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "shx rm -rf dist && tsc",
+    "lint": "eslint",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mhriemers/lunch-money-cli.git",
+    "directory": "packages/cli-core"
+  },
+  "keywords": [
+    "lunch-money",
+    "cli",
+    "core",
+    "plugin"
+  ],
+  "author": "Martijn Riemers",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@lunch-money/lunch-money-js-v2": "^2.9.0",
+    "@oclif/core": "^4"
+  },
+  "peerDependencies": {
+    "@oclif/core": "^4"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10",
+    "@types/node": "^25.3.3",
+    "chai": "^6",
+    "mocha": "^11",
+    "shx": "^0.3.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

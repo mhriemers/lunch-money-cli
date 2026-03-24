@@ -1,16 +1,16 @@
+import type { SplitTransaction, SplitTransactionBody } from "@lunch-money/lunch-money-js-v2";
+
 import { Args, Flags } from "@oclif/core";
+
 import { BaseCommand } from "../../base-command.js";
 import { parseJsonArg } from "../../client.js";
-import type { SplitTransactionBody, SplitTransaction } from "@lunch-money/lunch-money-js-v2";
 
 export default class TransactionsSplit extends BaseCommand {
-  static override description = "Split a transaction into multiple parts";
-
   static override args = {
     id: Args.integer({ description: "Transaction ID to split", required: true }),
   };
-
-  static override flags = {
+static override description = "Split a transaction into multiple parts";
+static override flags = {
     parts: Flags.string({ description: "JSON array of split parts [{amount, payee, date, category_id, tag_ids, notes}]", required: true }),
   };
 

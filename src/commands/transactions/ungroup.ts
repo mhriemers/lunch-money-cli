@@ -1,12 +1,12 @@
 import { Args } from "@oclif/core";
+
 import { BaseCommand } from "../../base-command.js";
 
 export default class TransactionsUngroup extends BaseCommand {
-  static override description = "Ungroup a transaction group";
-
   static override args = {
     id: Args.integer({ description: "Transaction group ID", required: true }),
   };
+static override description = "Ungroup a transaction group";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(TransactionsUngroup);

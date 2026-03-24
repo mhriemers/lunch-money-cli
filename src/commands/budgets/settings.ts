@@ -1,6 +1,6 @@
 import { BaseCommand } from "../../base-command.js";
-import { formatDetail } from "../../formatters.js";
 import { budgetSettingsFields } from "../../columns.js";
+import { formatDetail } from "../../formatters.js";
 
 export default class BudgetsSettings extends BaseCommand {
   static override description = "Get budget settings (period granularity, etc.)";

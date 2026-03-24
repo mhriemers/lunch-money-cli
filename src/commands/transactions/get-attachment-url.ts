@@ -1,12 +1,12 @@
 import { Args } from "@oclif/core";
+
 import { BaseCommand } from "../../base-command.js";
 
 export default class TransactionsGetAttachmentUrl extends BaseCommand {
-  static override description = "Get download URL for a transaction attachment";
-
   static override args = {
     "file-id": Args.integer({ description: "File attachment ID", required: true }),
   };
+static override description = "Get download URL for a transaction attachment";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(TransactionsGetAttachmentUrl);

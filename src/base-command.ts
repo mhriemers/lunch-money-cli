@@ -1,19 +1,12 @@
-import { Command } from "@oclif/core";
-import { LunchMoneyError } from "@lunch-money/lunch-money-js-v2";
-import { createClient } from "./client.js";
 import type { LunchMoneyClient } from "@lunch-money/lunch-money-js-v2";
+
+import { LunchMoneyError } from "@lunch-money/lunch-money-js-v2";
+import { Command } from "@oclif/core";
+
+import { createClient } from "./client.js";
 
 export abstract class BaseCommand extends Command {
   static enableJsonFlag = true;
-
-  protected createClient(): LunchMoneyClient {
-    return createClient();
-  }
-
-  protected output<T>(data: T, formatted: string): T {
-    this.log(formatted);
-    return data;
-  }
 
   protected async catch(err: Error & { exitCode?: number }): Promise<void> {
     process.exitCode = err.exitCode ?? 1;
@@ -23,8 +16,7 @@ export abstract class BaseCommand extends Command {
         ? this.formatErrorJson(err)
         : { error: err.message ?? String(err) };
       this.logJson(json);
-    } else {
-      if (err instanceof LunchMoneyError) {
+    } else if (err instanceof LunchMoneyError) {
         this.logToStderr(`Error: ${err.message}`);
         if (err.status) this.logToStderr(`  Status: ${err.status}`);
         if (err.errors?.length) {
@@ -35,7 +27,15 @@ export abstract class BaseCommand extends Command {
       } else {
         this.logToStderr(`Error: ${err.message ?? String(err)}`);
       }
-    }
+  }
+
+  protected createClient(): LunchMoneyClient {
+    return createClient();
+  }
+
+  protected output<T>(data: T, formatted: string): T {
+    this.log(formatted);
+    return data;
   }
 
   private formatErrorJson(err: LunchMoneyError): Record<string, unknown> {

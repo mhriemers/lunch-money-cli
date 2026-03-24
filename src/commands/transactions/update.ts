@@ -1,32 +1,32 @@
+import type { Currency, UpdateTransactionBody } from "@lunch-money/lunch-money-js-v2";
+
 import { Args, Flags } from "@oclif/core";
+
 import { BaseCommand } from "../../base-command.js";
 import { parseJsonArg } from "../../client.js";
-import type { UpdateTransactionBody, Currency } from "@lunch-money/lunch-money-js-v2";
 
 export default class TransactionsUpdate extends BaseCommand {
-  static override description = "Update a single transaction";
-
   static override args = {
     id: Args.integer({ description: "Transaction ID", required: true }),
   };
-
-  static override flags = {
-    date: Flags.string({ description: "Transaction date (YYYY-MM-DD)" }),
-    amount: Flags.string({ description: "Transaction amount" }),
-    payee: Flags.string({ description: "Payee name" }),
-    "category-id": Flags.integer({ description: "Category ID" }),
-    notes: Flags.string({ description: "Transaction notes" }),
-    currency: Flags.string({ description: "Currency code" }),
-    status: Flags.string({ description: "Status: reviewed or unreviewed" }),
-    "tag-ids": Flags.string({ description: "JSON array of tag IDs" }),
+static override description = "Update a single transaction";
+static override flags = {
     "additional-tag-ids": Flags.string({ description: "JSON array of additional tag IDs to add" }),
-    "external-id": Flags.string({ description: "External ID" }),
-    "recurring-id": Flags.integer({ description: "Recurring item ID" }),
-    "original-name": Flags.string({ description: "Original transaction name" }),
-    "manual-account-id": Flags.integer({ description: "Manual account ID" }),
-    "plaid-account-id": Flags.integer({ description: "Plaid account ID" }),
+    amount: Flags.string({ description: "Transaction amount" }),
+    "category-id": Flags.integer({ description: "Category ID" }),
+    currency: Flags.string({ description: "Currency code" }),
     "custom-metadata": Flags.string({ description: "Custom metadata JSON" }),
     data: Flags.string({ description: "Full update body as JSON (overrides other options)" }),
+    date: Flags.string({ description: "Transaction date (YYYY-MM-DD)" }),
+    "external-id": Flags.string({ description: "External ID" }),
+    "manual-account-id": Flags.integer({ description: "Manual account ID" }),
+    notes: Flags.string({ description: "Transaction notes" }),
+    "original-name": Flags.string({ description: "Original transaction name" }),
+    payee: Flags.string({ description: "Payee name" }),
+    "plaid-account-id": Flags.integer({ description: "Plaid account ID" }),
+    "recurring-id": Flags.integer({ description: "Recurring item ID" }),
+    status: Flags.string({ description: "Status: reviewed or unreviewed" }),
+    "tag-ids": Flags.string({ description: "JSON array of tag IDs" }),
   };
 
   async run(): Promise<unknown> {
@@ -53,6 +53,7 @@ export default class TransactionsUpdate extends BaseCommand {
       if (flags["plaid-account-id"]) data.plaid_account_id = flags["plaid-account-id"];
       if (flags["custom-metadata"]) data.custom_metadata = parseJsonArg(flags["custom-metadata"], "custom-metadata") as Record<string, never>;
     }
+
     const tx = await client.transactions.update(args.id, data);
     return this.output(tx, `Updated transaction ${args.id}.`);
   }

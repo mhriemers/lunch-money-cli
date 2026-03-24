@@ -1,13 +1,14 @@
-import { Flags } from "@oclif/core";
-import { BaseCommand } from "../../base-command.js";
-import { formatTable } from "../../formatters.js";
-import { categoryColumns } from "../../columns.js";
 import type { GetAllCategoriesParams } from "@lunch-money/lunch-money-js-v2";
+
+import { Flags } from "@oclif/core";
+
+import { BaseCommand } from "../../base-command.js";
+import { categoryColumns } from "../../columns.js";
+import { formatTable } from "../../formatters.js";
 
 export default class CategoriesList extends BaseCommand {
   static override description = "List all categories";
-
-  static override flags = {
+static override flags = {
     flatten: Flags.boolean({ description: "Flatten nested category groups" }),
     "is-group": Flags.string({ description: "Only return category groups (true) or non-groups (false)" }),
   };

@@ -1,20 +1,20 @@
-import { Args, Flags } from "@oclif/core";
-import { BaseCommand } from "../../base-command.js";
 import type { UpdateTagBody } from "@lunch-money/lunch-money-js-v2";
 
-export default class TagsUpdate extends BaseCommand {
-  static override description = "Update a tag";
+import { Args, Flags } from "@oclif/core";
 
+import { BaseCommand } from "../../base-command.js";
+
+export default class TagsUpdate extends BaseCommand {
   static override args = {
     id: Args.integer({ description: "Tag ID", required: true }),
   };
-
-  static override flags = {
-    name: Flags.string({ description: "New name" }),
-    description: Flags.string({ description: "New description" }),
-    "text-color": Flags.string({ description: "Text color (hex code or null)" }),
-    "background-color": Flags.string({ description: "Background color (hex code or null)" }),
+static override description = "Update a tag";
+static override flags = {
     archived: Flags.string({ description: "Archive status (true/false)" }),
+    "background-color": Flags.string({ description: "Background color (hex code or null)" }),
+    description: Flags.string({ description: "New description" }),
+    name: Flags.string({ description: "New name" }),
+    "text-color": Flags.string({ description: "Text color (hex code or null)" }),
   };
 
   async run(): Promise<unknown> {

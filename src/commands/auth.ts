@@ -1,6 +1,7 @@
 import { createInterface } from "node:readline";
+
 import { BaseCommand } from "../base-command.js";
-import { saveConfig, getConfigPath } from "../config.js";
+import { getConfigPath, saveConfig } from "../config.js";
 
 export default class Auth extends BaseCommand {
   static override description = "Authenticate with Lunch Money by saving your API token";
@@ -26,6 +27,6 @@ export default class Auth extends BaseCommand {
 
     saveConfig(this.config.configDir, { api_key: token });
     const configPath = getConfigPath(this.config.configDir);
-    return this.output({ success: true, config_path: configPath }, `API token saved to ${configPath}.`);
+    return this.output({ config_path: configPath, success: true }, `API token saved to ${configPath}.`);
   }
 }

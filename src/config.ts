@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 export interface Config {
@@ -11,7 +11,7 @@ export function getConfigPath(configDir: string): string {
 
 export function loadConfig(configDir: string): Config {
   try {
-    const raw = readFileSync(getConfigPath(configDir), "utf-8");
+    const raw = readFileSync(getConfigPath(configDir), "utf8");
     return JSON.parse(raw) as Config;
   } catch {
     return {};
@@ -19,6 +19,12 @@ export function loadConfig(configDir: string): Config {
 }
 
 export function saveConfig(configDir: string, config: Config): void {
+  let existing: Record<string, unknown> = {};
+  try {
+    existing = JSON.parse(readFileSync(getConfigPath(configDir), "utf8"));
+  } catch {}
+
+  const merged = { ...existing, ...config };
   mkdirSync(configDir, { recursive: true });
-  writeFileSync(getConfigPath(configDir), JSON.stringify(config, null, 2) + "\n");
+  writeFileSync(getConfigPath(configDir), JSON.stringify(merged, null, 2) + "\n");
 }

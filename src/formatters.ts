@@ -1,12 +1,12 @@
 export interface ColumnDef {
-  key: string;
   header: string;
+  key: string;
 }
 
 export interface FieldDef {
+  format?: (value: unknown) => string;
   key: string;
   label: string;
-  format?: (value: unknown) => string;
 }
 
 function toString(value: unknown): string {
@@ -21,7 +21,13 @@ function resolve(obj: Record<string, unknown>, key: string): unknown {
     if (current === null || current === undefined || typeof current !== "object") return undefined;
     current = (current as Record<string, unknown>)[part];
   }
+
   return current;
+}
+
+function pad(s: string, w: number): string {
+  if (s.length > w) return s.slice(0, w - 1) + "\u2026";
+  return s + " ".repeat(w - s.length);
 }
 
 export function formatTable(
@@ -53,11 +59,6 @@ export function formatTable(
     const lastIdx = widths.length - 1;
     widths[lastIdx] = Math.max(4, widths[lastIdx] - overflow);
   }
-
-  const pad = (s: string, w: number) => {
-    if (s.length > w) return s.slice(0, w - 1) + "\u2026";
-    return s + " ".repeat(w - s.length);
-  };
 
   const spacer = " ".repeat(gap);
   const headerLine = columns.map((col, i) => pad(col.header, widths[i])).join(spacer);

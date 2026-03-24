@@ -1,23 +1,24 @@
+import type { CreateCategoryBody } from "@lunch-money/lunch-money-js-v2";
+
 import { Flags } from "@oclif/core";
+
 import { BaseCommand } from "../../base-command.js";
 import { parseJsonArg } from "../../client.js";
-import type { CreateCategoryBody } from "@lunch-money/lunch-money-js-v2";
 
 export default class CategoriesCreate extends BaseCommand {
   static override description = "Create a new category";
-
-  static override flags = {
-    name: Flags.string({ description: "Category name", required: true }),
+static override flags = {
+    archived: Flags.boolean({ description: "Mark as archived" }),
+    children: Flags.string({ description: "JSON array of child category IDs (for groups)" }),
+    collapsed: Flags.boolean({ description: "Collapse category group" }),
     description: Flags.string({ description: "Category description" }),
-    "is-income": Flags.boolean({ description: "Mark as income category" }),
     "exclude-from-budget": Flags.boolean({ description: "Exclude from budget" }),
     "exclude-from-totals": Flags.boolean({ description: "Exclude from totals" }),
-    "is-group": Flags.boolean({ description: "Create as category group" }),
     "group-id": Flags.integer({ description: "Parent category group ID" }),
-    children: Flags.string({ description: "JSON array of child category IDs (for groups)" }),
-    archived: Flags.boolean({ description: "Mark as archived" }),
+    "is-group": Flags.boolean({ description: "Create as category group" }),
+    "is-income": Flags.boolean({ description: "Mark as income category" }),
+    name: Flags.string({ description: "Category name", required: true }),
     order: Flags.integer({ description: "Sort order" }),
-    collapsed: Flags.boolean({ description: "Collapse category group" }),
   };
 
   async run(): Promise<unknown> {

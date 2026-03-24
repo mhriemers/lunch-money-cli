@@ -5,12 +5,12 @@ const bool = (v: unknown) => (v === true ? "true" : v === false ? "false" : "-")
 // ── Accounts ──────────────────────────────────────────────
 
 export const accountColumns: ColumnDef[] = [
-  { key: "id", header: "ID" },
-  { key: "name", header: "Name" },
-  { key: "type", header: "Type" },
-  { key: "balance", header: "Balance" },
-  { key: "currency", header: "Currency" },
-  { key: "status", header: "Status" },
+  { header: "ID", key: "id" },
+  { header: "Name", key: "name" },
+  { header: "Type", key: "type" },
+  { header: "Balance", key: "balance" },
+  { header: "Currency", key: "currency" },
+  { header: "Status", key: "status" },
 ];
 
 export const accountFields: FieldDef[] = [
@@ -31,22 +31,22 @@ export const accountFields: FieldDef[] = [
 // ── Categories ────────────────────────────────────────────
 
 export const categoryColumns: ColumnDef[] = [
-  { key: "id", header: "ID" },
-  { key: "name", header: "Name" },
-  { key: "is_group", header: "Group" },
-  { key: "is_income", header: "Income" },
-  { key: "archived", header: "Archived" },
+  { header: "ID", key: "id" },
+  { header: "Name", key: "name" },
+  { header: "Group", key: "is_group" },
+  { header: "Income", key: "is_income" },
+  { header: "Archived", key: "archived" },
 ];
 
 export const categoryFields: FieldDef[] = [
   { key: "id", label: "ID" },
   { key: "name", label: "Name" },
   { key: "description", label: "Description" },
-  { key: "is_group", label: "Group", format: bool },
-  { key: "is_income", label: "Income", format: bool },
-  { key: "archived", label: "Archived", format: bool },
-  { key: "exclude_from_budget", label: "Exclude Budget", format: bool },
-  { key: "exclude_from_totals", label: "Exclude Totals", format: bool },
+  { format: bool, key: "is_group", label: "Group" },
+  { format: bool, key: "is_income", label: "Income" },
+  { format: bool, key: "archived", label: "Archived" },
+  { format: bool, key: "exclude_from_budget", label: "Exclude Budget" },
+  { format: bool, key: "exclude_from_totals", label: "Exclude Totals" },
   { key: "group_id", label: "Group ID" },
   { key: "order", label: "Order" },
   { key: "created_at", label: "Created At" },
@@ -55,16 +55,16 @@ export const categoryFields: FieldDef[] = [
 // ── Tags ──────────────────────────────────────────────────
 
 export const tagColumns: ColumnDef[] = [
-  { key: "id", header: "ID" },
-  { key: "name", header: "Name" },
-  { key: "archived", header: "Archived" },
+  { header: "ID", key: "id" },
+  { header: "Name", key: "name" },
+  { header: "Archived", key: "archived" },
 ];
 
 export const tagFields: FieldDef[] = [
   { key: "id", label: "ID" },
   { key: "name", label: "Name" },
   { key: "description", label: "Description" },
-  { key: "archived", label: "Archived", format: bool },
+  { format: bool, key: "archived", label: "Archived" },
   { key: "text_color", label: "Text Color" },
   { key: "background_color", label: "Background Color" },
 ];
@@ -72,12 +72,12 @@ export const tagFields: FieldDef[] = [
 // ── Transactions ──────────────────────────────────────────
 
 export const transactionColumns: ColumnDef[] = [
-  { key: "id", header: "ID" },
-  { key: "date", header: "Date" },
-  { key: "payee", header: "Payee" },
-  { key: "amount", header: "Amount" },
-  { key: "currency", header: "Currency" },
-  { key: "status", header: "Status" },
+  { header: "ID", key: "id" },
+  { header: "Date", key: "date" },
+  { header: "Payee", key: "payee" },
+  { header: "Amount", key: "amount" },
+  { header: "Currency", key: "currency" },
+  { header: "Status", key: "status" },
 ];
 
 export const transactionFields: FieldDef[] = [
@@ -101,13 +101,13 @@ export const transactionFields: FieldDef[] = [
 // ── Plaid Accounts ────────────────────────────────────────
 
 export const plaidAccountColumns: ColumnDef[] = [
-  { key: "id", header: "ID" },
-  { key: "name", header: "Name" },
-  { key: "institution_name", header: "Institution" },
-  { key: "type", header: "Type" },
-  { key: "balance", header: "Balance" },
-  { key: "currency", header: "Currency" },
-  { key: "status", header: "Status" },
+  { header: "ID", key: "id" },
+  { header: "Name", key: "name" },
+  { header: "Institution", key: "institution_name" },
+  { header: "Type", key: "type" },
+  { header: "Balance", key: "balance" },
+  { header: "Currency", key: "currency" },
+  { header: "Status", key: "status" },
 ];
 
 export const plaidAccountFields: FieldDef[] = [
@@ -127,12 +127,12 @@ export const plaidAccountFields: FieldDef[] = [
 // ── Recurring ─────────────────────────────────────────────
 
 export const recurringColumns: ColumnDef[] = [
-  { key: "id", header: "ID" },
-  { key: "description", header: "Description" },
-  { key: "transaction_criteria:payee", header: "Payee" },
-  { key: "transaction_criteria:amount", header: "Amount" },
-  { key: "transaction_criteria:currency", header: "Currency" },
-  { key: "status", header: "Status" },
+  { header: "ID", key: "id" },
+  { header: "Description", key: "description" },
+  { header: "Payee", key: "transaction_criteria:payee" },
+  { header: "Amount", key: "transaction_criteria:amount" },
+  { header: "Currency", key: "transaction_criteria:currency" },
+  { header: "Status", key: "status" },
 ];
 
 export const recurringFields: FieldDef[] = [
@@ -165,18 +165,18 @@ export const budgetSettingsFields: FieldDef[] = [
   { key: "budget_period_granularity", label: "Granularity" },
   { key: "budget_period_quantity", label: "Quantity" },
   { key: "budget_period_anchor_date", label: "Anchor Date" },
-  { key: "budget_use_last_day_of_month", label: "Use Last Day", format: bool },
+  { format: bool, key: "budget_use_last_day_of_month", label: "Use Last Day" },
   { key: "budget_income_option", label: "Income Option" },
-  { key: "budget_hide_no_activity", label: "Hide No Activity", format: bool },
-  { key: "budget_rollover_left_to_budget", label: "Rollover Left", format: bool },
+  { format: bool, key: "budget_hide_no_activity", label: "Hide No Activity" },
+  { format: bool, key: "budget_rollover_left_to_budget", label: "Rollover Left" },
 ];
 
 // ── Summary ───────────────────────────────────────────────
 
 export const summaryColumns: ColumnDef[] = [
-  { key: "category_id", header: "Category ID" },
-  { key: "totals:budgeted", header: "Budgeted" },
-  { key: "totals:recurring_activity", header: "Recurring" },
-  { key: "totals:other_activity", header: "Other" },
-  { key: "totals:available", header: "Available" },
+  { header: "Category ID", key: "category_id" },
+  { header: "Budgeted", key: "totals:budgeted" },
+  { header: "Recurring", key: "totals:recurring_activity" },
+  { header: "Other", key: "totals:other_activity" },
+  { header: "Available", key: "totals:available" },
 ];

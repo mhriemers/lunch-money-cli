@@ -1,10 +1,12 @@
 import { expect } from "chai";
-import { formatTable, formatDetail } from "../../src/formatters.js";
+
 import type { ColumnDef, FieldDef } from "../../src/formatters.js";
 
+import { formatDetail, formatTable } from "../../src/formatters.js";
+
 const columns: ColumnDef[] = [
-  { key: "id", header: "ID" },
-  { key: "name", header: "Name" },
+  { header: "ID", key: "id" },
+  { header: "Name", key: "name" },
 ];
 
 describe("formatTable", () => {
@@ -53,7 +55,7 @@ describe("formatDetail", () => {
 
   it("applies custom format function", () => {
     const fieldsWithFormat: FieldDef[] = [
-      { key: "active", label: "Active", format: (v) => (v ? "YES" : "NO") },
+      { format: (v) => (v ? "YES" : "NO"), key: "active", label: "Active" },
     ];
     const output = formatDetail({ active: true }, fieldsWithFormat);
     expect(output).to.contain("YES");

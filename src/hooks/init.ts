@@ -1,4 +1,5 @@
 import { Hook } from "@oclif/core";
+
 import { setApiKey } from "../client.js";
 import { loadConfig } from "../config.js";
 

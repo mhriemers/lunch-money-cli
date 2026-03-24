@@ -2,10 +2,6 @@
 
 A command-line interface for the [Lunch Money](https://lunchmoney.app) personal finance API.
 
-<!-- toc -->
-* [lunch-money-cli](#lunch-money-cli)
-<!-- tocstop -->
-
 ## Installation
 
 ```bash
@@ -24,19 +20,30 @@ To get a token, go to [Lunch Money Developers](https://my.lunchmoney.app/develop
 
 ## Usage
 
-<!-- usage -->
-```sh-session
-$ npm install -g lunch-money-cli
-$ lm COMMAND
-running command...
-$ lm (--version)
-lunch-money-cli/1.0.4 darwin-arm64 node-v25.6.1
-$ lm --help [COMMAND]
-USAGE
-  $ lm COMMAND
-...
+```bash
+# List all manual accounts
+lm accounts list
+
+# Get a specific transaction
+lm transactions get 123456
+
+# Create a new category
+lm categories create --name "Groceries"
+
+# View your user profile
+lm user me
+
+# Any command supports JSON output
+lm accounts list --json
 ```
-<!-- usagestop -->
+
+## Global Flags
+
+All commands support:
+
+- `--json` — Output raw JSON instead of formatted tables
+- `--api-key <token>` — Provide API token inline
+- `--help` — Show help for a command
 
 ## Commands
 
@@ -1338,14 +1345,6 @@ DESCRIPTION
 
 _See code: [src/commands/user/me.ts](https://github.com/mhriemers/lunch-money-cli/blob/v1.0.4/src/commands/user/me.ts)_
 <!-- commandsstop -->
-
-## Global Flags
-
-All commands support:
-
-- `--json` — Output raw JSON instead of formatted tables
-- `--api-key <token>` — Provide API token inline
-- `--help` — Show help for a command
 
 ## API Documentation
 

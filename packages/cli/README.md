@@ -143,7 +143,7 @@ DESCRIPTION
   Create a new manually-managed account. Requires name, type, and balance at minimum.
 ```
 
-_See code: [src/commands/accounts/create.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/accounts/create.ts)_
+_See code: [src/commands/accounts/create.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/accounts/create.ts)_
 
 ## `lm accounts delete ID`
 
@@ -164,7 +164,7 @@ DESCRIPTION
   Delete a manually-managed account. If transactions exist for this account, they will show a warning in the web view.
 ```
 
-_See code: [src/commands/accounts/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/accounts/delete.ts)_
+_See code: [src/commands/accounts/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/accounts/delete.ts)_
 
 ## `lm accounts get ID`
 
@@ -185,7 +185,7 @@ DESCRIPTION
   Retrieve details of a specific manually-managed account by its ID
 ```
 
-_See code: [src/commands/accounts/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/accounts/get.ts)_
+_See code: [src/commands/accounts/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/accounts/get.ts)_
 
 ## `lm accounts list`
 
@@ -203,7 +203,7 @@ DESCRIPTION
   Retrieve a list of all manually-managed accounts (not synced via Plaid) associated with the user's account
 ```
 
-_See code: [src/commands/accounts/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/accounts/list.ts)_
+_See code: [src/commands/accounts/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/accounts/list.ts)_
 
 ## `lm accounts update ID`
 
@@ -253,7 +253,7 @@ DESCRIPTION
   unchanged.
 ```
 
-_See code: [src/commands/accounts/update.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/accounts/update.ts)_
+_See code: [src/commands/accounts/update.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/accounts/update.ts)_
 
 ## `lm auth`
 
@@ -270,7 +270,7 @@ DESCRIPTION
   Authenticate with Lunch Money by saving your API token
 ```
 
-_See code: [src/commands/auth.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/auth.ts)_
+_See code: [src/commands/auth.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/auth.ts)_
 
 ## `lm budgets delete`
 
@@ -293,7 +293,7 @@ DESCRIPTION
   Remove a budget entry for a specific category and budget period start date
 ```
 
-_See code: [src/commands/budgets/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/budgets/delete.ts)_
+_See code: [src/commands/budgets/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/budgets/delete.ts)_
 
 ## `lm budgets settings`
 
@@ -312,7 +312,7 @@ DESCRIPTION
   quantity, anchor date, and display preferences
 ```
 
-_See code: [src/commands/budgets/settings.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/budgets/settings.ts)_
+_See code: [src/commands/budgets/settings.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/budgets/settings.ts)_
 
 ## `lm budgets upsert`
 
@@ -341,7 +341,7 @@ DESCRIPTION
   is updated; otherwise a new one is created. The start_date must be a valid budget period start for the account.
 ```
 
-_See code: [src/commands/budgets/upsert.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/budgets/upsert.ts)_
+_See code: [src/commands/budgets/upsert.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/budgets/upsert.ts)_
 
 ## `lm categories create`
 
@@ -379,7 +379,7 @@ DESCRIPTION
   assign existing categories to it.
 ```
 
-_See code: [src/commands/categories/create.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/categories/create.ts)_
+_See code: [src/commands/categories/create.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/categories/create.ts)_
 
 ## `lm categories delete ID`
 
@@ -404,7 +404,7 @@ DESCRIPTION
   items) unless --force is set.
 ```
 
-_See code: [src/commands/categories/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/categories/delete.ts)_
+_See code: [src/commands/categories/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/categories/delete.ts)_
 
 ## `lm categories get ID`
 
@@ -426,7 +426,7 @@ DESCRIPTION
   categories in the 'children' property.
 ```
 
-_See code: [src/commands/categories/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/categories/get.ts)_
+_See code: [src/commands/categories/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/categories/get.ts)_
 
 ## `lm categories list`
 
@@ -450,7 +450,7 @@ DESCRIPTION
   Retrieve a list of all categories associated with the user's account. Returns nested category groups by default.
 ```
 
-_See code: [src/commands/categories/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/categories/list.ts)_
+_See code: [src/commands/categories/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/categories/list.ts)_
 
 ## `lm categories update ID`
 
@@ -493,7 +493,7 @@ DESCRIPTION
   unchanged.
 ```
 
-_See code: [src/commands/categories/update.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/categories/update.ts)_
+_See code: [src/commands/categories/update.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/categories/update.ts)_
 
 ## `lm help [COMMAND]`
 
@@ -534,7 +534,7 @@ DESCRIPTION
   Retrieve details of a specific Plaid-synced account by its ID
 ```
 
-_See code: [src/commands/plaid-accounts/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/plaid-accounts/get.ts)_
+_See code: [src/commands/plaid-accounts/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/plaid-accounts/get.ts)_
 
 ## `lm plaid-accounts list`
 
@@ -552,7 +552,7 @@ DESCRIPTION
   Retrieve a list of all accounts synced via Plaid associated with the user's account
 ```
 
-_See code: [src/commands/plaid-accounts/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/plaid-accounts/list.ts)_
+_See code: [src/commands/plaid-accounts/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/plaid-accounts/list.ts)_
 
 ## `lm plaid-accounts sync`
 
@@ -580,7 +580,7 @@ DESCRIPTION
   background job; track results via plaid_last_successful_update, last_fetch, and last_import fields.
 ```
 
-_See code: [src/commands/plaid-accounts/sync.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/plaid-accounts/sync.ts)_
+_See code: [src/commands/plaid-accounts/sync.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/plaid-accounts/sync.ts)_
 
 ## `lm plugins`
 
@@ -892,7 +892,7 @@ DESCRIPTION
   information
 ```
 
-_See code: [src/commands/recurring/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/recurring/get.ts)_
+_See code: [src/commands/recurring/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/recurring/get.ts)_
 
 ## `lm recurring list`
 
@@ -917,7 +917,7 @@ DESCRIPTION
   showing expected vs found transactions.
 ```
 
-_See code: [src/commands/recurring/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/recurring/list.ts)_
+_See code: [src/commands/recurring/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/recurring/list.ts)_
 
 ## `lm summary get`
 
@@ -954,7 +954,7 @@ DESCRIPTION
   includes budgeted and available amounts per category.
 ```
 
-_See code: [src/commands/summary/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/summary/get.ts)_
+_See code: [src/commands/summary/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/summary/get.ts)_
 
 ## `lm tags create`
 
@@ -980,7 +980,7 @@ DESCRIPTION
   Create a new tag. Tag name must be unique.
 ```
 
-_See code: [src/commands/tags/create.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/tags/create.ts)_
+_See code: [src/commands/tags/create.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/tags/create.ts)_
 
 ## `lm tags delete ID`
 
@@ -1004,7 +1004,7 @@ DESCRIPTION
   Delete a tag. Fails if transactions or rules depend on it unless --force is set.
 ```
 
-_See code: [src/commands/tags/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/tags/delete.ts)_
+_See code: [src/commands/tags/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/tags/delete.ts)_
 
 ## `lm tags get ID`
 
@@ -1025,7 +1025,7 @@ DESCRIPTION
   Retrieve details of a specific tag by its ID
 ```
 
-_See code: [src/commands/tags/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/tags/get.ts)_
+_See code: [src/commands/tags/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/tags/get.ts)_
 
 ## `lm tags list`
 
@@ -1043,7 +1043,7 @@ DESCRIPTION
   Retrieve a list of all tags associated with the user's account
 ```
 
-_See code: [src/commands/tags/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/tags/list.ts)_
+_See code: [src/commands/tags/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/tags/list.ts)_
 
 ## `lm tags update ID`
 
@@ -1072,7 +1072,7 @@ DESCRIPTION
   Update properties of an existing tag. Only provided fields are updated; omitted fields remain unchanged.
 ```
 
-_See code: [src/commands/tags/update.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/tags/update.ts)_
+_See code: [src/commands/tags/update.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/tags/update.ts)_
 
 ## `lm transactions attach-file TRANSACTION-ID`
 
@@ -1099,7 +1099,7 @@ DESCRIPTION
   image/heic, image/heif.
 ```
 
-_See code: [src/commands/transactions/attach-file.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/transactions/attach-file.ts)_
+_See code: [src/commands/transactions/attach-file.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/transactions/attach-file.ts)_
 
 ## `lm transactions create`
 
@@ -1136,7 +1136,7 @@ DESCRIPTION
   Insert one or more transactions (1-500 per request). Returns created transactions and any skipped duplicates.
 ```
 
-_See code: [src/commands/transactions/create.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/transactions/create.ts)_
+_See code: [src/commands/transactions/create.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/transactions/create.ts)_
 
 ## `lm transactions delete ID`
 
@@ -1158,7 +1158,7 @@ DESCRIPTION
   reversible.
 ```
 
-_See code: [src/commands/transactions/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/transactions/delete.ts)_
+_See code: [src/commands/transactions/delete.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/transactions/delete.ts)_
 
 ## `lm transactions delete-attachment FILE-ID`
 
@@ -1179,7 +1179,7 @@ DESCRIPTION
   Delete a file attachment from a transaction
 ```
 
-_See code: [src/commands/transactions/delete-attachment.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/transactions/delete-attachment.ts)_
+_See code: [src/commands/transactions/delete-attachment.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/transactions/delete-attachment.ts)_
 
 ## `lm transactions delete-many`
 
@@ -1200,7 +1200,7 @@ DESCRIPTION
   Delete multiple transactions in a single request. This action is not reversible.
 ```
 
-_See code: [src/commands/transactions/delete-many.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/transactions/delete-many.ts)_
+_See code: [src/commands/transactions/delete-many.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/transactions/delete-many.ts)_
 
 ## `lm transactions get ID`
 
@@ -1222,7 +1222,7 @@ DESCRIPTION
   parents, also includes children.
 ```
 
-_See code: [src/commands/transactions/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/transactions/get.ts)_
+_See code: [src/commands/transactions/get.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/transactions/get.ts)_
 
 ## `lm transactions get-attachment-url FILE-ID`
 
@@ -1243,7 +1243,7 @@ DESCRIPTION
   Get a signed download URL for a transaction file attachment. The URL expires after a limited time.
 ```
 
-_See code: [src/commands/transactions/get-attachment-url.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/transactions/get-attachment-url.ts)_
+_See code: [src/commands/transactions/get-attachment-url.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/transactions/get-attachment-url.ts)_
 
 ## `lm transactions group`
 
@@ -1268,7 +1268,7 @@ DESCRIPTION
   children. Original transactions are hidden after grouping.
 ```
 
-_See code: [src/commands/transactions/group.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/transactions/group.ts)_
+_See code: [src/commands/transactions/group.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/transactions/group.ts)_
 
 ## `lm transactions list`
 
@@ -1327,7 +1327,7 @@ DESCRIPTION
   Use --offset for pagination when has_more is true.
 ```
 
-_See code: [src/commands/transactions/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/transactions/list.ts)_
+_See code: [src/commands/transactions/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/transactions/list.ts)_
 
 ## `lm transactions split ID`
 
@@ -1357,7 +1357,7 @@ DESCRIPTION
   the parent is hidden and children are shown instead.
 ```
 
-_See code: [src/commands/transactions/split.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/transactions/split.ts)_
+_See code: [src/commands/transactions/split.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/transactions/split.ts)_
 
 ## `lm transactions ungroup ID`
 
@@ -1379,7 +1379,7 @@ DESCRIPTION
   Delete a transaction group and restore the original transactions to their normal ungrouped state
 ```
 
-_See code: [src/commands/transactions/ungroup.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/transactions/ungroup.ts)_
+_See code: [src/commands/transactions/ungroup.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/transactions/ungroup.ts)_
 
 ## `lm transactions unsplit ID`
 
@@ -1401,7 +1401,7 @@ DESCRIPTION
   state.
 ```
 
-_See code: [src/commands/transactions/unsplit.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/transactions/unsplit.ts)_
+_See code: [src/commands/transactions/unsplit.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/transactions/unsplit.ts)_
 
 ## `lm transactions update ID`
 
@@ -1450,7 +1450,7 @@ DESCRIPTION
   be modified; use split/unsplit/group/ungroup commands instead.
 ```
 
-_See code: [src/commands/transactions/update.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/transactions/update.ts)_
+_See code: [src/commands/transactions/update.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/transactions/update.ts)_
 
 ## `lm transactions update-many`
 
@@ -1476,7 +1476,7 @@ DESCRIPTION
   least one field to update.
 ```
 
-_See code: [src/commands/transactions/update-many.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/transactions/update-many.ts)_
+_See code: [src/commands/transactions/update-many.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/transactions/update-many.ts)_
 
 ## `lm user me`
 
@@ -1495,7 +1495,7 @@ DESCRIPTION
   currency
 ```
 
-_See code: [src/commands/user/me.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/user/me.ts)_
+_See code: [src/commands/user/me.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.0/packages/cli/src/commands/user/me.ts)_
 
 <!-- commandsstop -->
 

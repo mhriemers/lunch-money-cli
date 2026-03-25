@@ -7,9 +7,13 @@ export default class CategoriesDelete extends BaseCommand {
   static override args = {
     id: Args.integer({ description: "Unique identifier of the category to delete (integer)", required: true }),
   };
-static override description = "Delete a category or category group. Fails if dependencies exist (budgets, transactions, rules, children, recurring items) unless --force is set.";
-static override flags = {
-    force: Flags.boolean({ description: "Force deletion even if there are dependent budgets, transactions, rules, children, or recurring items" }),
+  static override description =
+    "Delete a category or category group. Fails if dependencies exist (budgets, transactions, rules, children, recurring items) unless --force is set.";
+  static override flags = {
+    force: Flags.boolean({
+      description:
+        "Force deletion even if there are dependent budgets, transactions, rules, children, or recurring items",
+    }),
   };
 
   async run(): Promise<unknown> {

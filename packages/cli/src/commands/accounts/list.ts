@@ -1,7 +1,8 @@
 import { accountColumns, BaseCommand, formatTable } from "lunch-money-cli-core";
 
 export default class AccountsList extends BaseCommand {
-  static override description = "Retrieve a list of all manually-managed accounts (not synced via Plaid) associated with the user's account";
+  static override description =
+    "Retrieve a list of all manually-managed accounts (not synced via Plaid) associated with the user's account";
 
   async run(): Promise<unknown> {
     const client = this.createClient();

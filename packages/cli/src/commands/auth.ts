@@ -8,7 +8,7 @@ export default class Auth extends BaseCommand {
     const rl = createInterface({ input: process.stdin, output: process.stderr });
 
     this.logToStderr("\nTo get your API token:\n");
-    this.logToStderr('  1. Go to https://my.lunchmoney.app/developers');
+    this.logToStderr("  1. Go to https://my.lunchmoney.app/developers");
     this.logToStderr('  2. Enter a label (e.g. "cli") and click "Request Access Token"');
     this.logToStderr("  3. Copy the token — it is only shown once\n");
 

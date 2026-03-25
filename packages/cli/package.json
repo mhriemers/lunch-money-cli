@@ -65,15 +65,10 @@
     "lunch-money-cli-core": "^1.0.0"
   },
   "devDependencies": {
-    "@eslint/compat": "^2",
-    "@oclif/prettier-config": "^0.2.1",
     "@oclif/test": "^4.1.16",
     "@types/mocha": "^10",
     "@types/node": "^25.5.0",
     "chai": "^6",
-    "eslint": "^9",
-    "eslint-config-oclif": "^6",
-    "eslint-config-prettier": "^10",
     "mocha": "^11",
     "oclif": "^4",
     "shx": "^0.3.3",

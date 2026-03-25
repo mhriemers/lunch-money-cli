@@ -8,7 +8,9 @@
   "scripts": {
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
-    "lint": "npm run lint --workspaces --if-present"
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "engines": {
     "node": ">=20"
@@ -17,6 +19,7 @@
     "@eslint/compat": "^2",
     "eslint": "^9",
     "eslint-config-oclif": "^6",
-    "eslint-config-prettier": "^10"
+    "eslint-config-prettier": "^10",
+    "prettier": "3.8.1"
   }
 }

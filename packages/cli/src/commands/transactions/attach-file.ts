@@ -5,11 +5,19 @@ import { BaseCommand } from "lunch-money-cli-core";
 
 export default class TransactionsAttachFile extends BaseCommand {
   static override args = {
-    "transaction-id": Args.integer({ description: "Unique identifier of the transaction to attach the file to (integer)", required: true }),
+    "transaction-id": Args.integer({
+      description: "Unique identifier of the transaction to attach the file to (integer)",
+      required: true,
+    }),
   };
-static override description = "Attach a file to a transaction. File must be under 10MB. Allowed types: image/jpeg, image/png, application/pdf, image/heic, image/heif.";
-static override flags = {
-    file: Flags.string({ description: "Path to the local file or URL to attach. Must be under 10MB. Allowed types: JPEG, PNG, PDF, HEIC, HEIF.", required: true }),
+  static override description =
+    "Attach a file to a transaction. File must be under 10MB. Allowed types: image/jpeg, image/png, application/pdf, image/heic, image/heif.";
+  static override flags = {
+    file: Flags.string({
+      description:
+        "Path to the local file or URL to attach. Must be under 10MB. Allowed types: JPEG, PNG, PDF, HEIC, HEIF.",
+      required: true,
+    }),
     notes: Flags.string({ description: "Optional notes about the file attachment" }),
   };
 

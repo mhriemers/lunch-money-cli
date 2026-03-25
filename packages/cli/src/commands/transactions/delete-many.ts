@@ -3,8 +3,11 @@ import { BaseCommand, parseJsonArg } from "lunch-money-cli-core";
 
 export default class TransactionsDeleteMany extends BaseCommand {
   static override description = "Delete multiple transactions in a single request. This action is not reversible.";
-static override flags = {
-    ids: Flags.string({ description: "JSON array of transaction IDs to delete (integers). Example: '[123, 456, 789]'", required: true }),
+  static override flags = {
+    ids: Flags.string({
+      description: "JSON array of transaction IDs to delete (integers). Example: '[123, 456, 789]'",
+      required: true,
+    }),
   };
 
   async run(): Promise<unknown> {

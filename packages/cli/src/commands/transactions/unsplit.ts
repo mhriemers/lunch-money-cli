@@ -3,9 +3,13 @@ import { BaseCommand } from "lunch-money-cli-core";
 
 export default class TransactionsUnsplit extends BaseCommand {
   static override args = {
-    id: Args.integer({ description: "The split_parent_id of the split transaction to restore (integer)", required: true }),
+    id: Args.integer({
+      description: "The split_parent_id of the split transaction to restore (integer)",
+      required: true,
+    }),
   };
-static override description = "Reverse a previously split transaction. Deletes the split children and restores the parent to its normal unsplit state.";
+  static override description =
+    "Reverse a previously split transaction. Deletes the split children and restores the parent to its normal unsplit state.";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(TransactionsUnsplit);

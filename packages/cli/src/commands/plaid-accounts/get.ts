@@ -5,7 +5,7 @@ export default class PlaidAccountsGet extends BaseCommand {
   static override args = {
     id: Args.integer({ description: "Unique identifier of the Plaid account to retrieve (integer)", required: true }),
   };
-static override description = "Retrieve details of a specific Plaid-synced account by its ID";
+  static override description = "Retrieve details of a specific Plaid-synced account by its ID";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(PlaidAccountsGet);

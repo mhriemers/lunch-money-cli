@@ -5,7 +5,7 @@ export default class AccountsGet extends BaseCommand {
   static override args = {
     id: Args.integer({ description: "Unique identifier of the manual account to retrieve (integer)", required: true }),
   };
-static override description = "Retrieve details of a specific manually-managed account by its ID";
+  static override description = "Retrieve details of a specific manually-managed account by its ID";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(AccountsGet);

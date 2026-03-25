@@ -12,21 +12,19 @@ export abstract class BaseCommand extends Command {
     process.exitCode = err.exitCode ?? 1;
 
     if (this.jsonEnabled()) {
-      const json = err instanceof LunchMoneyError
-        ? this.formatErrorJson(err)
-        : { error: err.message ?? String(err) };
+      const json = err instanceof LunchMoneyError ? this.formatErrorJson(err) : { error: err.message ?? String(err) };
       this.logJson(json);
     } else if (err instanceof LunchMoneyError) {
-        this.logToStderr(`Error: ${err.message}`);
-        if (err.status) this.logToStderr(`  Status: ${err.status}`);
-        if (err.errors?.length) {
-          for (const detail of err.errors) {
-            this.logToStderr(`  - ${typeof detail === "string" ? detail : JSON.stringify(detail)}`);
-          }
+      this.logToStderr(`Error: ${err.message}`);
+      if (err.status) this.logToStderr(`  Status: ${err.status}`);
+      if (err.errors?.length) {
+        for (const detail of err.errors) {
+          this.logToStderr(`  - ${typeof detail === "string" ? detail : JSON.stringify(detail)}`);
         }
-      } else {
-        this.logToStderr(`Error: ${err.message ?? String(err)}`);
       }
+    } else {
+      this.logToStderr(`Error: ${err.message ?? String(err)}`);
+    }
   }
 
   protected createClient(): LunchMoneyClient {

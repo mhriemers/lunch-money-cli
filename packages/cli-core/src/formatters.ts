@@ -30,27 +30,17 @@ function pad(s: string, w: number): string {
   return s + " ".repeat(w - s.length);
 }
 
-export function formatTable(
-  rows: Record<string, unknown>[],
-  columns: ColumnDef[],
-): string {
+export function formatTable(rows: Record<string, unknown>[], columns: ColumnDef[]): string {
   if (rows.length === 0) return "No results.";
 
   const termWidth = process.stdout.columns || 120;
   const gap = 2;
 
   // Compute cell values
-  const cells: string[][] = rows.map((row) =>
-    columns.map((col) => toString(resolve(row, col.key))),
-  );
+  const cells: string[][] = rows.map((row) => columns.map((col) => toString(resolve(row, col.key))));
 
   // Compute column widths
-  const widths = columns.map((col, i) =>
-    Math.max(
-      col.header.length,
-      ...cells.map((row) => row[i].length),
-    ),
-  );
+  const widths = columns.map((col, i) => Math.max(col.header.length, ...cells.map((row) => row[i].length)));
 
   // Shrink last column if total exceeds terminal width
   const totalWidth = widths.reduce((a, b) => a + b, 0) + gap * (widths.length - 1);
@@ -63,17 +53,12 @@ export function formatTable(
   const spacer = " ".repeat(gap);
   const headerLine = columns.map((col, i) => pad(col.header, widths[i])).join(spacer);
   const separatorLine = widths.map((w) => "\u2500".repeat(w)).join(spacer);
-  const dataLines = cells.map((row) =>
-    row.map((cell, i) => pad(cell, widths[i])).join(spacer),
-  );
+  const dataLines = cells.map((row) => row.map((cell, i) => pad(cell, widths[i])).join(spacer));
 
   return [headerLine, separatorLine, ...dataLines].join("\n");
 }
 
-export function formatDetail(
-  data: Record<string, unknown>,
-  fields: FieldDef[],
-): string {
+export function formatDetail(data: Record<string, unknown>, fields: FieldDef[]): string {
   const maxLabel = Math.max(...fields.map((f) => f.label.length));
   return fields
     .map((f) => {

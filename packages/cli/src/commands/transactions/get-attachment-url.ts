@@ -3,9 +3,13 @@ import { BaseCommand } from "lunch-money-cli-core";
 
 export default class TransactionsGetAttachmentUrl extends BaseCommand {
   static override args = {
-    "file-id": Args.integer({ description: "Unique identifier of the file attachment to download (integer)", required: true }),
+    "file-id": Args.integer({
+      description: "Unique identifier of the file attachment to download (integer)",
+      required: true,
+    }),
   };
-static override description = "Get a signed download URL for a transaction file attachment. The URL expires after a limited time.";
+  static override description =
+    "Get a signed download URL for a transaction file attachment. The URL expires after a limited time.";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(TransactionsGetAttachmentUrl);

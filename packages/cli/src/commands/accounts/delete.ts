@@ -5,7 +5,8 @@ export default class AccountsDelete extends BaseCommand {
   static override args = {
     id: Args.integer({ description: "Unique identifier of the manual account to delete (integer)", required: true }),
   };
-static override description = "Delete a manually-managed account. If transactions exist for this account, they will show a warning in the web view.";
+  static override description =
+    "Delete a manually-managed account. If transactions exist for this account, they will show a warning in the web view.";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(AccountsDelete);

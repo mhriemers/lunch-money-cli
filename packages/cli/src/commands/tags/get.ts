@@ -5,7 +5,7 @@ export default class TagsGet extends BaseCommand {
   static override args = {
     id: Args.integer({ description: "Unique identifier of the tag to retrieve (integer)", required: true }),
   };
-static override description = "Retrieve details of a specific tag by its ID";
+  static override description = "Retrieve details of a specific tag by its ID";
 
   async run(): Promise<unknown> {
     const { args } = await this.parse(TagsGet);

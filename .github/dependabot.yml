@@ -4,15 +4,33 @@ updates:
     directory: /
     schedule:
       interval: weekly
-  - package-ecosystem: npm
-    directory: /packages/cli-core
-    schedule:
-      interval: weekly
-  - package-ecosystem: npm
-    directory: /packages/cli
-    schedule:
-      interval: weekly
+    versioning-strategy: increase
+    groups:
+      oclif:
+        patterns:
+          - "@oclif/*"
+          - "oclif"
+      linting:
+        patterns:
+          - "@eslint/*"
+          - "eslint"
+          - "eslint-config-*"
+          - "prettier"
+      testing:
+        patterns:
+          - "@types/mocha"
+          - "chai"
+          - "mocha"
+      types:
+        patterns:
+          - "@types/*"
+        exclude-patterns:
+          - "@types/mocha"
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
+    groups:
+      actions:
+        patterns:
+          - "*"

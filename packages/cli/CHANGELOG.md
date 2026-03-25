@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.1.0](https://github.com/mhriemers/lunch-money-cli/compare/lunch-money-cli-v2.0.0...lunch-money-cli-v2.1.0) (2026-03-25)
+
+### ⚠ BREAKING CHANGES
+
+- BaseCommand no longer provides createClient() or --api-key flag. Use ApiCommand for commands that need API access. setApiKey and the init hook have been removed.
+
+### Bug Fixes
+
+- add per-package READMEs and changelogs for npm ([#45](https://github.com/mhriemers/lunch-money-cli/issues/45)) ([6272ac0](https://github.com/mhriemers/lunch-money-cli/commit/6272ac04e72bb9c2e4643534a3cf1aab59cc6baf))
+
+### Code Refactoring
+
+- declare --api-key as oclif flag, split BaseCommand/ApiCommand ([#48](https://github.com/mhriemers/lunch-money-cli/issues/48)) ([3f5910a](https://github.com/mhriemers/lunch-money-cli/commit/3f5910a485e8c2942885d51e9e666378ae8a5e8a))
+
+### Dependencies
+
+- The following workspace dependencies were updated
+  - dependencies
+    - lunch-money-cli-core bumped from ^1.0.0 to ^2.0.0
+
 ## [2.0.0](https://github.com/mhriemers/lunch-money-cli/compare/lunch-money-cli-v1.1.0...lunch-money-cli-v2.0.0) (2026-03-24)
 
 ### ⚠ BREAKING CHANGES

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
 
 import type { ColumnDef, FieldDef } from "../../src/formatters.js";

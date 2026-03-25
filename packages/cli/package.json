@@ -63,7 +63,7 @@
     "lunch-money-cli-core": "^2.0.0"
   },
   "devDependencies": {
-    "@oclif/test": "^4.1.16",
+    "@oclif/test": "^4.1.17",
     "@types/mocha": "^10",
     "@types/node": "^25.5.0",
     "chai": "^6",

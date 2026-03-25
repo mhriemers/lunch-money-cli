@@ -8,8 +8,7 @@
     },
     "packages/cli": {
       "release-type": "node",
-      "component": "lunch-money-cli",
-      "release-as": "2.1.0"
+      "component": "lunch-money-cli"
     }
   }
 }

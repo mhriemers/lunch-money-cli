@@ -30,9 +30,7 @@ jobs:
         run: |
           npm ci
           npm run build
-          cd packages/cli
-          npx oclif readme
-          cd ../..
+          npm run readme
           if git diff --quiet packages/cli/README.md; then
             echo "README is up to date"
           else

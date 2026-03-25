@@ -10,7 +10,8 @@
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces --if-present",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "readme": "npm run readme -w packages/cli"
   },
   "engines": {
     "node": ">=20"

@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/mhriemers/lunch-money-cli/compare/lunch-money-cli-core-v2.1.0...lunch-money-cli-core-v2.1.1) (2026-03-25)
+
+
+### Bug Fixes
+
+* **cli-core:** deep merge config to preserve nested plugin data ([#61](https://github.com/mhriemers/lunch-money-cli/issues/61)) ([451bee0](https://github.com/mhriemers/lunch-money-cli/commit/451bee09915ca50e75e7df70e08228dfb6f8fad4))
+
 ## [2.1.0](https://github.com/mhriemers/lunch-money-cli/compare/lunch-money-cli-core-v2.0.0...lunch-money-cli-core-v2.1.0) (2026-03-25)
 
 ### Features

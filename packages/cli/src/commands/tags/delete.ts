@@ -1,9 +1,9 @@
 import type { DeleteTagParams } from "@lunch-money/lunch-money-js-v2";
 
 import { Args, Flags } from "@oclif/core";
-import { BaseCommand } from "lunch-money-cli-core";
+import { ApiCommand } from "lunch-money-cli-core";
 
-export default class TagsDelete extends BaseCommand {
+export default class TagsDelete extends ApiCommand {
   static override args = {
     id: Args.integer({ description: "Unique identifier of the tag to delete (integer)", required: true }),
   };
@@ -14,7 +14,7 @@ export default class TagsDelete extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { args, flags } = await this.parse(TagsDelete);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const params: DeleteTagParams = {};
     if (flags.force) params.force = true;
     await client.tags.delete(args.id, params);

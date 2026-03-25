@@ -1,7 +1,7 @@
 import { Flags } from "@oclif/core";
-import { BaseCommand, parseJsonArg } from "lunch-money-cli-core";
+import { ApiCommand, parseJsonArg } from "lunch-money-cli-core";
 
-export default class TransactionsDeleteMany extends BaseCommand {
+export default class TransactionsDeleteMany extends ApiCommand {
   static override description = "Delete multiple transactions in a single request. This action is not reversible.";
   static override flags = {
     ids: Flags.string({
@@ -12,7 +12,7 @@ export default class TransactionsDeleteMany extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { flags } = await this.parse(TransactionsDeleteMany);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const ids = parseJsonArg(flags.ids, "ids") as number[];
     await client.transactions.deleteMany({ ids });
     return this.output({ deleted_ids: ids, success: true }, `Deleted ${ids.length} transaction(s).`);

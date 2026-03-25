@@ -1,9 +1,9 @@
 import type { TriggerPlaidAccountFetchParams } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { BaseCommand } from "lunch-money-cli-core";
+import { ApiCommand } from "lunch-money-cli-core";
 
-export default class PlaidAccountsSync extends BaseCommand {
+export default class PlaidAccountsSync extends ApiCommand {
   static override description =
     "Trigger a fetch for latest data from Plaid. Returns 202 on success. Rate limited to once per minute. Fetching is a background job; track results via plaid_last_successful_update, last_fetch, and last_import fields.";
   static override flags = {
@@ -21,7 +21,7 @@ export default class PlaidAccountsSync extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { flags } = await this.parse(PlaidAccountsSync);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const params: TriggerPlaidAccountFetchParams = {};
     if (flags["start-date"]) params.start_date = flags["start-date"];
     if (flags["end-date"]) params.end_date = flags["end-date"];

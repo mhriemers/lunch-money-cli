@@ -1,9 +1,9 @@
 import type { UpdateTagBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Args, Flags } from "@oclif/core";
-import { BaseCommand } from "lunch-money-cli-core";
+import { ApiCommand } from "lunch-money-cli-core";
 
-export default class TagsUpdate extends BaseCommand {
+export default class TagsUpdate extends ApiCommand {
   static override args = {
     id: Args.integer({ description: "Unique identifier of the tag to update (integer)", required: true }),
   };
@@ -21,7 +21,7 @@ export default class TagsUpdate extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { args, flags } = await this.parse(TagsUpdate);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const data: UpdateTagBody = {};
     if (flags.name) data.name = flags.name;
     if (flags.description !== undefined) data.description = flags.description;

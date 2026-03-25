@@ -1,9 +1,9 @@
 import type { GroupTransactionsBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { BaseCommand, parseJsonArg } from "lunch-money-cli-core";
+import { ApiCommand, parseJsonArg } from "lunch-money-cli-core";
 
-export default class TransactionsGroup extends BaseCommand {
+export default class TransactionsGroup extends ApiCommand {
   static override description =
     "Group existing transactions into a single grouped transaction. The grouped transaction amount equals the sum of its children. Original transactions are hidden after grouping.";
   static override flags = {
@@ -16,7 +16,7 @@ export default class TransactionsGroup extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { flags } = await this.parse(TransactionsGroup);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const data = parseJsonArg(flags.data, "data") as GroupTransactionsBody;
     const result = await client.transactions.group(data);
     return this.output(

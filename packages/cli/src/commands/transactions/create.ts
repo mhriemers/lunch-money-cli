@@ -1,9 +1,9 @@
 import type { CreateTransactionsBody, InsertTransaction } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { BaseCommand, parseJsonArg } from "lunch-money-cli-core";
+import { ApiCommand, parseJsonArg } from "lunch-money-cli-core";
 
-export default class TransactionsCreate extends BaseCommand {
+export default class TransactionsCreate extends ApiCommand {
   static override description =
     "Insert one or more transactions (1-500 per request). Returns created transactions and any skipped duplicates.";
   static override flags = {
@@ -26,7 +26,7 @@ export default class TransactionsCreate extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { flags } = await this.parse(TransactionsCreate);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const transactions = parseJsonArg(flags.transactions, "transactions");
     const data: CreateTransactionsBody = {
       transactions: transactions as InsertTransaction[],

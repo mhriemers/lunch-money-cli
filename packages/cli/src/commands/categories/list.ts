@@ -1,9 +1,9 @@
 import type { GetAllCategoriesParams } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { BaseCommand, categoryColumns, formatTable } from "lunch-money-cli-core";
+import { ApiCommand, categoryColumns, formatTable } from "lunch-money-cli-core";
 
-export default class CategoriesList extends BaseCommand {
+export default class CategoriesList extends ApiCommand {
   static override description =
     "Retrieve a list of all categories associated with the user's account. Returns nested category groups by default.";
   static override flags = {
@@ -19,7 +19,7 @@ export default class CategoriesList extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { flags } = await this.parse(CategoriesList);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const params: GetAllCategoriesParams = {};
     if (flags.flatten) params.format = "flattened";
     if (flags["is-group"] !== undefined) params.is_group = flags["is-group"] === "true";

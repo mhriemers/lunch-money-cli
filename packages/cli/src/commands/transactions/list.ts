@@ -1,7 +1,7 @@
 import type { GetAllTransactionsParams } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { BaseCommand, formatTable, transactionColumns } from "lunch-money-cli-core";
+import { ApiCommand, formatTable, transactionColumns } from "lunch-money-cli-core";
 
 const flagParamMap: Record<string, string> = {
   "category-id": "category_id",
@@ -35,7 +35,7 @@ function buildParams(flags: Record<string, unknown>): GetAllTransactionsParams {
   return params as GetAllTransactionsParams;
 }
 
-export default class TransactionsList extends BaseCommand {
+export default class TransactionsList extends ApiCommand {
   static override description =
     "Retrieve transactions with optional filters. Returns most recent transactions up to --limit (default 1000, max 2000). Use --offset for pagination when has_more is true.";
   static override flags = {
@@ -104,7 +104,7 @@ export default class TransactionsList extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { flags } = await this.parse(TransactionsList);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const params = buildParams(flags);
     const result = await client.transactions.getAll(params);
     const r = result as unknown as { has_more?: boolean; hasMore?: boolean; transactions: Record<string, unknown>[] };

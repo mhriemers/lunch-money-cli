@@ -12,30 +12,44 @@ npm install lunch-money-cli-core
 
 ### `BaseCommand`
 
-Abstract base class extending oclif's `Command` with built-in error handling, JSON output support, and API client creation.
+Abstract base class extending oclif's `Command` with `--json` output, structured error handling, and an `output()` helper. Use this for commands that don't need API access (e.g. `auth`).
 
 ```typescript
 import { BaseCommand } from "lunch-money-cli-core";
 
-export default class MyCommand extends BaseCommand {
+export default class Auth extends BaseCommand {
   async run() {
-    const client = this.createClient();
-    const data = await client.getTransactions();
-    this.output(formatTable(data, transactionColumns));
-    return data;
+    // has this.output(), --json, and error handling
+    return this.output({ success: true }, "Done.");
   }
 }
 ```
 
-### `createClient` / `setApiKey`
+### `ApiCommand`
 
-Global API key management and client creation.
+Extends `BaseCommand` with a global `--api-key` flag and `createClient()`. Commands parse their own flags and pass `flags["api-key"]` to `createClient()`, which falls back to the `LUNCH_MONEY_API_KEY` env var, then the saved config file.
 
 ```typescript
-import { setApiKey, createClient } from "lunch-money-cli-core";
+import { ApiCommand } from "lunch-money-cli-core";
 
-setApiKey("your-api-key");
-const client = createClient();
+export default class MyCommand extends ApiCommand {
+  async run() {
+    const { flags } = await this.parse(MyCommand);
+    const client = this.createClient(flags["api-key"]);
+    const data = await client.getTransactions();
+    return this.output(data, formatTable(data, transactionColumns));
+  }
+}
+```
+
+### `createClient`
+
+Creates a `LunchMoneyClient` instance from an API key.
+
+```typescript
+import { createClient } from "lunch-money-cli-core";
+
+const client = createClient("your-api-key");
 ```
 
 ### `parseIntArg` / `parseJsonArg`
@@ -84,14 +98,6 @@ Predefined column/field definitions for all Lunch Money data types:
 - `recurringColumns` / `recurringFields`
 - `summaryColumns`
 - `userFields` / `budgetSettingsFields`
-
-### Init Hook
-
-Oclif init hook that resolves the API key from (in priority order): `--api-key` flag, `LUNCH_MONEY_API_KEY` env var, or config file.
-
-```typescript
-import { initHook } from "lunch-money-cli-core";
-```
 
 ## License
 

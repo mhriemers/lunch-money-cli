@@ -1,9 +1,9 @@
 import type { Currency, UpsertBudgetBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { BaseCommand } from "lunch-money-cli-core";
+import { ApiCommand } from "lunch-money-cli-core";
 
-export default class BudgetsUpsert extends BaseCommand {
+export default class BudgetsUpsert extends ApiCommand {
   static override description =
     "Create or update a budget for a category and period. If a budget exists for the given start_date and category_id, it is updated; otherwise a new one is created. The start_date must be a valid budget period start for the account.";
   static override flags = {
@@ -29,7 +29,7 @@ export default class BudgetsUpsert extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { flags } = await this.parse(BudgetsUpsert);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const data: UpsertBudgetBody = {
       amount: Number(flags.amount),
       category_id: flags["category-id"],

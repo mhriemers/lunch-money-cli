@@ -1,9 +1,9 @@
 import type { GetBudgetSummaryParams } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { BaseCommand, formatTable, summaryColumns } from "lunch-money-cli-core";
+import { ApiCommand, formatTable, summaryColumns } from "lunch-money-cli-core";
 
-export default class SummaryGet extends BaseCommand {
+export default class SummaryGet extends ApiCommand {
   static override description =
     "Retrieve a summary of the user's budget for a date range. For aligned date ranges (matching budget period boundaries), includes budgeted and available amounts per category.";
   static override flags = {
@@ -40,7 +40,7 @@ export default class SummaryGet extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { flags } = await this.parse(SummaryGet);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const params: GetBudgetSummaryParams = {
       end_date: flags["end-date"],
       start_date: flags["start-date"],

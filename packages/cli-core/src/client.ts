@@ -1,17 +1,6 @@
 import { LunchMoneyClient } from "@lunch-money/lunch-money-js-v2";
 
-let resolvedApiKey: string | undefined;
-
-export function setApiKey(key: string): void {
-  resolvedApiKey = key;
-}
-
-export function createClient(): LunchMoneyClient {
-  const apiKey = resolvedApiKey;
-  if (!apiKey) {
-    throw new Error("No API key found. Provide one via: --api-key flag, LUNCH_MONEY_API_KEY env var, or run 'lm auth'");
-  }
-
+export function createClient(apiKey: string): LunchMoneyClient {
   return new LunchMoneyClient({ apiKey });
 }
 

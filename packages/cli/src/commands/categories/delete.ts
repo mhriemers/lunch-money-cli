@@ -1,9 +1,9 @@
 import type { DeleteCategoryParams } from "@lunch-money/lunch-money-js-v2";
 
 import { Args, Flags } from "@oclif/core";
-import { BaseCommand } from "lunch-money-cli-core";
+import { ApiCommand } from "lunch-money-cli-core";
 
-export default class CategoriesDelete extends BaseCommand {
+export default class CategoriesDelete extends ApiCommand {
   static override args = {
     id: Args.integer({ description: "Unique identifier of the category to delete (integer)", required: true }),
   };
@@ -18,7 +18,7 @@ export default class CategoriesDelete extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { args, flags } = await this.parse(CategoriesDelete);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const params: DeleteCategoryParams = {};
     if (flags.force) params.force = true;
     await client.categories.delete(args.id, params);

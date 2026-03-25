@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.1.0](https://github.com/mhriemers/lunch-money-cli/compare/lunch-money-cli-core-v2.0.0...lunch-money-cli-core-v2.1.0) (2026-03-25)
+
+### Features
+
+- **cli-core:** add extensible plugin config support ([#59](https://github.com/mhriemers/lunch-money-cli/issues/59)) ([931c40b](https://github.com/mhriemers/lunch-money-cli/commit/931c40b6ff16b94c54fbea384fce6e3edc2220f4))
+
 ## [2.0.0](https://github.com/mhriemers/lunch-money-cli/compare/lunch-money-cli-core-v1.0.0...lunch-money-cli-core-v2.0.0) (2026-03-25)
 
 ### ⚠ BREAKING CHANGES

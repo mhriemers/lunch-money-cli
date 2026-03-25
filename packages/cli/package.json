@@ -1,6 +1,6 @@
 {
   "name": "lunch-money-cli",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "CLI for Lunch Money personal finance management",
   "type": "module",
   "bin": {
@@ -60,7 +60,7 @@
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
     "@oclif/plugin-plugins": "^5",
-    "lunch-money-cli-core": "^2.0.0"
+    "lunch-money-cli-core": "^2.1.0"
   },
   "devDependencies": {
     "@oclif/test": "^4.1.17",

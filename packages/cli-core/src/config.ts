@@ -25,21 +25,24 @@ export function saveConfig(configDir: string, config: Partial<Config>): void {
     existing = JSON.parse(readFileSync(getConfigPath(configDir), "utf8"));
   } catch {}
 
-  const merged: Record<string, unknown> = { ...existing };
-  for (const [key, value] of Object.entries(config)) {
-    const isNestedMerge =
-      value &&
-      typeof value === "object" &&
-      !Array.isArray(value) &&
-      existing[key] &&
-      typeof existing[key] === "object" &&
-      !Array.isArray(existing[key]);
-
-    merged[key] = isNestedMerge
-      ? { ...(existing[key] as Record<string, unknown>), ...(value as Record<string, unknown>) }
-      : value;
-  }
-
+  const merged = deepMerge(existing, config as Record<string, unknown>);
   mkdirSync(configDir, { recursive: true });
   writeFileSync(getConfigPath(configDir), JSON.stringify(merged, null, 2) + "\n");
+}
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function deepMerge(target: Record<string, unknown>, source: Record<string, unknown>): Record<string, unknown> {
+  const result = { ...target };
+
+  for (const key of Object.keys(source)) {
+    result[key] =
+      isPlainObject(result[key]) && isPlainObject(source[key])
+        ? deepMerge(result[key] as Record<string, unknown>, source[key] as Record<string, unknown>)
+        : source[key];
+  }
+
+  return result;
 }

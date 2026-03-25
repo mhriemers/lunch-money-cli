@@ -48,54 +48,58 @@ All commands support:
 ## Commands
 
 <!-- commands -->
-* [`lm accounts create`](#lm-accounts-create)
-* [`lm accounts delete ID`](#lm-accounts-delete-id)
-* [`lm accounts get ID`](#lm-accounts-get-id)
-* [`lm accounts list`](#lm-accounts-list)
-* [`lm accounts update ID`](#lm-accounts-update-id)
-* [`lm auth`](#lm-auth)
-* [`lm budgets delete`](#lm-budgets-delete)
-* [`lm budgets settings`](#lm-budgets-settings)
-* [`lm budgets upsert`](#lm-budgets-upsert)
-* [`lm categories create`](#lm-categories-create)
-* [`lm categories delete ID`](#lm-categories-delete-id)
-* [`lm categories get ID`](#lm-categories-get-id)
-* [`lm categories list`](#lm-categories-list)
-* [`lm categories update ID`](#lm-categories-update-id)
-* [`lm help [COMMAND]`](#lm-help-command)
-* [`lm plaid-accounts get ID`](#lm-plaid-accounts-get-id)
-* [`lm plaid-accounts list`](#lm-plaid-accounts-list)
-* [`lm plaid-accounts sync`](#lm-plaid-accounts-sync)
-* [`lm plugins`](#lm-plugins)
-* [`lm plugins:inspect PLUGIN...`](#lm-pluginsinspect-plugin)
-* [`lm plugins install PLUGIN`](#lm-plugins-install-plugin)
-* [`lm plugins link PATH`](#lm-plugins-link-path)
-* [`lm plugins reset`](#lm-plugins-reset)
-* [`lm plugins uninstall [PLUGIN]`](#lm-plugins-uninstall-plugin)
-* [`lm plugins update`](#lm-plugins-update)
-* [`lm recurring get ID`](#lm-recurring-get-id)
-* [`lm recurring list`](#lm-recurring-list)
-* [`lm summary get`](#lm-summary-get)
-* [`lm tags create`](#lm-tags-create)
-* [`lm tags delete ID`](#lm-tags-delete-id)
-* [`lm tags get ID`](#lm-tags-get-id)
-* [`lm tags list`](#lm-tags-list)
-* [`lm tags update ID`](#lm-tags-update-id)
-* [`lm transactions attach-file TRANSACTION-ID`](#lm-transactions-attach-file-transaction-id)
-* [`lm transactions create`](#lm-transactions-create)
-* [`lm transactions delete ID`](#lm-transactions-delete-id)
-* [`lm transactions delete-attachment FILE-ID`](#lm-transactions-delete-attachment-file-id)
-* [`lm transactions delete-many`](#lm-transactions-delete-many)
-* [`lm transactions get ID`](#lm-transactions-get-id)
-* [`lm transactions get-attachment-url FILE-ID`](#lm-transactions-get-attachment-url-file-id)
-* [`lm transactions group`](#lm-transactions-group)
-* [`lm transactions list`](#lm-transactions-list)
-* [`lm transactions split ID`](#lm-transactions-split-id)
-* [`lm transactions ungroup ID`](#lm-transactions-ungroup-id)
-* [`lm transactions unsplit ID`](#lm-transactions-unsplit-id)
-* [`lm transactions update ID`](#lm-transactions-update-id)
-* [`lm transactions update-many`](#lm-transactions-update-many)
-* [`lm user me`](#lm-user-me)
+
+- [`lm accounts create`](#lm-accounts-create)
+- [`lm accounts delete ID`](#lm-accounts-delete-id)
+- [`lm accounts get ID`](#lm-accounts-get-id)
+- [`lm accounts list`](#lm-accounts-list)
+- [`lm accounts update ID`](#lm-accounts-update-id)
+- [`lm auth`](#lm-auth)
+- [`lm budgets delete`](#lm-budgets-delete)
+- [`lm budgets settings`](#lm-budgets-settings)
+- [`lm budgets upsert`](#lm-budgets-upsert)
+- [`lm categories create`](#lm-categories-create)
+- [`lm categories delete ID`](#lm-categories-delete-id)
+- [`lm categories get ID`](#lm-categories-get-id)
+- [`lm categories list`](#lm-categories-list)
+- [`lm categories update ID`](#lm-categories-update-id)
+- [`lm help [COMMAND]`](#lm-help-command)
+- [`lm plaid-accounts get ID`](#lm-plaid-accounts-get-id)
+- [`lm plaid-accounts list`](#lm-plaid-accounts-list)
+- [`lm plaid-accounts sync`](#lm-plaid-accounts-sync)
+- [`lm plugins`](#lm-plugins)
+- [`lm plugins add PLUGIN`](#lm-plugins-add-plugin)
+- [`lm plugins:inspect PLUGIN...`](#lm-pluginsinspect-plugin)
+- [`lm plugins install PLUGIN`](#lm-plugins-install-plugin)
+- [`lm plugins link PATH`](#lm-plugins-link-path)
+- [`lm plugins remove [PLUGIN]`](#lm-plugins-remove-plugin)
+- [`lm plugins reset`](#lm-plugins-reset)
+- [`lm plugins uninstall [PLUGIN]`](#lm-plugins-uninstall-plugin)
+- [`lm plugins unlink [PLUGIN]`](#lm-plugins-unlink-plugin)
+- [`lm plugins update`](#lm-plugins-update)
+- [`lm recurring get ID`](#lm-recurring-get-id)
+- [`lm recurring list`](#lm-recurring-list)
+- [`lm summary get`](#lm-summary-get)
+- [`lm tags create`](#lm-tags-create)
+- [`lm tags delete ID`](#lm-tags-delete-id)
+- [`lm tags get ID`](#lm-tags-get-id)
+- [`lm tags list`](#lm-tags-list)
+- [`lm tags update ID`](#lm-tags-update-id)
+- [`lm transactions attach-file TRANSACTION-ID`](#lm-transactions-attach-file-transaction-id)
+- [`lm transactions create`](#lm-transactions-create)
+- [`lm transactions delete ID`](#lm-transactions-delete-id)
+- [`lm transactions delete-attachment FILE-ID`](#lm-transactions-delete-attachment-file-id)
+- [`lm transactions delete-many`](#lm-transactions-delete-many)
+- [`lm transactions get ID`](#lm-transactions-get-id)
+- [`lm transactions get-attachment-url FILE-ID`](#lm-transactions-get-attachment-url-file-id)
+- [`lm transactions group`](#lm-transactions-group)
+- [`lm transactions list`](#lm-transactions-list)
+- [`lm transactions split ID`](#lm-transactions-split-id)
+- [`lm transactions ungroup ID`](#lm-transactions-ungroup-id)
+- [`lm transactions unsplit ID`](#lm-transactions-unsplit-id)
+- [`lm transactions update ID`](#lm-transactions-update-id)
+- [`lm transactions update-many`](#lm-transactions-update-many)
+- [`lm user me`](#lm-user-me)
 
 ## `lm accounts create`
 
@@ -601,6 +605,53 @@ EXAMPLES
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.58/src/commands/plugins/index.ts)_
 
+## `lm plugins add PLUGIN`
+
+Installs a plugin into lm.
+
+```
+USAGE
+  $ lm plugins add PLUGIN... [--json] [-f] [-h] [-s | -v]
+
+ARGUMENTS
+  PLUGIN...  Plugin to install.
+
+FLAGS
+  -f, --force    Force npm to fetch remote resources even if a local copy exists on disk.
+  -h, --help     Show CLI help.
+  -s, --silent   Silences npm output.
+  -v, --verbose  Show verbose npm output.
+
+GLOBAL FLAGS
+  --json  Format output as json.
+
+DESCRIPTION
+  Installs a plugin into lm.
+
+  Uses npm to install plugins.
+
+  Installation of a user-installed plugin will override a core plugin.
+
+  Use the LM_NPM_LOG_LEVEL environment variable to set the npm loglevel.
+  Use the LM_NPM_REGISTRY environment variable to set the npm registry.
+
+ALIASES
+  $ lm plugins add
+
+EXAMPLES
+  Install a plugin from npm registry.
+
+    $ lm plugins add myplugin
+
+  Install a plugin from a github url.
+
+    $ lm plugins add https://github.com/someuser/someplugin
+
+  Install a plugin from a github slug.
+
+    $ lm plugins add someuser/someplugin
+```
+
 ## `lm plugins:inspect PLUGIN...`
 
 Displays installation properties of a plugin.
@@ -708,6 +759,32 @@ EXAMPLES
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.58/src/commands/plugins/link.ts)_
 
+## `lm plugins remove [PLUGIN]`
+
+Removes a plugin from the CLI.
+
+```
+USAGE
+  $ lm plugins remove [PLUGIN...] [-h] [-v]
+
+ARGUMENTS
+  [PLUGIN...]  plugin to uninstall
+
+FLAGS
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Removes a plugin from the CLI.
+
+ALIASES
+  $ lm plugins unlink
+  $ lm plugins remove
+
+EXAMPLES
+  $ lm plugins remove myplugin
+```
+
 ## `lm plugins reset`
 
 Remove all user-installed and linked plugins.
@@ -750,6 +827,32 @@ EXAMPLES
 ```
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.58/src/commands/plugins/uninstall.ts)_
+
+## `lm plugins unlink [PLUGIN]`
+
+Removes a plugin from the CLI.
+
+```
+USAGE
+  $ lm plugins unlink [PLUGIN...] [-h] [-v]
+
+ARGUMENTS
+  [PLUGIN...]  plugin to uninstall
+
+FLAGS
+  -h, --help     Show CLI help.
+  -v, --verbose
+
+DESCRIPTION
+  Removes a plugin from the CLI.
+
+ALIASES
+  $ lm plugins unlink
+  $ lm plugins remove
+
+EXAMPLES
+  $ lm plugins unlink myplugin
+```
 
 ## `lm plugins update`
 
@@ -1393,6 +1496,7 @@ DESCRIPTION
 ```
 
 _See code: [src/commands/user/me.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/user/me.ts)_
+
 <!-- commandsstop -->
 
 ## API Documentation

@@ -1,1 +1,1 @@
-export { initHook as default } from "lunch-money-cli-core";
+export {initHook as default} from 'lunch-money-cli-core'

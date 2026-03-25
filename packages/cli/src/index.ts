@@ -1,1 +1,1 @@
-export * from "lunch-money-cli-core";
+export * from 'lunch-money-cli-core'

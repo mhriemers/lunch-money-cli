@@ -4,9 +4,9 @@ A command-line interface for the [Lunch Money](https://lunchmoney.app) personal 
 
 ## Packages
 
-| Package | Description |
-| --- | --- |
-| [lunch-money-cli](./packages/cli) | CLI application (`lm` command) |
+| Package                                     | Description                       |
+| ------------------------------------------- | --------------------------------- |
+| [lunch-money-cli](./packages/cli)           | CLI application (`lm` command)    |
 | [lunch-money-cli-core](./packages/cli-core) | Core library for building plugins |
 
 ## Quick Start

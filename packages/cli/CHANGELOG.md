@@ -2,12 +2,11 @@
 
 ## [2.1.1](https://github.com/mhriemers/lunch-money-cli/compare/lunch-money-cli-v2.1.0...lunch-money-cli-v2.1.1) (2026-03-25)
 
-
 ### Dependencies
 
-* The following workspace dependencies were updated
-  * dependencies
-    * lunch-money-cli-core bumped from ^2.0.0 to ^2.1.0
+- The following workspace dependencies were updated
+  - dependencies
+    - lunch-money-cli-core bumped from ^2.0.0 to ^2.1.0
 
 ## [2.1.0](https://github.com/mhriemers/lunch-money-cli/compare/lunch-money-cli-v2.0.0...lunch-money-cli-v2.1.0) (2026-03-25)
 

@@ -12,7 +12,8 @@
   "files": [
     "dist",
     "bin",
-    "oclif.manifest.json"
+    "oclif.manifest.json",
+    "CHANGELOG.md"
   ],
   "oclif": {
     "bin": "lm",
@@ -25,7 +26,8 @@
       "@oclif/plugin-help",
       "@oclif/plugin-plugins"
     ],
-    "topicSeparator": " "
+    "topicSeparator": " ",
+    "repositoryPrefix": "https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v<%- version %>/packages/cli/<%- commandPath %>"
   },
   "scripts": {
     "build": "shx rm -rf dist && tsc",
@@ -33,7 +35,7 @@
     "lint": "eslint",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "npm run lint",
-    "prepack": "npm run build && oclif manifest && oclif readme --readme-path ../../README.md",
+    "prepack": "npm run build && oclif manifest && oclif readme",
     "test": "mocha"
   },
   "repository": {
@@ -54,7 +56,7 @@
   "bugs": {
     "url": "https://github.com/mhriemers/lunch-money-cli/issues"
   },
-  "homepage": "https://github.com/mhriemers/lunch-money-cli#readme",
+  "homepage": "https://github.com/mhriemers/lunch-money-cli/tree/main/packages/cli#readme",
   "dependencies": {
     "@lunch-money/lunch-money-js-v2": "^2.9.0",
     "@oclif/core": "^4",

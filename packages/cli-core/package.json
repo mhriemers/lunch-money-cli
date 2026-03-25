@@ -7,7 +7,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "shx rm -rf dist && tsc",
@@ -27,6 +28,10 @@
   ],
   "author": "Martijn Riemers",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mhriemers/lunch-money-cli/issues"
+  },
+  "homepage": "https://github.com/mhriemers/lunch-money-cli/tree/main/packages/cli-core#readme",
   "engines": {
     "node": ">=20"
   },

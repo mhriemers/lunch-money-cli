@@ -27,18 +27,17 @@ export function saveConfig(configDir: string, config: Partial<Config>): void {
 
   const merged: Record<string, unknown> = { ...existing };
   for (const [key, value] of Object.entries(config)) {
-    if (
+    const isNestedMerge =
       value &&
       typeof value === "object" &&
       !Array.isArray(value) &&
       existing[key] &&
       typeof existing[key] === "object" &&
-      !Array.isArray(existing[key])
-    ) {
-      merged[key] = { ...(existing[key] as Record<string, unknown>), ...(value as Record<string, unknown>) };
-    } else {
-      merged[key] = value;
-    }
+      !Array.isArray(existing[key]);
+
+    merged[key] = isNestedMerge
+      ? { ...(existing[key] as Record<string, unknown>), ...(value as Record<string, unknown>) }
+      : value;
   }
 
   mkdirSync(configDir, { recursive: true });

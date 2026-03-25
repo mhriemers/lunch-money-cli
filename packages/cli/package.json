@@ -30,8 +30,9 @@
     "build": "shx rm -rf dist && tsc",
     "dev": "tsx bin/dev.js",
     "lint": "eslint",
+    "manifest": "oclif manifest",
     "postpack": "shx rm -f oclif.manifest.json",
-    "prepack": "npm run build && oclif manifest && oclif readme",
+    "prepack": "npm run build && npm run manifest && npm run readme",
     "readme": "oclif readme && prettier --write README.md",
     "test": "mocha"
   },

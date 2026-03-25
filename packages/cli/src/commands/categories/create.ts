@@ -1,9 +1,9 @@
 import type { CreateCategoryBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { BaseCommand, parseJsonArg } from "lunch-money-cli-core";
+import { ApiCommand, parseJsonArg } from "lunch-money-cli-core";
 
-export default class CategoriesCreate extends BaseCommand {
+export default class CategoriesCreate extends ApiCommand {
   static override description =
     "Create a new category or category group. Set --is-group to create a category group, optionally with --children to assign existing categories to it.";
   static override flags = {
@@ -39,7 +39,7 @@ export default class CategoriesCreate extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { flags } = await this.parse(CategoriesCreate);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const data: CreateCategoryBody = { name: flags.name };
     if (flags.description) data.description = flags.description;
     if (flags["is-income"]) data.is_income = true;

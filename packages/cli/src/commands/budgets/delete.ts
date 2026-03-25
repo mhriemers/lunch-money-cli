@@ -1,9 +1,9 @@
 import type { DeleteBudgetParams } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { BaseCommand } from "lunch-money-cli-core";
+import { ApiCommand } from "lunch-money-cli-core";
 
-export default class BudgetsDelete extends BaseCommand {
+export default class BudgetsDelete extends ApiCommand {
   static override description = "Remove a budget entry for a specific category and budget period start date";
   static override flags = {
     "category-id": Flags.integer({
@@ -18,7 +18,7 @@ export default class BudgetsDelete extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { flags } = await this.parse(BudgetsDelete);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const params: DeleteBudgetParams = {
       category_id: flags["category-id"],
       start_date: flags["start-date"],

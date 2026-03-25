@@ -1,9 +1,9 @@
 import type { CreateManualAccountBody, Currency } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { BaseCommand, parseJsonArg } from "lunch-money-cli-core";
+import { ApiCommand, parseJsonArg } from "lunch-money-cli-core";
 
-export default class AccountsCreate extends BaseCommand {
+export default class AccountsCreate extends ApiCommand {
   static override description = "Create a new manually-managed account. Requires name, type, and balance at minimum.";
   static override flags = {
     balance: Flags.string({
@@ -50,7 +50,7 @@ export default class AccountsCreate extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { flags } = await this.parse(AccountsCreate);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const data: CreateManualAccountBody = {
       balance: flags.balance,
       name: flags.name,

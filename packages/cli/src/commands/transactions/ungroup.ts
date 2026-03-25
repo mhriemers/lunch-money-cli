@@ -1,7 +1,7 @@
 import { Args } from "@oclif/core";
-import { BaseCommand } from "lunch-money-cli-core";
+import { ApiCommand } from "lunch-money-cli-core";
 
-export default class TransactionsUngroup extends BaseCommand {
+export default class TransactionsUngroup extends ApiCommand {
   static override args = {
     id: Args.integer({
       description:
@@ -13,8 +13,8 @@ export default class TransactionsUngroup extends BaseCommand {
     "Delete a transaction group and restore the original transactions to their normal ungrouped state";
 
   async run(): Promise<unknown> {
-    const { args } = await this.parse(TransactionsUngroup);
-    const client = this.createClient();
+    const { args, flags } = await this.parse(TransactionsUngroup);
+    const client = this.createClient(flags["api-key"]);
     await client.transactions.ungroup(args.id);
     return this.output({ success: true, ungrouped_id: args.id }, `Ungrouped transaction ${args.id}.`);
   }

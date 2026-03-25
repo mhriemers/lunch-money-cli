@@ -48,58 +48,54 @@ All commands support:
 ## Commands
 
 <!-- commands -->
-
-- [`lm accounts create`](#lm-accounts-create)
-- [`lm accounts delete ID`](#lm-accounts-delete-id)
-- [`lm accounts get ID`](#lm-accounts-get-id)
-- [`lm accounts list`](#lm-accounts-list)
-- [`lm accounts update ID`](#lm-accounts-update-id)
-- [`lm auth`](#lm-auth)
-- [`lm budgets delete`](#lm-budgets-delete)
-- [`lm budgets settings`](#lm-budgets-settings)
-- [`lm budgets upsert`](#lm-budgets-upsert)
-- [`lm categories create`](#lm-categories-create)
-- [`lm categories delete ID`](#lm-categories-delete-id)
-- [`lm categories get ID`](#lm-categories-get-id)
-- [`lm categories list`](#lm-categories-list)
-- [`lm categories update ID`](#lm-categories-update-id)
-- [`lm help [COMMAND]`](#lm-help-command)
-- [`lm plaid-accounts get ID`](#lm-plaid-accounts-get-id)
-- [`lm plaid-accounts list`](#lm-plaid-accounts-list)
-- [`lm plaid-accounts sync`](#lm-plaid-accounts-sync)
-- [`lm plugins`](#lm-plugins)
-- [`lm plugins add PLUGIN`](#lm-plugins-add-plugin)
-- [`lm plugins:inspect PLUGIN...`](#lm-pluginsinspect-plugin)
-- [`lm plugins install PLUGIN`](#lm-plugins-install-plugin)
-- [`lm plugins link PATH`](#lm-plugins-link-path)
-- [`lm plugins remove [PLUGIN]`](#lm-plugins-remove-plugin)
-- [`lm plugins reset`](#lm-plugins-reset)
-- [`lm plugins uninstall [PLUGIN]`](#lm-plugins-uninstall-plugin)
-- [`lm plugins unlink [PLUGIN]`](#lm-plugins-unlink-plugin)
-- [`lm plugins update`](#lm-plugins-update)
-- [`lm recurring get ID`](#lm-recurring-get-id)
-- [`lm recurring list`](#lm-recurring-list)
-- [`lm summary get`](#lm-summary-get)
-- [`lm tags create`](#lm-tags-create)
-- [`lm tags delete ID`](#lm-tags-delete-id)
-- [`lm tags get ID`](#lm-tags-get-id)
-- [`lm tags list`](#lm-tags-list)
-- [`lm tags update ID`](#lm-tags-update-id)
-- [`lm transactions attach-file TRANSACTION-ID`](#lm-transactions-attach-file-transaction-id)
-- [`lm transactions create`](#lm-transactions-create)
-- [`lm transactions delete ID`](#lm-transactions-delete-id)
-- [`lm transactions delete-attachment FILE-ID`](#lm-transactions-delete-attachment-file-id)
-- [`lm transactions delete-many`](#lm-transactions-delete-many)
-- [`lm transactions get ID`](#lm-transactions-get-id)
-- [`lm transactions get-attachment-url FILE-ID`](#lm-transactions-get-attachment-url-file-id)
-- [`lm transactions group`](#lm-transactions-group)
-- [`lm transactions list`](#lm-transactions-list)
-- [`lm transactions split ID`](#lm-transactions-split-id)
-- [`lm transactions ungroup ID`](#lm-transactions-ungroup-id)
-- [`lm transactions unsplit ID`](#lm-transactions-unsplit-id)
-- [`lm transactions update ID`](#lm-transactions-update-id)
-- [`lm transactions update-many`](#lm-transactions-update-many)
-- [`lm user me`](#lm-user-me)
+* [`lm accounts create`](#lm-accounts-create)
+* [`lm accounts delete ID`](#lm-accounts-delete-id)
+* [`lm accounts get ID`](#lm-accounts-get-id)
+* [`lm accounts list`](#lm-accounts-list)
+* [`lm accounts update ID`](#lm-accounts-update-id)
+* [`lm auth`](#lm-auth)
+* [`lm budgets delete`](#lm-budgets-delete)
+* [`lm budgets settings`](#lm-budgets-settings)
+* [`lm budgets upsert`](#lm-budgets-upsert)
+* [`lm categories create`](#lm-categories-create)
+* [`lm categories delete ID`](#lm-categories-delete-id)
+* [`lm categories get ID`](#lm-categories-get-id)
+* [`lm categories list`](#lm-categories-list)
+* [`lm categories update ID`](#lm-categories-update-id)
+* [`lm help [COMMAND]`](#lm-help-command)
+* [`lm plaid-accounts get ID`](#lm-plaid-accounts-get-id)
+* [`lm plaid-accounts list`](#lm-plaid-accounts-list)
+* [`lm plaid-accounts sync`](#lm-plaid-accounts-sync)
+* [`lm plugins`](#lm-plugins)
+* [`lm plugins:inspect PLUGIN...`](#lm-pluginsinspect-plugin)
+* [`lm plugins install PLUGIN`](#lm-plugins-install-plugin)
+* [`lm plugins link PATH`](#lm-plugins-link-path)
+* [`lm plugins reset`](#lm-plugins-reset)
+* [`lm plugins uninstall [PLUGIN]`](#lm-plugins-uninstall-plugin)
+* [`lm plugins update`](#lm-plugins-update)
+* [`lm recurring get ID`](#lm-recurring-get-id)
+* [`lm recurring list`](#lm-recurring-list)
+* [`lm summary get`](#lm-summary-get)
+* [`lm tags create`](#lm-tags-create)
+* [`lm tags delete ID`](#lm-tags-delete-id)
+* [`lm tags get ID`](#lm-tags-get-id)
+* [`lm tags list`](#lm-tags-list)
+* [`lm tags update ID`](#lm-tags-update-id)
+* [`lm transactions attach-file TRANSACTION-ID`](#lm-transactions-attach-file-transaction-id)
+* [`lm transactions create`](#lm-transactions-create)
+* [`lm transactions delete ID`](#lm-transactions-delete-id)
+* [`lm transactions delete-attachment FILE-ID`](#lm-transactions-delete-attachment-file-id)
+* [`lm transactions delete-many`](#lm-transactions-delete-many)
+* [`lm transactions get ID`](#lm-transactions-get-id)
+* [`lm transactions get-attachment-url FILE-ID`](#lm-transactions-get-attachment-url-file-id)
+* [`lm transactions group`](#lm-transactions-group)
+* [`lm transactions list`](#lm-transactions-list)
+* [`lm transactions split ID`](#lm-transactions-split-id)
+* [`lm transactions ungroup ID`](#lm-transactions-ungroup-id)
+* [`lm transactions unsplit ID`](#lm-transactions-unsplit-id)
+* [`lm transactions update ID`](#lm-transactions-update-id)
+* [`lm transactions update-many`](#lm-transactions-update-many)
+* [`lm user me`](#lm-user-me)
 
 ## `lm accounts create`
 
@@ -107,8 +103,8 @@ Create a new manually-managed account. Requires name, type, and balance at minim
 
 ```
 USAGE
-  $ lm accounts create --balance <value> --name <value> --type <value> [--json] [--balance-as-of <value>]
-    [--closed-on <value>] [--currency <value>] [--custom-metadata <value>] [--display-name <value>]
+  $ lm accounts create --balance <value> --name <value> --type <value> [--json] [--api-key <value>] [--balance-as-of
+    <value>] [--closed-on <value>] [--currency <value>] [--custom-metadata <value>] [--display-name <value>]
     [--exclude-from-transactions] [--external-id <value>] [--institution-name <value>] [--status <value>] [--subtype
     <value>]
 
@@ -136,7 +132,8 @@ FLAGS
                                compensation', investment, loan, 'other liability', 'other asset', 'real estate', vehicle
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Create a new manually-managed account. Requires name, type, and balance at minimum.
@@ -150,13 +147,14 @@ Delete a manually-managed account. If transactions exist for this account, they 
 
 ```
 USAGE
-  $ lm accounts delete ID [--json]
+  $ lm accounts delete ID [--json] [--api-key <value>]
 
 ARGUMENTS
   ID  Unique identifier of the manual account to delete (integer)
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Delete a manually-managed account. If transactions exist for this account, they will show a warning in the web view.
@@ -170,13 +168,14 @@ Retrieve details of a specific manually-managed account by its ID
 
 ```
 USAGE
-  $ lm accounts get ID [--json]
+  $ lm accounts get ID [--json] [--api-key <value>]
 
 ARGUMENTS
   ID  Unique identifier of the manual account to retrieve (integer)
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Retrieve details of a specific manually-managed account by its ID
@@ -190,10 +189,11 @@ Retrieve a list of all manually-managed accounts (not synced via Plaid) associat
 
 ```
 USAGE
-  $ lm accounts list [--json]
+  $ lm accounts list [--json] [--api-key <value>]
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Retrieve a list of all manually-managed accounts (not synced via Plaid) associated with the user's account
@@ -207,10 +207,10 @@ Update properties of an existing manually-managed account. Only provided fields 
 
 ```
 USAGE
-  $ lm accounts update ID [--json] [--balance <value>] [--balance-as-of <value>] [--closed-on <value>] [--currency
-    <value>] [--custom-metadata <value>] [--data <value>] [--display-name <value>] [--exclude-from-transactions <value>]
-    [--external-id <value>] [--institution-name <value>] [--name <value>] [--status <value>] [--subtype <value>] [--type
-    <value>]
+  $ lm accounts update ID [--json] [--api-key <value>] [--balance <value>] [--balance-as-of <value>] [--closed-on
+    <value>] [--currency <value>] [--custom-metadata <value>] [--data <value>] [--display-name <value>]
+    [--exclude-from-transactions <value>] [--external-id <value>] [--institution-name <value>] [--name <value>]
+    [--status <value>] [--subtype <value>] [--type <value>]
 
 ARGUMENTS
   ID  Unique identifier of the manual account to update (integer)
@@ -241,7 +241,8 @@ FLAGS
                                        vehicle
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Update properties of an existing manually-managed account. Only provided fields are updated; omitted fields remain
@@ -273,7 +274,7 @@ Remove a budget entry for a specific category and budget period start date
 
 ```
 USAGE
-  $ lm budgets delete --category-id <value> --start-date <value> [--json]
+  $ lm budgets delete --category-id <value> --start-date <value> [--json] [--api-key <value>]
 
 FLAGS
   --category-id=<value>  (required) ID of the category whose budget should be removed (integer)
@@ -281,7 +282,8 @@ FLAGS
                          period start date.
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Remove a budget entry for a specific category and budget period start date
@@ -295,10 +297,11 @@ Retrieve budget period and display settings for the account, including granulari
 
 ```
 USAGE
-  $ lm budgets settings [--json]
+  $ lm budgets settings [--json] [--api-key <value>]
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Retrieve budget period and display settings for the account, including granularity (week/month/twice a month),
@@ -313,8 +316,8 @@ Create or update a budget for a category and period. If a budget exists for the 
 
 ```
 USAGE
-  $ lm budgets upsert --amount <value> --category-id <value> --start-date <value> [--json] [--currency <value>]
-    [--notes <value>]
+  $ lm budgets upsert --amount <value> --category-id <value> --start-date <value> [--json] [--api-key <value>]
+    [--currency <value>] [--notes <value>]
 
 FLAGS
   --amount=<value>       (required) Budget amount as a number or numeric string (e.g. '500' or '250.50')
@@ -326,7 +329,8 @@ FLAGS
                          date for the account. Use 'lm budgets settings' to check period configuration.
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Create or update a budget for a category and period. If a budget exists for the given start_date and category_id, it
@@ -341,9 +345,9 @@ Create a new category or category group. Set --is-group to create a category gro
 
 ```
 USAGE
-  $ lm categories create --name <value> [--json] [--archived] [--children <value>] [--collapsed] [--description
-    <value>] [--exclude-from-budget] [--exclude-from-totals] [--group-id <value>] [--is-group] [--is-income] [--order
-    <value>]
+  $ lm categories create --name <value> [--json] [--api-key <value>] [--archived] [--children <value>] [--collapsed]
+    [--description <value>] [--exclude-from-budget] [--exclude-from-totals] [--group-id <value>] [--is-group]
+    [--is-income] [--order <value>]
 
 FLAGS
   --archived             If set, the category is archived and hidden in the Lunch Money app
@@ -363,7 +367,8 @@ FLAGS
                          alphabetically after ordered ones.
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Create a new category or category group. Set --is-group to create a category group, optionally with --children to
@@ -378,7 +383,7 @@ Delete a category or category group. Fails if dependencies exist (budgets, trans
 
 ```
 USAGE
-  $ lm categories delete ID [--json] [--force]
+  $ lm categories delete ID [--json] [--api-key <value>] [--force]
 
 ARGUMENTS
   ID  Unique identifier of the category to delete (integer)
@@ -387,7 +392,8 @@ FLAGS
   --force  Force deletion even if there are dependent budgets, transactions, rules, children, or recurring items
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Delete a category or category group. Fails if dependencies exist (budgets, transactions, rules, children, recurring
@@ -402,13 +408,14 @@ Retrieve details of a specific category or category group by its ID. For categor
 
 ```
 USAGE
-  $ lm categories get ID [--json]
+  $ lm categories get ID [--json] [--api-key <value>]
 
 ARGUMENTS
   ID  Unique identifier of the category to retrieve (integer)
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Retrieve details of a specific category or category group by its ID. For category groups, the response includes child
@@ -423,7 +430,7 @@ Retrieve a list of all categories associated with the user's account. Returns ne
 
 ```
 USAGE
-  $ lm categories list [--json] [--flatten] [--is-group <value>]
+  $ lm categories list [--json] [--api-key <value>] [--flatten] [--is-group <value>]
 
 FLAGS
   --flatten           Return a flattened list instead of nested category groups. Categories are sorted by their order;
@@ -432,7 +439,8 @@ FLAGS
                       categories are returned. Overrides --flatten when set.
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Retrieve a list of all categories associated with the user's account. Returns nested category groups by default.
@@ -446,9 +454,9 @@ Update properties of an existing category or category group. Only provided field
 
 ```
 USAGE
-  $ lm categories update ID [--json] [--archived <value>] [--children <value>] [--collapsed <value>] [--description
-    <value>] [--exclude-from-budget <value>] [--exclude-from-totals <value>] [--group-id <value>] [--is-group <value>]
-    [--is-income <value>] [--name <value>] [--order <value>]
+  $ lm categories update ID [--json] [--api-key <value>] [--archived <value>] [--children <value>] [--collapsed
+    <value>] [--description <value>] [--exclude-from-budget <value>] [--exclude-from-totals <value>] [--group-id
+    <value>] [--is-group <value>] [--is-income <value>] [--name <value>] [--order <value>]
 
 ARGUMENTS
   ID  Unique identifier of the category to update (integer)
@@ -473,7 +481,8 @@ FLAGS
                                  the same group.
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Update properties of an existing category or category group. Only provided fields are updated; omitted fields remain
@@ -508,13 +517,14 @@ Retrieve details of a specific Plaid-synced account by its ID
 
 ```
 USAGE
-  $ lm plaid-accounts get ID [--json]
+  $ lm plaid-accounts get ID [--json] [--api-key <value>]
 
 ARGUMENTS
   ID  Unique identifier of the Plaid account to retrieve (integer)
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Retrieve details of a specific Plaid-synced account by its ID
@@ -528,10 +538,11 @@ Retrieve a list of all accounts synced via Plaid associated with the user's acco
 
 ```
 USAGE
-  $ lm plaid-accounts list [--json]
+  $ lm plaid-accounts list [--json] [--api-key <value>]
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Retrieve a list of all accounts synced via Plaid associated with the user's account
@@ -545,7 +556,8 @@ Trigger a fetch for latest data from Plaid. Returns 202 on success. Rate limited
 
 ```
 USAGE
-  $ lm plaid-accounts sync [--json] [--end-date <value>] [--plaid-account-id <value>] [--start-date <value>]
+  $ lm plaid-accounts sync [--json] [--api-key <value>] [--end-date <value>] [--plaid-account-id <value>] [--start-date
+    <value>]
 
 FLAGS
   --end-date=<value>          End of the date range to fetch transactions for (YYYY-MM-DD). Required if --start-date is
@@ -556,7 +568,8 @@ FLAGS
                               set.
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Trigger a fetch for latest data from Plaid. Returns 202 on success. Rate limited to once per minute. Fetching is a
@@ -587,53 +600,6 @@ EXAMPLES
 ```
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.58/src/commands/plugins/index.ts)_
-
-## `lm plugins add PLUGIN`
-
-Installs a plugin into lm.
-
-```
-USAGE
-  $ lm plugins add PLUGIN... [--json] [-f] [-h] [-s | -v]
-
-ARGUMENTS
-  PLUGIN...  Plugin to install.
-
-FLAGS
-  -f, --force    Force npm to fetch remote resources even if a local copy exists on disk.
-  -h, --help     Show CLI help.
-  -s, --silent   Silences npm output.
-  -v, --verbose  Show verbose npm output.
-
-GLOBAL FLAGS
-  --json  Format output as json.
-
-DESCRIPTION
-  Installs a plugin into lm.
-
-  Uses npm to install plugins.
-
-  Installation of a user-installed plugin will override a core plugin.
-
-  Use the LM_NPM_LOG_LEVEL environment variable to set the npm loglevel.
-  Use the LM_NPM_REGISTRY environment variable to set the npm registry.
-
-ALIASES
-  $ lm plugins add
-
-EXAMPLES
-  Install a plugin from npm registry.
-
-    $ lm plugins add myplugin
-
-  Install a plugin from a github url.
-
-    $ lm plugins add https://github.com/someuser/someplugin
-
-  Install a plugin from a github slug.
-
-    $ lm plugins add someuser/someplugin
-```
 
 ## `lm plugins:inspect PLUGIN...`
 
@@ -742,32 +708,6 @@ EXAMPLES
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.58/src/commands/plugins/link.ts)_
 
-## `lm plugins remove [PLUGIN]`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ lm plugins remove [PLUGIN...] [-h] [-v]
-
-ARGUMENTS
-  [PLUGIN...]  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ lm plugins unlink
-  $ lm plugins remove
-
-EXAMPLES
-  $ lm plugins remove myplugin
-```
-
 ## `lm plugins reset`
 
 Remove all user-installed and linked plugins.
@@ -811,32 +751,6 @@ EXAMPLES
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.58/src/commands/plugins/uninstall.ts)_
 
-## `lm plugins unlink [PLUGIN]`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ lm plugins unlink [PLUGIN...] [-h] [-v]
-
-ARGUMENTS
-  [PLUGIN...]  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ lm plugins unlink
-  $ lm plugins remove
-
-EXAMPLES
-  $ lm plugins unlink myplugin
-```
-
 ## `lm plugins update`
 
 Update installed plugins.
@@ -861,13 +775,14 @@ Retrieve details of a specific recurring item by its ID, including transaction c
 
 ```
 USAGE
-  $ lm recurring get ID [--json]
+  $ lm recurring get ID [--json] [--api-key <value>]
 
 ARGUMENTS
   ID  Unique identifier of the recurring item to retrieve (integer)
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Retrieve details of a specific recurring item by its ID, including transaction criteria, overrides, and match
@@ -882,7 +797,7 @@ Retrieve all recurring items. The optional date range controls which period is u
 
 ```
 USAGE
-  $ lm recurring list [--json] [--end-date <value>] [--start-date <value>]
+  $ lm recurring list [--json] [--api-key <value>] [--end-date <value>] [--start-date <value>]
 
 FLAGS
   --end-date=<value>    End of date range for populating the matches field (YYYY-MM-DD). Required if --start-date is
@@ -891,7 +806,8 @@ FLAGS
                         omitted. Required if --end-date is set.
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Retrieve all recurring items. The optional date range controls which period is used to populate the 'matches' field
@@ -906,8 +822,9 @@ Retrieve a summary of the user's budget for a date range. For aligned date range
 
 ```
 USAGE
-  $ lm summary get --end-date <value> --start-date <value> [--json] [--include-exclude-from-budgets]
-    [--include-occurrences] [--include-past-budget-dates] [--include-rollover-pool] [--include-totals]
+  $ lm summary get --end-date <value> --start-date <value> [--json] [--api-key <value>]
+    [--include-exclude-from-budgets] [--include-occurrences] [--include-past-budget-dates] [--include-rollover-pool]
+    [--include-totals]
 
 FLAGS
   --end-date=<value>              (required) End of date range in ISO 8601 format (YYYY-MM-DD). For aligned responses,
@@ -926,7 +843,8 @@ FLAGS
                                   use the first day of a budget period.
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Retrieve a summary of the user's budget for a date range. For aligned date ranges (matching budget period boundaries),
@@ -941,8 +859,8 @@ Create a new tag. Tag name must be unique.
 
 ```
 USAGE
-  $ lm tags create --name <value> [--json] [--archived] [--background-color <value>] [--description <value>]
-    [--text-color <value>]
+  $ lm tags create --name <value> [--json] [--api-key <value>] [--archived] [--background-color <value>]
+    [--description <value>] [--text-color <value>]
 
 FLAGS
   --archived                  If set, the tag is archived and hidden when creating/updating transactions in the app
@@ -952,7 +870,8 @@ FLAGS
   --text-color=<value>        Text color as a hex code (e.g. '333')
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Create a new tag. Tag name must be unique.
@@ -966,7 +885,7 @@ Delete a tag. Fails if transactions or rules depend on it unless --force is set.
 
 ```
 USAGE
-  $ lm tags delete ID [--json] [--force]
+  $ lm tags delete ID [--json] [--api-key <value>] [--force]
 
 ARGUMENTS
   ID  Unique identifier of the tag to delete (integer)
@@ -975,7 +894,8 @@ FLAGS
   --force  Force deletion even if transactions or rules depend on this tag
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Delete a tag. Fails if transactions or rules depend on it unless --force is set.
@@ -989,13 +909,14 @@ Retrieve details of a specific tag by its ID
 
 ```
 USAGE
-  $ lm tags get ID [--json]
+  $ lm tags get ID [--json] [--api-key <value>]
 
 ARGUMENTS
   ID  Unique identifier of the tag to retrieve (integer)
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Retrieve details of a specific tag by its ID
@@ -1009,10 +930,11 @@ Retrieve a list of all tags associated with the user's account
 
 ```
 USAGE
-  $ lm tags list [--json]
+  $ lm tags list [--json] [--api-key <value>]
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Retrieve a list of all tags associated with the user's account
@@ -1026,8 +948,8 @@ Update properties of an existing tag. Only provided fields are updated; omitted 
 
 ```
 USAGE
-  $ lm tags update ID [--json] [--archived <value>] [--background-color <value>] [--description <value>] [--name
-    <value>] [--text-color <value>]
+  $ lm tags update ID [--json] [--api-key <value>] [--archived <value>] [--background-color <value>]
+    [--description <value>] [--name <value>] [--text-color <value>]
 
 ARGUMENTS
   ID  Unique identifier of the tag to update (integer)
@@ -1040,7 +962,8 @@ FLAGS
   --text-color=<value>        Text color as a hex code or 'null' to clear (e.g. '333' or 'null')
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Update properties of an existing tag. Only provided fields are updated; omitted fields remain unchanged.
@@ -1054,7 +977,7 @@ Attach a file to a transaction. File must be under 10MB. Allowed types: image/jp
 
 ```
 USAGE
-  $ lm transactions attach-file TRANSACTION-ID --file <value> [--json] [--notes <value>]
+  $ lm transactions attach-file TRANSACTION-ID --file <value> [--json] [--api-key <value>] [--notes <value>]
 
 ARGUMENTS
   TRANSACTION-ID  Unique identifier of the transaction to attach the file to (integer)
@@ -1065,7 +988,8 @@ FLAGS
   --notes=<value>  Optional notes about the file attachment
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Attach a file to a transaction. File must be under 10MB. Allowed types: image/jpeg, image/png, application/pdf,
@@ -1080,7 +1004,8 @@ Insert one or more transactions (1-500 per request). Returns created transaction
 
 ```
 USAGE
-  $ lm transactions create --transactions <value> [--json] [--apply-rules] [--skip-balance-update] [--skip-duplicates]
+  $ lm transactions create --transactions <value> [--json] [--api-key <value>] [--apply-rules] [--skip-balance-update]
+    [--skip-duplicates]
 
 FLAGS
   --apply-rules
@@ -1101,7 +1026,8 @@ FLAGS
       recurring_id, original_name. Example: '[{"date":"2024-01-15","amount":42.50,"payee":"Coffee Shop"}]'
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Insert one or more transactions (1-500 per request). Returns created transactions and any skipped duplicates.
@@ -1115,13 +1041,14 @@ Delete a transaction by ID. Split or grouped transactions must be unsplit/ungrou
 
 ```
 USAGE
-  $ lm transactions delete ID [--json]
+  $ lm transactions delete ID [--json] [--api-key <value>]
 
 ARGUMENTS
   ID  Unique identifier of the transaction to delete (integer)
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Delete a transaction by ID. Split or grouped transactions must be unsplit/ungrouped first. This action is not
@@ -1136,13 +1063,14 @@ Delete a file attachment from a transaction
 
 ```
 USAGE
-  $ lm transactions delete-attachment FILE-ID [--json]
+  $ lm transactions delete-attachment FILE-ID [--json] [--api-key <value>]
 
 ARGUMENTS
   FILE-ID  Unique identifier of the file attachment to delete (integer)
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Delete a file attachment from a transaction
@@ -1156,13 +1084,14 @@ Delete multiple transactions in a single request. This action is not reversible.
 
 ```
 USAGE
-  $ lm transactions delete-many --ids <value> [--json]
+  $ lm transactions delete-many --ids <value> [--json] [--api-key <value>]
 
 FLAGS
   --ids=<value>  (required) JSON array of transaction IDs to delete (integers). Example: '[123, 456, 789]'
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Delete multiple transactions in a single request. This action is not reversible.
@@ -1176,13 +1105,14 @@ Retrieve a single transaction by ID. Includes plaid_metadata, custom_metadata, a
 
 ```
 USAGE
-  $ lm transactions get ID [--json]
+  $ lm transactions get ID [--json] [--api-key <value>]
 
 ARGUMENTS
   ID  Unique identifier of the transaction to retrieve (integer)
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Retrieve a single transaction by ID. Includes plaid_metadata, custom_metadata, and files fields. For group/split
@@ -1197,13 +1127,14 @@ Get a signed download URL for a transaction file attachment. The URL expires aft
 
 ```
 USAGE
-  $ lm transactions get-attachment-url FILE-ID [--json]
+  $ lm transactions get-attachment-url FILE-ID [--json] [--api-key <value>]
 
 ARGUMENTS
   FILE-ID  Unique identifier of the file attachment to download (integer)
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Get a signed download URL for a transaction file attachment. The URL expires after a limited time.
@@ -1217,7 +1148,7 @@ Group existing transactions into a single grouped transaction. The grouped trans
 
 ```
 USAGE
-  $ lm transactions group --data <value> [--json]
+  $ lm transactions group --data <value> [--json] [--api-key <value>]
 
 FLAGS
   --data=<value>  (required) JSON object with group details. Required fields: 'ids' (array of 2-500 transaction IDs),
@@ -1226,7 +1157,8 @@ FLAGS
                   '{"ids":[123,456],"date":"2024-01-15","payee":"Grouped"}'
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Group existing transactions into a single grouped transaction. The grouped transaction amount equals the sum of its
@@ -1241,8 +1173,8 @@ Retrieve transactions with optional filters. Returns most recent transactions up
 
 ```
 USAGE
-  $ lm transactions list [--json] [--category-id <value>] [--created-since <value>] [--end-date <value>]
-    [--include-children] [--include-files] [--include-group-children] [--include-metadata] [--include-pending]
+  $ lm transactions list [--json] [--api-key <value>] [--category-id <value>] [--created-since <value>] [--end-date
+    <value>] [--include-children] [--include-files] [--include-group-children] [--include-metadata] [--include-pending]
     [--include-split-parents] [--is-group-parent] [--is-pending] [--limit <value>] [--manual-account-id <value>]
     [--offset <value>] [--plaid-account-id <value>] [--recurring-id <value>] [--start-date <value>] [--status <value>]
     [--tag-id <value>] [--updated-since <value>]
@@ -1284,7 +1216,8 @@ FLAGS
                                datetime. Date-only values are interpreted as midnight UTC.
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Retrieve transactions with optional filters. Returns most recent transactions up to --limit (default 1000, max 2000).
@@ -1299,7 +1232,7 @@ Split a transaction into child transactions. The sum of child amounts must equal
 
 ```
 USAGE
-  $ lm transactions split ID --parts <value> [--json]
+  $ lm transactions split ID --parts <value> [--json] [--api-key <value>]
 
 ARGUMENTS
   ID  Unique identifier of the transaction to split (integer). Cannot be a recurring, grouped, or already-split
@@ -1313,7 +1246,8 @@ FLAGS
                    1"},{"amount":17.45,"payee":"Split 2"}]'
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Split a transaction into child transactions. The sum of child amounts must equal the parent amount. After splitting,
@@ -1328,14 +1262,15 @@ Delete a transaction group and restore the original transactions to their normal
 
 ```
 USAGE
-  $ lm transactions ungroup ID [--json]
+  $ lm transactions ungroup ID [--json] [--api-key <value>]
 
 ARGUMENTS
   ID  Unique identifier of the transaction group to ungroup (integer). Must be a transaction where is_group_parent is
       true.
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Delete a transaction group and restore the original transactions to their normal ungrouped state
@@ -1349,13 +1284,14 @@ Reverse a previously split transaction. Deletes the split children and restores 
 
 ```
 USAGE
-  $ lm transactions unsplit ID [--json]
+  $ lm transactions unsplit ID [--json] [--api-key <value>]
 
 ARGUMENTS
   ID  The split_parent_id of the split transaction to restore (integer)
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Reverse a previously split transaction. Deletes the split children and restores the parent to its normal unsplit
@@ -1370,10 +1306,10 @@ Update properties of an existing transaction. Only provided fields are updated. 
 
 ```
 USAGE
-  $ lm transactions update ID [--json] [--additional-tag-ids <value>] [--amount <value>] [--category-id <value>]
-    [--currency <value>] [--custom-metadata <value>] [--data <value>] [--date <value>] [--external-id <value>]
-    [--manual-account-id <value>] [--notes <value>] [--original-name <value>] [--payee <value>] [--plaid-account-id
-    <value>] [--recurring-id <value>] [--status <value>] [--tag-ids <value>]
+  $ lm transactions update ID [--json] [--api-key <value>] [--additional-tag-ids <value>] [--amount <value>]
+    [--category-id <value>] [--currency <value>] [--custom-metadata <value>] [--data <value>] [--date <value>]
+    [--external-id <value>] [--manual-account-id <value>] [--notes <value>] [--original-name <value>] [--payee <value>]
+    [--plaid-account-id <value>] [--recurring-id <value>] [--status <value>] [--tag-ids <value>]
 
 ARGUMENTS
   ID  Unique identifier of the transaction to update (integer)
@@ -1403,7 +1339,8 @@ FLAGS
                                 --additional-tag-ids. Set to '[]' to remove all tags.
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Update properties of an existing transaction. Only provided fields are updated. Split or grouped transactions cannot
@@ -1418,7 +1355,7 @@ Update multiple transactions in a single request (1-500). Each transaction objec
 
 ```
 USAGE
-  $ lm transactions update-many --transactions <value> [--json]
+  $ lm transactions update-many --transactions <value> [--json] [--api-key <value>]
 
 FLAGS
   --transactions=<value>  (required) JSON array of transaction update objects (1-500). Each must have 'id' (integer) and
@@ -1428,7 +1365,8 @@ FLAGS
                           '[{"id":123,"category_id":456},{"id":789,"status":"reviewed"}]'
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Update multiple transactions in a single request (1-500). Each transaction object must include an 'id' field plus at
@@ -1443,10 +1381,11 @@ Get details about the user associated with the API token, including name, email,
 
 ```
 USAGE
-  $ lm user me [--json]
+  $ lm user me [--json] [--api-key <value>]
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --api-key=<value>  Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)
+  --json             Format output as json.
 
 DESCRIPTION
   Get details about the user associated with the API token, including name, email, account ID, budget name, and primary
@@ -1454,7 +1393,6 @@ DESCRIPTION
 ```
 
 _See code: [src/commands/user/me.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.0.0/packages/cli/src/commands/user/me.ts)_
-
 <!-- commandsstop -->
 
 ## API Documentation

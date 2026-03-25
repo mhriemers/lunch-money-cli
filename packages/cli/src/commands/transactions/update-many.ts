@@ -1,9 +1,9 @@
 import type { UpdateTransactionsBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { BaseCommand, parseJsonArg } from "lunch-money-cli-core";
+import { ApiCommand, parseJsonArg } from "lunch-money-cli-core";
 
-export default class TransactionsUpdateMany extends BaseCommand {
+export default class TransactionsUpdateMany extends ApiCommand {
   static override description =
     "Update multiple transactions in a single request (1-500). Each transaction object must include an 'id' field plus at least one field to update.";
   static override flags = {
@@ -16,7 +16,7 @@ export default class TransactionsUpdateMany extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { flags } = await this.parse(TransactionsUpdateMany);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const transactions = parseJsonArg(flags.transactions, "transactions");
     const txns = transactions as UpdateTransactionsBody["transactions"];
     const result = await client.transactions.updateMany({ transactions: txns });

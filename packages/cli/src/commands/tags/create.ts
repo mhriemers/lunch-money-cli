@@ -1,9 +1,9 @@
 import type { CreateTagBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { BaseCommand } from "lunch-money-cli-core";
+import { ApiCommand } from "lunch-money-cli-core";
 
-export default class TagsCreate extends BaseCommand {
+export default class TagsCreate extends ApiCommand {
   static override description = "Create a new tag. Tag name must be unique.";
   static override flags = {
     archived: Flags.boolean({
@@ -20,7 +20,7 @@ export default class TagsCreate extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { flags } = await this.parse(TagsCreate);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const data: CreateTagBody = { name: flags.name };
     if (flags.description) data.description = flags.description;
     if (flags["text-color"]) data.text_color = flags["text-color"];

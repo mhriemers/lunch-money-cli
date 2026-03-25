@@ -1,9 +1,10 @@
 import type { LunchMoneyClient } from "@lunch-money/lunch-money-js-v2";
 
 import { LunchMoneyError } from "@lunch-money/lunch-money-js-v2";
-import { Command } from "@oclif/core";
+import { Command, Flags } from "@oclif/core";
 
 import { createClient } from "./client.js";
+import { loadConfig } from "./config.js";
 
 export abstract class BaseCommand extends Command {
   static enableJsonFlag = true;
@@ -27,10 +28,6 @@ export abstract class BaseCommand extends Command {
     }
   }
 
-  protected createClient(): LunchMoneyClient {
-    return createClient();
-  }
-
   protected output<T>(data: T, formatted: string): T {
     this.log(formatted);
     return data;
@@ -41,5 +38,23 @@ export abstract class BaseCommand extends Command {
     if (err.status) output.status = err.status;
     if (err.errors?.length) output.details = err.errors;
     return output;
+  }
+}
+
+export abstract class ApiCommand extends BaseCommand {
+  static override baseFlags = {
+    "api-key": Flags.string({
+      description: "Lunch Money API token (overrides LUNCH_MONEY_API_KEY env var and saved config)",
+      helpGroup: "GLOBAL",
+    }),
+  };
+
+  protected createClient(apiKey: string | undefined): LunchMoneyClient {
+    const key = apiKey ?? process.env.LUNCH_MONEY_API_KEY ?? loadConfig(this.config.configDir).api_key;
+    if (!key) {
+      throw new Error("No API key found. Provide one via: --api-key flag, LUNCH_MONEY_API_KEY env var, or run 'lm auth'");
+    }
+
+    return createClient(key);
   }
 }

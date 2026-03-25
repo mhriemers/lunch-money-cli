@@ -1,9 +1,9 @@
 import type { UpdateCategoryBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Args, Flags } from "@oclif/core";
-import { BaseCommand, parseJsonArg } from "lunch-money-cli-core";
+import { ApiCommand, parseJsonArg } from "lunch-money-cli-core";
 
-export default class CategoriesUpdate extends BaseCommand {
+export default class CategoriesUpdate extends ApiCommand {
   static override args = {
     id: Args.integer({ description: "Unique identifier of the category to update (integer)", required: true }),
   };
@@ -47,7 +47,7 @@ export default class CategoriesUpdate extends BaseCommand {
 
   async run(): Promise<unknown> {
     const { args, flags } = await this.parse(CategoriesUpdate);
-    const client = this.createClient();
+    const client = this.createClient(flags["api-key"]);
     const data: UpdateCategoryBody = {};
     if (flags.name) data.name = flags.name;
     if (flags.description !== undefined) data.description = flags.description;

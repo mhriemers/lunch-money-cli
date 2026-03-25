@@ -52,7 +52,9 @@ export abstract class ApiCommand extends BaseCommand {
   protected createClient(apiKey: string | undefined): LunchMoneyClient {
     const key = apiKey ?? process.env.LUNCH_MONEY_API_KEY ?? loadConfig(this.config.configDir).api_key;
     if (!key) {
-      throw new Error("No API key found. Provide one via: --api-key flag, LUNCH_MONEY_API_KEY env var, or run 'lm auth'");
+      throw new Error(
+        "No API key found. Provide one via: --api-key flag, LUNCH_MONEY_API_KEY env var, or run 'lm auth'",
+      );
     }
 
     return createClient(key);

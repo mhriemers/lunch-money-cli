@@ -3,6 +3,7 @@ import { join } from "node:path";
 
 export interface Config {
   api_key?: string;
+  plugins?: Record<string, Record<string, unknown>>;
 }
 
 export function getConfigPath(configDir: string): string {
@@ -18,13 +19,27 @@ export function loadConfig(configDir: string): Config {
   }
 }
 
-export function saveConfig(configDir: string, config: Config): void {
+export function saveConfig(configDir: string, config: Partial<Config>): void {
   let existing: Record<string, unknown> = {};
   try {
     existing = JSON.parse(readFileSync(getConfigPath(configDir), "utf8"));
   } catch {}
 
-  const merged = { ...existing, ...config };
+  const merged: Record<string, unknown> = { ...existing };
+  for (const [key, value] of Object.entries(config)) {
+    const isNestedMerge =
+      value &&
+      typeof value === "object" &&
+      !Array.isArray(value) &&
+      existing[key] &&
+      typeof existing[key] === "object" &&
+      !Array.isArray(existing[key]);
+
+    merged[key] = isNestedMerge
+      ? { ...(existing[key] as Record<string, unknown>), ...(value as Record<string, unknown>) }
+      : value;
+  }
+
   mkdirSync(configDir, { recursive: true });
   writeFileSync(getConfigPath(configDir), JSON.stringify(merged, null, 2) + "\n");
 }

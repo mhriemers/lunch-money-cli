@@ -46,4 +46,5 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: cd packages/cli && npx oclif readme
+      - run: npm run format
       - run: git diff --exit-code packages/cli/README.md

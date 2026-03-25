@@ -1,52 +1,52 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import {runCommand} from '@oclif/test'
-import {expect} from 'chai'
+import { runCommand } from "@oclif/test";
+import { expect } from "chai";
 
-describe('root help', () => {
-  it('shows help text', async () => {
-    const {stdout} = await runCommand(['--help'])
-    expect(stdout).to.contain('lunch-money-cli')
-  })
-})
+describe("root help", () => {
+  it("shows help text", async () => {
+    const { stdout } = await runCommand(["--help"]);
+    expect(stdout).to.contain("lunch-money-cli");
+  });
+});
 
 const topics = [
-  'accounts',
-  'budgets',
-  'categories',
-  'plaid-accounts',
-  'recurring',
-  'summary',
-  'tags',
-  'transactions',
-  'user',
-]
+  "accounts",
+  "budgets",
+  "categories",
+  "plaid-accounts",
+  "recurring",
+  "summary",
+  "tags",
+  "transactions",
+  "user",
+];
 
-describe('topic help', () => {
+describe("topic help", () => {
   for (const topic of topics) {
     it(`${topic} --help`, async () => {
-      const {stdout} = await runCommand([topic, '--help'])
-      expect(stdout).to.be.ok
-    })
+      const { stdout } = await runCommand([topic, "--help"]);
+      expect(stdout).to.be.ok;
+    });
   }
-})
+});
 
 const commands = [
-  ['accounts', 'list'],
-  ['budgets', 'settings'],
-  ['categories', 'list'],
-  ['plaid-accounts', 'list'],
-  ['recurring', 'list'],
-  ['summary', 'get'],
-  ['tags', 'list'],
-  ['transactions', 'list'],
-  ['user', 'me'],
-]
+  ["accounts", "list"],
+  ["budgets", "settings"],
+  ["categories", "list"],
+  ["plaid-accounts", "list"],
+  ["recurring", "list"],
+  ["summary", "get"],
+  ["tags", "list"],
+  ["transactions", "list"],
+  ["user", "me"],
+];
 
-describe('command help', () => {
+describe("command help", () => {
   for (const args of commands) {
-    it(`${args.join(' ')} --help`, async () => {
-      const {stdout} = await runCommand([...args, '--help'])
-      expect(stdout).to.be.ok
-    })
+    it(`${args.join(" ")} --help`, async () => {
+      const { stdout } = await runCommand([...args, "--help"]);
+      expect(stdout).to.be.ok;
+    });
   }
-})
+});

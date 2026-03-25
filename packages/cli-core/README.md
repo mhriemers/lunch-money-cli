@@ -15,14 +15,14 @@ npm install lunch-money-cli-core
 Abstract base class extending oclif's `Command` with built-in error handling, JSON output support, and API client creation.
 
 ```typescript
-import {BaseCommand} from 'lunch-money-cli-core'
+import { BaseCommand } from "lunch-money-cli-core";
 
 export default class MyCommand extends BaseCommand {
   async run() {
-    const client = this.createClient()
-    const data = await client.getTransactions()
-    this.output(formatTable(data, transactionColumns))
-    return data
+    const client = this.createClient();
+    const data = await client.getTransactions();
+    this.output(formatTable(data, transactionColumns));
+    return data;
   }
 }
 ```
@@ -32,10 +32,10 @@ export default class MyCommand extends BaseCommand {
 Global API key management and client creation.
 
 ```typescript
-import {setApiKey, createClient} from 'lunch-money-cli-core'
+import { setApiKey, createClient } from "lunch-money-cli-core";
 
-setApiKey('your-api-key')
-const client = createClient()
+setApiKey("your-api-key");
+const client = createClient();
 ```
 
 ### `parseIntArg` / `parseJsonArg`
@@ -43,10 +43,10 @@ const client = createClient()
 Argument parsing utilities for CLI commands.
 
 ```typescript
-import {parseIntArg, parseJsonArg} from 'lunch-money-cli-core'
+import { parseIntArg, parseJsonArg } from "lunch-money-cli-core";
 
-const id = parseIntArg('123', 'id') // 123
-const body = parseJsonArg('{"name": "Test"}', 'body') // { name: "Test" }
+const id = parseIntArg("123", "id"); // 123
+const body = parseJsonArg('{"name": "Test"}', "body"); // { name: "Test" }
 ```
 
 ### Config
@@ -54,10 +54,10 @@ const body = parseJsonArg('{"name": "Test"}', 'body') // { name: "Test" }
 File-based configuration management.
 
 ```typescript
-import {loadConfig, saveConfig, getConfigPath} from 'lunch-money-cli-core'
+import { loadConfig, saveConfig, getConfigPath } from "lunch-money-cli-core";
 
-const config = loadConfig(configDir)
-saveConfig(configDir, {api_key: 'your-key'})
+const config = loadConfig(configDir);
+saveConfig(configDir, { api_key: "your-key" });
 ```
 
 ### Formatters
@@ -65,11 +65,11 @@ saveConfig(configDir, {api_key: 'your-key'})
 Terminal-aware table and detail formatting.
 
 ```typescript
-import {formatTable, formatDetail, formatMessage} from 'lunch-money-cli-core'
-import type {ColumnDef, FieldDef} from 'lunch-money-cli-core'
+import { formatTable, formatDetail, formatMessage } from "lunch-money-cli-core";
+import type { ColumnDef, FieldDef } from "lunch-money-cli-core";
 
-const table = formatTable(rows, columns)
-const detail = formatDetail(data, fields)
+const table = formatTable(rows, columns);
+const detail = formatDetail(data, fields);
 ```
 
 ### Column & Field Definitions
@@ -90,7 +90,7 @@ Predefined column/field definitions for all Lunch Money data types:
 Oclif init hook that resolves the API key from (in priority order): `--api-key` flag, `LUNCH_MONEY_API_KEY` env var, or config file.
 
 ```typescript
-import {initHook} from 'lunch-money-cli-core'
+import { initHook } from "lunch-money-cli-core";
 ```
 
 ## License

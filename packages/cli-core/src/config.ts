@@ -1,30 +1,30 @@
-import {mkdirSync, readFileSync, writeFileSync} from 'node:fs'
-import {join} from 'node:path'
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 
 export interface Config {
-  api_key?: string
+  api_key?: string;
 }
 
 export function getConfigPath(configDir: string): string {
-  return join(configDir, 'config.json')
+  return join(configDir, "config.json");
 }
 
 export function loadConfig(configDir: string): Config {
   try {
-    const raw = readFileSync(getConfigPath(configDir), 'utf8')
-    return JSON.parse(raw) as Config
+    const raw = readFileSync(getConfigPath(configDir), "utf8");
+    return JSON.parse(raw) as Config;
   } catch {
-    return {}
+    return {};
   }
 }
 
 export function saveConfig(configDir: string, config: Config): void {
-  let existing: Record<string, unknown> = {}
+  let existing: Record<string, unknown> = {};
   try {
-    existing = JSON.parse(readFileSync(getConfigPath(configDir), 'utf8'))
+    existing = JSON.parse(readFileSync(getConfigPath(configDir), "utf8"));
   } catch {}
 
-  const merged = {...existing, ...config}
-  mkdirSync(configDir, {recursive: true})
-  writeFileSync(getConfigPath(configDir), JSON.stringify(merged, null, 2) + '\n')
+  const merged = { ...existing, ...config };
+  mkdirSync(configDir, { recursive: true });
+  writeFileSync(getConfigPath(configDir), JSON.stringify(merged, null, 2) + "\n");
 }

@@ -24,12 +24,7 @@ describe("transactions e2e", () => {
     });
 
     it("outputs a formatted table", async () => {
-      const { stdout } = await runCommand([
-        "transactions",
-        "list",
-        "--start-date=2024-01-01",
-        "--end-date=2024-01-31",
-      ]);
+      const { stdout } = await runCommand(["transactions", "list", "--start-date=2024-01-01", "--end-date=2024-01-31"]);
       expect(stdout).to.contain("ID");
       expect(stdout).to.contain("Date");
       expect(stdout).to.contain("Payee");
@@ -114,13 +109,7 @@ describe("transactions e2e", () => {
 
   describe("transactions update", () => {
     it("updates a transaction with individual flags", async () => {
-      const { stdout } = await runCommand([
-        "transactions",
-        "update",
-        "2112150654",
-        "--payee=UpdatedPayee",
-        "--json",
-      ]);
+      const { stdout } = await runCommand(["transactions", "update", "2112150654", "--payee=UpdatedPayee", "--json"]);
       const data = JSON.parse(stdout);
       expect(data).to.have.property("id");
     });

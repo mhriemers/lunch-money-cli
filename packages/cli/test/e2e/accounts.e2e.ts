@@ -78,13 +78,7 @@ describe("accounts e2e", () => {
     });
 
     it("accepts --data flag with full JSON body", async () => {
-      const { stdout } = await runCommand([
-        "accounts",
-        "update",
-        "119807",
-        '--data={"name":"Updated"}',
-        "--json",
-      ]);
+      const { stdout } = await runCommand(["accounts", "update", "119807", '--data={"name":"Updated"}', "--json"]);
       const data = JSON.parse(stdout);
       expect(data).to.have.property("id");
     });

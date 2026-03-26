@@ -60,12 +60,7 @@ describe("budgets e2e", () => {
 
   describe("budgets delete", () => {
     it("deletes a budget and confirms", async () => {
-      const { stdout } = await runCommand([
-        "budgets",
-        "delete",
-        "--category-id=86",
-        "--start-date=2024-01-01",
-      ]);
+      const { stdout } = await runCommand(["budgets", "delete", "--category-id=86", "--start-date=2024-01-01"]);
       expect(stdout).to.contain("Deleted budget");
     });
   });

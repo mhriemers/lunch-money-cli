@@ -19,14 +19,7 @@ describe("summary e2e", () => {
     });
 
     it("outputs a formatted table", async () => {
-      const { stdout } = await runCommand([
-        "summary",
-        "get",
-        "--start-date",
-        "2024-01-01",
-        "--end-date",
-        "2024-01-31",
-      ]);
+      const { stdout } = await runCommand(["summary", "get", "--start-date", "2024-01-01", "--end-date", "2024-01-31"]);
       expect(stdout).to.be.ok;
     });
 

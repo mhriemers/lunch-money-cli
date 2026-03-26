@@ -1,0 +1,5 @@
+node-option:
+  - import=tsx
+spec: test/e2e/**/*.e2e.ts
+require: test/e2e/helpers/hooks.ts
+timeout: 30000

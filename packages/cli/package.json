@@ -34,7 +34,8 @@
     "postpack": "shx rm -f oclif.manifest.json",
     "prepack": "npm run build && npm run manifest && npm run readme",
     "readme": "oclif readme && prettier --write README.md",
-    "test": "mocha"
+    "test": "mocha",
+    "test:e2e": "mocha --config .mocharc.e2e.yml"
   },
   "repository": {
     "type": "git",
@@ -63,11 +64,14 @@
     "lunch-money-cli-core": "^2.1.1"
   },
   "devDependencies": {
+    "@lunch-money/v2-api-spec": "^2.10.0-preview.3",
     "@oclif/test": "^4.1.17",
+    "@stoplight/prism-http-server": "^5.12.2",
     "@types/mocha": "^10",
     "@types/node": "^25.5.0",
     "chai": "^6",
     "mocha": "^11",
+    "nock": "^14.0.11",
     "oclif": "^4",
     "shx": "^0.4.0",
     "tsx": "^4.21.0",

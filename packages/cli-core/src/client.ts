@@ -1,7 +1,7 @@
 import { LunchMoneyClient } from "@lunch-money/lunch-money-js-v2";
 
-export function createClient(apiKey: string): LunchMoneyClient {
-  return new LunchMoneyClient({ apiKey });
+export function createClient(apiKey: string, baseUrl?: string): LunchMoneyClient {
+  return new LunchMoneyClient({ apiKey, ...(baseUrl && { baseUrl }) });
 }
 
 export function parseIntArg(value: string, name: string): number {

@@ -57,6 +57,6 @@ export abstract class ApiCommand extends BaseCommand {
       );
     }
 
-    return createClient(key);
+    return createClient(key, process.env.LUNCH_MONEY_BASE_URL);
   }
 }

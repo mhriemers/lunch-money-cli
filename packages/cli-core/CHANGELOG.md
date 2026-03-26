@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.2.0](https://github.com/mhriemers/lunch-money-cli/compare/lunch-money-cli-core-v2.1.1...lunch-money-cli-core-v2.2.0) (2026-03-26)
+
+### Features
+
+- **cli-core:** add base URL configuration support ([#64](https://github.com/mhriemers/lunch-money-cli/issues/64)) ([4fd7c3a](https://github.com/mhriemers/lunch-money-cli/commit/4fd7c3a5b8bec8660bcf07461750a88bf8b79ea3))
+
 ## [2.1.1](https://github.com/mhriemers/lunch-money-cli/compare/lunch-money-cli-core-v2.1.0...lunch-money-cli-core-v2.1.1) (2026-03-25)
 
 ### Bug Fixes

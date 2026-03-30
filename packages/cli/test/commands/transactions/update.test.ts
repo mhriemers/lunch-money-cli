@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+ 
 import { expect } from "chai";
 
 import TransactionsUpdate from "../../../src/commands/transactions/update.js";
@@ -21,7 +21,7 @@ describe("transactions update", () => {
   });
 
   it("uses --data escape hatch", async () => {
-    const payload = { payee: "FromJSON", amount: "10.00" };
+    const payload = { amount: "10.00", payee: "FromJSON" };
     const { client } = await runCommand(
       TransactionsUpdate,
       ["100", "--data", JSON.stringify(payload), "--payee", "Ignored", "--json"],

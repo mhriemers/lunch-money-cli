@@ -6,7 +6,7 @@ import { runCommand } from "../../helpers/index.js";
 
 describe("budgets delete", () => {
   it("deletes budget by category and start date", async () => {
-    const { result, client } = await runCommand(BudgetsDelete, [
+    const { client, result } = await runCommand(BudgetsDelete, [
       "--category-id",
       "10",
       "--start-date",

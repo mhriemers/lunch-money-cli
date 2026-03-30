@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+ 
 import { expect } from "chai";
 
 import BudgetsUpsert from "../../../src/commands/budgets/upsert.js";
@@ -6,8 +6,8 @@ import { runCommand } from "../../helpers/index.js";
 
 describe("budgets upsert", () => {
   it("creates budget with required flags", async () => {
-    const response = { category_id: 10, amount: 500 };
-    const { result, client } = await runCommand(
+    const response = { amount: 500, category_id: 10 };
+    const { client, result } = await runCommand(
       BudgetsUpsert,
       ["--amount", "500", "--category-id", "10", "--start-date", "2025-01-01", "--json"],
       (c) => {

@@ -57,7 +57,7 @@ describe("summary get", () => {
         categories: [
           {
             category_id: 42,
-            totals: { budgeted: "500.00", recurring_activity: "100.00", other_activity: "200.00", available: "200.00" },
+            totals: { available: "200.00", budgeted: "500.00", other_activity: "200.00", recurring_activity: "100.00" },
           },
         ],
       });

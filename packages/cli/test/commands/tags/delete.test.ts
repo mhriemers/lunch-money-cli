@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+ 
 import { expect } from "chai";
 
 import TagsDelete from "../../../src/commands/tags/delete.js";
@@ -6,7 +6,7 @@ import { runCommand } from "../../helpers/index.js";
 
 describe("tags delete", () => {
   it("deletes tag by ID", async () => {
-    const { result, client } = await runCommand(TagsDelete, ["5", "--json"]);
+    const { client, result } = await runCommand(TagsDelete, ["5", "--json"]);
     expect(result).to.deep.equal({ deleted_id: 5, success: true });
     expect(client.tags.delete.firstCall.args[0]).to.equal(5);
   });

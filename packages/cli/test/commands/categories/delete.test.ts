@@ -6,7 +6,7 @@ import { runCommand } from "../../helpers/index.js";
 
 describe("categories delete", () => {
   it("deletes category by ID", async () => {
-    const { result, client } = await runCommand(CategoriesDelete, ["10", "--json"]);
+    const { client, result } = await runCommand(CategoriesDelete, ["10", "--json"]);
     expect(result).to.deep.equal({ deleted_id: 10, success: true });
     expect(client.categories.delete.calledOnce).to.be.true;
     expect(client.categories.delete.firstCall.args[0]).to.equal(10);

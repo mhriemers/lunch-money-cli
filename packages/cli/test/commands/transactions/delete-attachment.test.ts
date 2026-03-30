@@ -6,7 +6,7 @@ import { runCommand } from "../../helpers/index.js";
 
 describe("transactions delete-attachment", () => {
   it("deletes attachment by file ID", async () => {
-    const { result, client } = await runCommand(TransactionsDeleteAttachment, ["50", "--json"]);
+    const { client, result } = await runCommand(TransactionsDeleteAttachment, ["50", "--json"]);
     expect(result).to.deep.equal({ deleted_file_id: 50, success: true });
     expect(client.transactions.deleteAttachment.calledOnceWith(50)).to.be.true;
   });

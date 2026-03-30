@@ -6,8 +6,8 @@ import { expectFixture, runCommand } from "../../helpers/index.js";
 
 describe("transactions get", () => {
   it("returns transaction as JSON", async () => {
-    const data = { id: 100, payee: "Coffee", amount: "-4.50", date: "2025-01-15" };
-    const { result, client } = await runCommand(TransactionsGet, ["100", "--json"], (c) => {
+    const data = { amount: "-4.50", date: "2025-01-15", id: 100, payee: "Coffee" };
+    const { client, result } = await runCommand(TransactionsGet, ["100", "--json"], (c) => {
       c.transactions.get.resolves(data);
     });
     expect(result).to.deep.equal(data);
@@ -17,20 +17,20 @@ describe("transactions get", () => {
   it("formats transaction detail as text", async () => {
     const { stdout } = await runCommand(TransactionsGet, ["100"], (c) => {
       c.transactions.get.resolves({
-        id: 100,
-        date: "2025-01-15",
-        payee: "Coffee",
-        original_name: "COFFEE SHOP #123",
         amount: "-4.50",
-        currency: "usd",
-        status: "cleared",
         category_id: 10,
-        notes: "Morning coffee",
-        recurring_id: null,
-        manual_account_id: 42,
-        plaid_account_id: null,
-        external_id: null,
         created_at: "2025-01-15T12:00:00.000Z",
+        currency: "usd",
+        date: "2025-01-15",
+        external_id: null,
+        id: 100,
+        manual_account_id: 42,
+        notes: "Morning coffee",
+        original_name: "COFFEE SHOP #123",
+        payee: "Coffee",
+        plaid_account_id: null,
+        recurring_id: null,
+        status: "cleared",
         updated_at: "2025-01-15T12:00:00.000Z",
       });
     });

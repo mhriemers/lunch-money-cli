@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+ 
 import { expect } from "chai";
 
 import AccountsCreate from "../../../src/commands/accounts/create.js";
@@ -6,8 +6,8 @@ import { runCommand } from "../../helpers/index.js";
 
 describe("accounts create", () => {
   it("creates with required flags", async () => {
-    const created = { id: 99, name: "New", type: "credit", balance: "500.00" };
-    const { result, client } = await runCommand(
+    const created = { balance: "500.00", id: 99, name: "New", type: "credit" };
+    const { client, result } = await runCommand(
       AccountsCreate,
       ["--name", "New", "--type", "credit", "--balance", "500.00", "--json"],
       (c) => {
@@ -16,7 +16,7 @@ describe("accounts create", () => {
     );
     expect(result).to.deep.equal(created);
     const body = client.manualAccounts.create.firstCall.args[0];
-    expect(body).to.include({ name: "New", type: "credit", balance: "500.00" });
+    expect(body).to.include({ balance: "500.00", name: "New", type: "credit" });
   });
 
   it("maps optional flags to request body", async () => {

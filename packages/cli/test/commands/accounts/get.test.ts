@@ -6,8 +6,8 @@ import { expectFixture, runCommand } from "../../helpers/index.js";
 
 describe("accounts get", () => {
   it("returns account as JSON", async () => {
-    const data = { id: 42, name: "Checking", balance: "1234.56", type: "cash" };
-    const { result, client } = await runCommand(AccountsGet, ["42", "--json"], (c) => {
+    const data = { balance: "1234.56", id: 42, name: "Checking", type: "cash" };
+    const { client, result } = await runCommand(AccountsGet, ["42", "--json"], (c) => {
       c.manualAccounts.get.resolves(data);
     });
     expect(result).to.deep.equal(data);
@@ -16,13 +16,13 @@ describe("accounts get", () => {
 
   it("formats account detail as text", async () => {
     const data = {
-      id: 1,
-      name: "Checking",
-      type: "cash",
       balance: "1000.00",
       currency: "usd",
-      status: "active",
+      id: 1,
       institution_name: "Chase",
+      name: "Checking",
+      status: "active",
+      type: "cash",
     };
     const { stdout } = await runCommand(AccountsGet, ["1"], (c) => {
       c.manualAccounts.get.resolves(data);

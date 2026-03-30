@@ -6,7 +6,7 @@ import { expectFixture, runCommand } from "../../helpers/index.js";
 
 describe("transactions list", () => {
   it("returns transactions as JSON", async () => {
-    const data = { transactions: [{ id: 1, payee: "Coffee", amount: "-4.50" }] };
+    const data = { transactions: [{ amount: "-4.50", id: 1, payee: "Coffee" }] };
     const { result } = await runCommand(TransactionsList, ["--json"], (c) => {
       c.transactions.getAll.resolves(data);
     });
@@ -17,7 +17,7 @@ describe("transactions list", () => {
     const { stdout } = await runCommand(TransactionsList, [], (c) => {
       c.transactions.getAll.resolves({
         transactions: [
-          { id: 1, date: "2025-01-15", payee: "Coffee", amount: "-4.50", currency: "usd", status: "cleared" },
+          { amount: "-4.50", currency: "usd", date: "2025-01-15", id: 1, payee: "Coffee", status: "cleared" },
         ],
       });
     });
@@ -39,11 +39,11 @@ describe("transactions list", () => {
       "--json",
     ]);
     expect(client.transactions.getAll.firstCall.args[0]).to.deep.equal({
-      start_date: "2025-01-01",
-      end_date: "2025-01-31",
       category_id: 5,
-      status: "reviewed",
+      end_date: "2025-01-31",
       limit: 100,
+      start_date: "2025-01-01",
+      status: "reviewed",
     });
   });
 
@@ -66,7 +66,7 @@ describe("transactions list", () => {
       c.transactions.getAll.resolves({
         has_more: true,
         transactions: [
-          { id: 1, date: "2025-01-15", payee: "Coffee", amount: "-4.50", currency: "usd", status: "cleared" },
+          { amount: "-4.50", currency: "usd", date: "2025-01-15", id: 1, payee: "Coffee", status: "cleared" },
         ],
       });
     });
@@ -78,7 +78,7 @@ describe("transactions list", () => {
       c.transactions.getAll.resolves({
         has_more: false,
         transactions: [
-          { id: 1, date: "2025-01-15", payee: "Coffee", amount: "-4.50", currency: "usd", status: "cleared" },
+          { amount: "-4.50", currency: "usd", date: "2025-01-15", id: 1, payee: "Coffee", status: "cleared" },
         ],
       });
     });

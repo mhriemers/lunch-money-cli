@@ -7,19 +7,20 @@ import { expectFixture, runCommand } from "../../helpers/index.js";
 describe("accounts list", () => {
   it("returns accounts as JSON", async () => {
     const data = [
-      { id: 1, name: "Checking", type: "cash", balance: "1000.00", currency: "usd" },
-      { id: 2, name: "Savings", type: "cash", balance: "5000.00", currency: "usd" },
+      { balance: "1000.00", currency: "usd", id: 1, name: "Checking", type: "cash" },
+      { balance: "5000.00", currency: "usd", id: 2, name: "Savings", type: "cash" },
     ];
-    const { result } = await runCommand(AccountsList, ["--json"], (c) => {
+    const { client, result } = await runCommand(AccountsList, ["--json"], (c) => {
       c.manualAccounts.getAll.resolves(data);
     });
     expect(result).to.deep.equal(data);
+    expect(client.manualAccounts.getAll.calledOnce).to.be.true;
   });
 
   it("formats accounts as a table", async () => {
     const data = [
-      { id: 1, name: "Checking", type: "cash", balance: "1000.00", currency: "usd", status: "active" },
-      { id: 2, name: "Credit Card", type: "credit", balance: "-500.00", currency: "usd", status: "active" },
+      { balance: "1000.00", currency: "usd", id: 1, name: "Checking", status: "active", type: "cash" },
+      { balance: "-500.00", currency: "usd", id: 2, name: "Credit Card", status: "active", type: "credit" },
     ];
     const { stdout } = await runCommand(AccountsList, [], (c) => {
       c.manualAccounts.getAll.resolves(data);

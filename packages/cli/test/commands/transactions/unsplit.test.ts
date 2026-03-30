@@ -6,7 +6,7 @@ import { runCommand } from "../../helpers/index.js";
 
 describe("transactions unsplit", () => {
   it("unsplits transaction by ID", async () => {
-    const { result, client } = await runCommand(TransactionsUnsplit, ["100", "--json"]);
+    const { client, result } = await runCommand(TransactionsUnsplit, ["100", "--json"]);
     expect(result).to.deep.equal({ success: true, unsplit_id: 100 });
     expect(client.transactions.unsplit.calledOnceWith(100)).to.be.true;
   });

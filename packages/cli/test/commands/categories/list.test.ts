@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+ 
 import { expect } from "chai";
 
 import CategoriesList from "../../../src/commands/categories/list.js";
@@ -6,7 +6,7 @@ import { expectFixture, runCommand } from "../../helpers/index.js";
 
 describe("categories list", () => {
   it("returns categories as JSON", async () => {
-    const data = [{ id: 1, name: "Food", is_group: false }];
+    const data = [{ id: 1, is_group: false, name: "Food" }];
     const { result } = await runCommand(CategoriesList, ["--json"], (c) => {
       c.categories.getAll.resolves(data);
     });
@@ -15,7 +15,7 @@ describe("categories list", () => {
 
   it("formats categories as a table", async () => {
     const { stdout } = await runCommand(CategoriesList, [], (c) => {
-      c.categories.getAll.resolves([{ id: 1, name: "Food", is_group: false, is_income: false, archived: false }]);
+      c.categories.getAll.resolves([{ archived: false, id: 1, is_group: false, is_income: false, name: "Food" }]);
     });
     expectFixture(stdout, "categories/list-table");
   });

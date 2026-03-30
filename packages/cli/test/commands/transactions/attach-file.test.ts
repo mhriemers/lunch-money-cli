@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+ 
 import { expect } from "chai";
 
 import TransactionsAttachFile from "../../../src/commands/transactions/attach-file.js";
@@ -6,8 +6,8 @@ import { runCommand } from "../../helpers/index.js";
 
 describe("transactions attach-file", () => {
   it("attaches file to transaction", async () => {
-    const response = { id: 50, filename: "receipt.pdf" };
-    const { result, client } = await runCommand(
+    const response = { filename: "receipt.pdf", id: 50 };
+    const { client, result } = await runCommand(
       TransactionsAttachFile,
       ["100", "--file", "/path/to/receipt.pdf", "--json"],
       (c) => {

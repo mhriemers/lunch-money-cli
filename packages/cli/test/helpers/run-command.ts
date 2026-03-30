@@ -1,7 +1,7 @@
 import { captureOutput } from "@oclif/test";
 import sinon from "sinon";
 
-import { type MockClient, createMockClient } from "./mock-client.js";
+import { createMockClient, type MockClient } from "./mock-client.js";
 import { getConfig } from "./setup.js";
 
 type CommandClass = {

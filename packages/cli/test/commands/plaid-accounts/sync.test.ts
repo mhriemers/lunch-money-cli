@@ -6,7 +6,7 @@ import { runCommand } from "../../helpers/index.js";
 
 describe("plaid-accounts sync", () => {
   it("triggers sync with no params", async () => {
-    const { result, client } = await runCommand(PlaidAccountsSync, ["--json"]);
+    const { client, result } = await runCommand(PlaidAccountsSync, ["--json"]);
     expect(result).to.deep.equal({ message: "Plaid sync triggered", success: true });
     expect(client.plaidAccounts.triggerFetch.calledOnce).to.be.true;
     expect(client.plaidAccounts.triggerFetch.firstCall.args[0]).to.deep.equal({});
@@ -23,9 +23,9 @@ describe("plaid-accounts sync", () => {
       "--json",
     ]);
     expect(client.plaidAccounts.triggerFetch.firstCall.args[0]).to.deep.equal({
-      start_date: "2025-01-01",
       end_date: "2025-01-31",
       id: 42,
+      start_date: "2025-01-01",
     });
   });
 

@@ -7,7 +7,7 @@ import { runCommand } from "../../helpers/index.js";
 describe("accounts update", () => {
   it("updates with individual flags", async () => {
     const updated = { id: 42, name: "Renamed" };
-    const { result, client } = await runCommand(
+    const { client, result } = await runCommand(
       AccountsUpdate,
       ["42", "--name", "Renamed", "--institution-name", "Chase", "--json"],
       (c) => {
@@ -23,7 +23,7 @@ describe("accounts update", () => {
   });
 
   it("uses --data escape hatch and ignores other flags", async () => {
-    const payload = { name: "FromJSON", balance: "999.00" };
+    const payload = { balance: "999.00", name: "FromJSON" };
     const { client } = await runCommand(
       AccountsUpdate,
       ["42", "--data", JSON.stringify(payload), "--name", "Ignored", "--json"],

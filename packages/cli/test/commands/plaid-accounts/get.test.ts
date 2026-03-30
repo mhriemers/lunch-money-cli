@@ -7,7 +7,7 @@ import { expectFixture, runCommand } from "../../helpers/index.js";
 describe("plaid-accounts get", () => {
   it("returns plaid account as JSON", async () => {
     const data = { id: 10, name: "Savings", type: "depository" };
-    const { result, client } = await runCommand(PlaidAccountsGet, ["10", "--json"], (c) => {
+    const { client, result } = await runCommand(PlaidAccountsGet, ["10", "--json"], (c) => {
       c.plaidAccounts.get.resolves(data);
     });
     expect(result).to.deep.equal(data);
@@ -17,17 +17,17 @@ describe("plaid-accounts get", () => {
   it("formats plaid account detail as text", async () => {
     const { stdout } = await runCommand(PlaidAccountsGet, ["10"], (c) => {
       c.plaidAccounts.get.resolves({
-        id: 10,
-        name: "Savings",
-        display_name: "My Savings",
-        institution_name: "Chase",
-        type: "depository",
-        subtype: "savings",
         balance: "5000.00",
-        currency: "usd",
-        status: "active",
         balance_last_update: "2025-01-15T10:00:00Z",
+        currency: "usd",
         date_linked: "2024-06-01",
+        display_name: "My Savings",
+        id: 10,
+        institution_name: "Chase",
+        name: "Savings",
+        status: "active",
+        subtype: "savings",
+        type: "depository",
       });
     });
     expectFixture(stdout, "plaid-accounts/get-detail");

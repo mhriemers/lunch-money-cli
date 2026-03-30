@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+ 
 import { expect } from "chai";
 
 import RecurringList from "../../../src/commands/recurring/list.js";
@@ -6,7 +6,7 @@ import { expectFixture, runCommand } from "../../helpers/index.js";
 
 describe("recurring list", () => {
   it("returns recurring items as JSON", async () => {
-    const data = [{ id: 1, payee: "Netflix", amount: "15.99" }];
+    const data = [{ amount: "15.99", id: 1, payee: "Netflix" }];
     const { result } = await runCommand(RecurringList, ["--json"], (c) => {
       c.recurringItems.getAll.resolves(data);
     });
@@ -17,10 +17,10 @@ describe("recurring list", () => {
     const { stdout } = await runCommand(RecurringList, [], (c) => {
       c.recurringItems.getAll.resolves([
         {
-          id: 1,
           description: "Streaming",
-          transaction_criteria: { payee: "Netflix", amount: "15.99", currency: "usd" },
+          id: 1,
           status: "active",
+          transaction_criteria: { amount: "15.99", currency: "usd", payee: "Netflix" },
         },
       ]);
     });
@@ -36,8 +36,8 @@ describe("recurring list", () => {
       "--json",
     ]);
     expect(client.recurringItems.getAll.firstCall.args[0]).to.deep.equal({
-      start_date: "2025-01-01",
       end_date: "2025-01-31",
+      start_date: "2025-01-01",
     });
   });
 

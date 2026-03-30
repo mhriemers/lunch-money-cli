@@ -1,15 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+ 
 import { expect } from "chai";
 
 import TransactionsGroup from "../../../src/commands/transactions/group.js";
 import { runCommand } from "../../helpers/index.js";
 
 describe("transactions group", () => {
-  const groupData = JSON.stringify({ ids: [1, 2, 3], date: "2025-01-15", payee: "Grouped" });
+  const groupData = JSON.stringify({ date: "2025-01-15", ids: [1, 2, 3], payee: "Grouped" });
 
   it("groups transactions from JSON data", async () => {
     const response = { id: 999 };
-    const { result, client } = await runCommand(TransactionsGroup, ["--data", groupData, "--json"], (c) => {
+    const { client, result } = await runCommand(TransactionsGroup, ["--data", groupData, "--json"], (c) => {
       c.transactions.group.resolves(response);
     });
     expect(result).to.deep.equal(response);

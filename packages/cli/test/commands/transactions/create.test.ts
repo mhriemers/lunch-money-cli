@@ -5,16 +5,16 @@ import TransactionsCreate from "../../../src/commands/transactions/create.js";
 import { runCommand } from "../../helpers/index.js";
 
 describe("transactions create", () => {
-  const txJson = JSON.stringify([{ date: "2025-01-15", amount: 42.5, payee: "Coffee" }]);
+  const txJson = JSON.stringify([{ amount: 42.5, date: "2025-01-15", payee: "Coffee" }]);
 
   it("creates transactions from JSON", async () => {
     const response = { ids: [100] };
-    const { result, client } = await runCommand(TransactionsCreate, ["--transactions", txJson, "--json"], (c) => {
+    const { client, result } = await runCommand(TransactionsCreate, ["--transactions", txJson, "--json"], (c) => {
       c.transactions.create.resolves(response);
     });
     expect(result).to.deep.equal(response);
     const body = client.transactions.create.firstCall.args[0];
-    expect(body.transactions).to.deep.equal([{ date: "2025-01-15", amount: 42.5, payee: "Coffee" }]);
+    expect(body.transactions).to.deep.equal([{ amount: 42.5, date: "2025-01-15", payee: "Coffee" }]);
   });
 
   it("maps boolean flags", async () => {
@@ -45,8 +45,8 @@ describe("transactions create", () => {
       [
         "--transactions",
         JSON.stringify([
-          { date: "2025-01-01", amount: 1 },
-          { date: "2025-01-02", amount: 2 },
+          { amount: 1, date: "2025-01-01" },
+          { amount: 2, date: "2025-01-02" },
         ]),
       ],
       (c) => {

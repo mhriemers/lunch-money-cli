@@ -6,8 +6,8 @@ import { expectFixture, runCommand } from "../../helpers/index.js";
 
 describe("tags get", () => {
   it("returns tag as JSON", async () => {
-    const data = { id: 5, name: "Travel", description: "Travel expenses" };
-    const { result, client } = await runCommand(TagsGet, ["5", "--json"], (c) => {
+    const data = { description: "Travel expenses", id: 5, name: "Travel" };
+    const { client, result } = await runCommand(TagsGet, ["5", "--json"], (c) => {
       c.tags.get.resolves(data);
     });
     expect(result).to.deep.equal(data);

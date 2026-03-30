@@ -6,8 +6,8 @@ import { expectFixture, runCommand } from "../../helpers/index.js";
 
 describe("categories get", () => {
   it("returns category as JSON", async () => {
-    const data = { id: 10, name: "Food", is_group: false };
-    const { result, client } = await runCommand(CategoriesGet, ["10", "--json"], (c) => {
+    const data = { id: 10, is_group: false, name: "Food" };
+    const { client, result } = await runCommand(CategoriesGet, ["10", "--json"], (c) => {
       c.categories.get.resolves(data);
     });
     expect(result).to.deep.equal(data);

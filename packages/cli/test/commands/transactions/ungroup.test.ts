@@ -6,7 +6,7 @@ import { runCommand } from "../../helpers/index.js";
 
 describe("transactions ungroup", () => {
   it("ungroups transaction by ID", async () => {
-    const { result, client } = await runCommand(TransactionsUngroup, ["999", "--json"]);
+    const { client, result } = await runCommand(TransactionsUngroup, ["999", "--json"]);
     expect(result).to.deep.equal({ success: true, ungrouped_id: 999 });
     expect(client.transactions.ungroup.calledOnceWith(999)).to.be.true;
   });

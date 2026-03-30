@@ -7,7 +7,7 @@ import { runCommand } from "../../helpers/index.js";
 describe("tags create", () => {
   it("creates with required name flag", async () => {
     const created = { id: 10, name: "Food" };
-    const { result, client } = await runCommand(TagsCreate, ["--name", "Food", "--json"], (c) => {
+    const { client, result } = await runCommand(TagsCreate, ["--name", "Food", "--json"], (c) => {
       c.tags.create.resolves(created);
     });
     expect(result).to.deep.equal(created);

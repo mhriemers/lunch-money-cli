@@ -6,8 +6,8 @@ import { expectFixture, runCommand } from "../../helpers/index.js";
 
 describe("user me", () => {
   it("returns user as JSON", async () => {
-    const data = { name: "Test User", email: "test@example.com", budget_name: "My Budget" };
-    const { result, client } = await runCommand(UserMe, ["--json"], (c) => {
+    const data = { budget_name: "My Budget", email: "test@example.com", name: "Test User" };
+    const { client, result } = await runCommand(UserMe, ["--json"], (c) => {
       c.user.getMe.resolves(data);
     });
     expect(result).to.deep.equal(data);
@@ -17,13 +17,13 @@ describe("user me", () => {
   it("formats user detail as text", async () => {
     const { stdout } = await runCommand(UserMe, [], (c) => {
       c.user.getMe.resolves({
+        account_id: 200,
+        api_key_label: "CLI Key",
+        budget_name: "My Budget",
+        email: "test@example.com",
         id: 100,
         name: "Test User",
-        email: "test@example.com",
-        account_id: 200,
-        budget_name: "My Budget",
         primary_currency: "usd",
-        api_key_label: "CLI Key",
       });
     });
     expectFixture(stdout, "user/me-detail");

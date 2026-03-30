@@ -6,11 +6,9 @@ import { runCommand } from "../../helpers/index.js";
 
 describe("tags update", () => {
   it("updates with name flag", async () => {
-    const { client } = await runCommand(
-      TagsUpdate,
-      ["5", "--name", "Renamed", "--json"],
-      (c) => { c.tags.update.resolves({ id: 5 }); },
-    );
+    const { client } = await runCommand(TagsUpdate, ["5", "--name", "Renamed", "--json"], (c) => {
+      c.tags.update.resolves({ id: 5 });
+    });
     const [id, body] = client.tags.update.firstCall.args;
     expect(id).to.equal(5);
     expect(body.name).to.equal("Renamed");
@@ -20,7 +18,9 @@ describe("tags update", () => {
     const { client } = await runCommand(
       TagsUpdate,
       ["5", "--text-color", "null", "--background-color", "null", "--json"],
-      (c) => { c.tags.update.resolves({ id: 5 }); },
+      (c) => {
+        c.tags.update.resolves({ id: 5 });
+      },
     );
     const body = client.tags.update.firstCall.args[1];
     expect(body.text_color).to.be.null;
@@ -31,7 +31,9 @@ describe("tags update", () => {
     const { client } = await runCommand(
       TagsUpdate,
       ["5", "--text-color", "333", "--background-color", "FFE7D4", "--json"],
-      (c) => { c.tags.update.resolves({ id: 5 }); },
+      (c) => {
+        c.tags.update.resolves({ id: 5 });
+      },
     );
     const body = client.tags.update.firstCall.args[1];
     expect(body.text_color).to.equal("333");
@@ -39,20 +41,16 @@ describe("tags update", () => {
   });
 
   it("converts archived boolean string", async () => {
-    const { client } = await runCommand(
-      TagsUpdate,
-      ["5", "--archived", "true", "--json"],
-      (c) => { c.tags.update.resolves({ id: 5 }); },
-    );
+    const { client } = await runCommand(TagsUpdate, ["5", "--archived", "true", "--json"], (c) => {
+      c.tags.update.resolves({ id: 5 });
+    });
     expect(client.tags.update.firstCall.args[1].archived).to.be.true;
   });
 
   it("shows confirmation message", async () => {
-    const { stdout } = await runCommand(
-      TagsUpdate,
-      ["5", "--name", "X"],
-      (c) => { c.tags.update.resolves({ id: 5 }); },
-    );
+    const { stdout } = await runCommand(TagsUpdate, ["5", "--name", "X"], (c) => {
+      c.tags.update.resolves({ id: 5 });
+    });
     expect(stdout).to.equal("Updated tag 5.\n");
   });
 });

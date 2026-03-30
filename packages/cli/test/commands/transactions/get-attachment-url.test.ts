@@ -7,11 +7,9 @@ import { runCommand } from "../../helpers/index.js";
 describe("transactions get-attachment-url", () => {
   it("returns attachment URL as JSON", async () => {
     const response = { url: "https://cdn.example.com/file.pdf" };
-    const { result, client } = await runCommand(
-      TransactionsGetAttachmentUrl,
-      ["50", "--json"],
-      (c) => { c.transactions.getAttachmentUrl.resolves(response); },
-    );
+    const { result, client } = await runCommand(TransactionsGetAttachmentUrl, ["50", "--json"], (c) => {
+      c.transactions.getAttachmentUrl.resolves(response);
+    });
     expect(result).to.deep.equal(response);
     expect(client.transactions.getAttachmentUrl.calledOnceWith(50)).to.be.true;
   });

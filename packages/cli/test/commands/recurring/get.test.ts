@@ -20,7 +20,13 @@ describe("recurring get", () => {
         id: 5,
         description: "Streaming",
         status: "active",
-        transaction_criteria: { payee: "Netflix", amount: "15.99", currency: "usd", granularity: "monthly", anchor_date: "2025-01-15" },
+        transaction_criteria: {
+          payee: "Netflix",
+          amount: "15.99",
+          currency: "usd",
+          granularity: "monthly",
+          anchor_date: "2025-01-15",
+        },
         created_at: "2024-01-01T00:00:00Z",
       });
     });

@@ -10,7 +10,9 @@ describe("accounts update", () => {
     const { result, client } = await runCommand(
       AccountsUpdate,
       ["42", "--name", "Renamed", "--institution-name", "Chase", "--json"],
-      (c) => { c.manualAccounts.update.resolves(updated); },
+      (c) => {
+        c.manualAccounts.update.resolves(updated);
+      },
     );
     expect(result).to.deep.equal(updated);
     expect(client.manualAccounts.update.calledOnce).to.be.true;
@@ -25,18 +27,18 @@ describe("accounts update", () => {
     const { client } = await runCommand(
       AccountsUpdate,
       ["42", "--data", JSON.stringify(payload), "--name", "Ignored", "--json"],
-      (c) => { c.manualAccounts.update.resolves({ id: 42 }); },
+      (c) => {
+        c.manualAccounts.update.resolves({ id: 42 });
+      },
     );
     const body = client.manualAccounts.update.firstCall.args[1];
     expect(body).to.deep.equal(payload);
   });
 
   it("converts closed-on 'null' to null", async () => {
-    const { client } = await runCommand(
-      AccountsUpdate,
-      ["42", "--closed-on", "null", "--json"],
-      (c) => { c.manualAccounts.update.resolves({ id: 42 }); },
-    );
+    const { client } = await runCommand(AccountsUpdate, ["42", "--closed-on", "null", "--json"], (c) => {
+      c.manualAccounts.update.resolves({ id: 42 });
+    });
     const body = client.manualAccounts.update.firstCall.args[1];
     expect(body.closed_on).to.be.null;
   });
@@ -45,28 +47,26 @@ describe("accounts update", () => {
     const { client } = await runCommand(
       AccountsUpdate,
       ["42", "--exclude-from-transactions", "true", "--json"],
-      (c) => { c.manualAccounts.update.resolves({ id: 42 }); },
+      (c) => {
+        c.manualAccounts.update.resolves({ id: 42 });
+      },
     );
     const body = client.manualAccounts.update.firstCall.args[1];
     expect(body.exclude_from_transactions).to.be.true;
   });
 
   it("parses --custom-metadata as JSON", async () => {
-    const { client } = await runCommand(
-      AccountsUpdate,
-      ["42", "--custom-metadata", '{"k":"v"}', "--json"],
-      (c) => { c.manualAccounts.update.resolves({ id: 42 }); },
-    );
+    const { client } = await runCommand(AccountsUpdate, ["42", "--custom-metadata", '{"k":"v"}', "--json"], (c) => {
+      c.manualAccounts.update.resolves({ id: 42 });
+    });
     const body = client.manualAccounts.update.firstCall.args[1];
     expect(body.custom_metadata).to.deep.equal({ k: "v" });
   });
 
   it("shows confirmation message", async () => {
-    const { stdout } = await runCommand(
-      AccountsUpdate,
-      ["42", "--name", "X"],
-      (c) => { c.manualAccounts.update.resolves({ id: 42, name: "X" }); },
-    );
+    const { stdout } = await runCommand(AccountsUpdate, ["42", "--name", "X"], (c) => {
+      c.manualAccounts.update.resolves({ id: 42, name: "X" });
+    });
     expect(stdout).to.equal("Updated account 42.\n");
   });
 });

@@ -9,11 +9,9 @@ describe("transactions group", () => {
 
   it("groups transactions from JSON data", async () => {
     const response = { id: 999 };
-    const { result, client } = await runCommand(
-      TransactionsGroup,
-      ["--data", groupData, "--json"],
-      (c) => { c.transactions.group.resolves(response); },
-    );
+    const { result, client } = await runCommand(TransactionsGroup, ["--data", groupData, "--json"], (c) => {
+      c.transactions.group.resolves(response);
+    });
     expect(result).to.deep.equal(response);
     const body = client.transactions.group.firstCall.args[0];
     expect(body.ids).to.deep.equal([1, 2, 3]);
@@ -22,11 +20,9 @@ describe("transactions group", () => {
   });
 
   it("shows group ID in confirmation message", async () => {
-    const { stdout } = await runCommand(
-      TransactionsGroup,
-      ["--data", groupData],
-      (c) => { c.transactions.group.resolves({ id: 999 }); },
-    );
+    const { stdout } = await runCommand(TransactionsGroup, ["--data", groupData], (c) => {
+      c.transactions.group.resolves({ id: 999 });
+    });
     expect(stdout).to.equal("Grouped transactions (group ID: 999).\n");
   });
 });

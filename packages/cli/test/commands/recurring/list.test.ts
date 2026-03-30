@@ -16,17 +16,25 @@ describe("recurring list", () => {
   it("formats recurring items as a table", async () => {
     const { stdout } = await runCommand(RecurringList, [], (c) => {
       c.recurringItems.getAll.resolves([
-        { id: 1, description: "Streaming", transaction_criteria: { payee: "Netflix", amount: "15.99", currency: "usd" }, status: "active" },
+        {
+          id: 1,
+          description: "Streaming",
+          transaction_criteria: { payee: "Netflix", amount: "15.99", currency: "usd" },
+          status: "active",
+        },
       ]);
     });
     expectFixture(stdout, "recurring/list-table");
   });
 
   it("maps date range flags to params", async () => {
-    const { client } = await runCommand(
-      RecurringList,
-      ["--start-date", "2025-01-01", "--end-date", "2025-01-31", "--json"],
-    );
+    const { client } = await runCommand(RecurringList, [
+      "--start-date",
+      "2025-01-01",
+      "--end-date",
+      "2025-01-31",
+      "--json",
+    ]);
     expect(client.recurringItems.getAll.firstCall.args[0]).to.deep.equal({
       start_date: "2025-01-01",
       end_date: "2025-01-31",

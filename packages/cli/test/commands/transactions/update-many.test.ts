@@ -12,11 +12,9 @@ describe("transactions update-many", () => {
 
   it("updates multiple transactions from JSON", async () => {
     const response = { updated: [1, 2] };
-    const { result, client } = await runCommand(
-      TransactionsUpdateMany,
-      ["--transactions", txJson, "--json"],
-      (c) => { c.transactions.updateMany.resolves(response); },
-    );
+    const { result, client } = await runCommand(TransactionsUpdateMany, ["--transactions", txJson, "--json"], (c) => {
+      c.transactions.updateMany.resolves(response);
+    });
     expect(result).to.deep.equal(response);
     const body = client.transactions.updateMany.firstCall.args[0];
     expect(body.transactions).to.have.length(2);

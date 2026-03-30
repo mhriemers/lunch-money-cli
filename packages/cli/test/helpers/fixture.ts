@@ -31,9 +31,7 @@ export function expectFixture(actual: string, name: string): void {
   try {
     expected = readFileSync(filePath, "utf-8");
   } catch {
-    throw new Error(
-      `Fixture not found: ${filePath}\nRun with UPDATE_FIXTURES=1 to generate it.`,
-    );
+    throw new Error(`Fixture not found: ${filePath}\nRun with UPDATE_FIXTURES=1 to generate it.`);
   }
 
   expect(actual).to.equal(expected);

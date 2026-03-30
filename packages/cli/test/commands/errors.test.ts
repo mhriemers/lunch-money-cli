@@ -73,9 +73,7 @@ describe("error handling", () => {
   describe("LunchMoneyError in JSON mode", () => {
     it("outputs error as JSON", async () => {
       const client = createMockClient();
-      client.manualAccounts.getAll.rejects(
-        new LunchMoneyError("Unauthorized", 401, null, ["Invalid API key"]),
-      );
+      client.manualAccounts.getAll.rejects(new LunchMoneyError("Unauthorized", 401, null, ["Invalid API key"]));
       const stub = sinon.stub(AccountsList.prototype, "createClient" as keyof AccountsList);
       stub.returns(client);
 

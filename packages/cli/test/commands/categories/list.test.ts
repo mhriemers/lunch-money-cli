@@ -15,9 +15,7 @@ describe("categories list", () => {
 
   it("formats categories as a table", async () => {
     const { stdout } = await runCommand(CategoriesList, [], (c) => {
-      c.categories.getAll.resolves([
-        { id: 1, name: "Food", is_group: false, is_income: false, archived: false },
-      ]);
+      c.categories.getAll.resolves([{ id: 1, name: "Food", is_group: false, is_income: false, archived: false }]);
     });
     expectFixture(stdout, "categories/list-table");
   });

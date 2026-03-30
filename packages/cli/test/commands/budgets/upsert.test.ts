@@ -10,7 +10,9 @@ describe("budgets upsert", () => {
     const { result, client } = await runCommand(
       BudgetsUpsert,
       ["--amount", "500", "--category-id", "10", "--start-date", "2025-01-01", "--json"],
-      (c) => { c.budgets.upsert.resolves(response); },
+      (c) => {
+        c.budgets.upsert.resolves(response);
+      },
     );
     expect(result).to.deep.equal(response);
     const body = client.budgets.upsert.firstCall.args[0];
@@ -22,8 +24,22 @@ describe("budgets upsert", () => {
   it("maps optional currency and notes flags", async () => {
     const { client } = await runCommand(
       BudgetsUpsert,
-      ["--amount", "250.50", "--category-id", "10", "--start-date", "2025-01-01", "--currency", "eur", "--notes", "Q1 budget", "--json"],
-      (c) => { c.budgets.upsert.resolves({}); },
+      [
+        "--amount",
+        "250.50",
+        "--category-id",
+        "10",
+        "--start-date",
+        "2025-01-01",
+        "--currency",
+        "eur",
+        "--notes",
+        "Q1 budget",
+        "--json",
+      ],
+      (c) => {
+        c.budgets.upsert.resolves({});
+      },
     );
     const body = client.budgets.upsert.firstCall.args[0];
     expect(body.currency).to.equal("eur");
@@ -34,7 +50,9 @@ describe("budgets upsert", () => {
     const { stdout } = await runCommand(
       BudgetsUpsert,
       ["--amount", "500", "--category-id", "10", "--start-date", "2025-01-01"],
-      (c) => { c.budgets.upsert.resolves({}); },
+      (c) => {
+        c.budgets.upsert.resolves({});
+      },
     );
     expect(stdout).to.equal("Budget saved for category 10 starting 2025-01-01.\n");
   });

@@ -10,7 +10,9 @@ describe("transactions attach-file", () => {
     const { result, client } = await runCommand(
       TransactionsAttachFile,
       ["100", "--file", "/path/to/receipt.pdf", "--json"],
-      (c) => { c.transactions.attachFile.resolves(response); },
+      (c) => {
+        c.transactions.attachFile.resolves(response);
+      },
     );
     expect(result).to.deep.equal(response);
     const [txId, body] = client.transactions.attachFile.firstCall.args;
@@ -22,17 +24,17 @@ describe("transactions attach-file", () => {
     const { client } = await runCommand(
       TransactionsAttachFile,
       ["100", "--file", "/path/to/file.jpg", "--notes", "Receipt for dinner", "--json"],
-      (c) => { c.transactions.attachFile.resolves({}); },
+      (c) => {
+        c.transactions.attachFile.resolves({});
+      },
     );
     expect(client.transactions.attachFile.firstCall.args[1].notes).to.equal("Receipt for dinner");
   });
 
   it("shows confirmation message", async () => {
-    const { stdout } = await runCommand(
-      TransactionsAttachFile,
-      ["100", "--file", "/path/to/file.jpg"],
-      (c) => { c.transactions.attachFile.resolves({}); },
-    );
+    const { stdout } = await runCommand(TransactionsAttachFile, ["100", "--file", "/path/to/file.jpg"], (c) => {
+      c.transactions.attachFile.resolves({});
+    });
     expect(stdout).to.equal("Attached file to transaction 100.\n");
   });
 });

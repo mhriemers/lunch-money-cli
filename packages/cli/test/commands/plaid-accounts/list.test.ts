@@ -16,7 +16,15 @@ describe("plaid-accounts list", () => {
   it("formats plaid accounts as a table", async () => {
     const { stdout } = await runCommand(PlaidAccountsList, [], (c) => {
       c.plaidAccounts.getAll.resolves([
-        { id: 1, name: "Chase Checking", institution_name: "Chase", type: "depository", balance: "1500.00", currency: "usd", status: "active" },
+        {
+          id: 1,
+          name: "Chase Checking",
+          institution_name: "Chase",
+          type: "depository",
+          balance: "1500.00",
+          currency: "usd",
+          status: "active",
+        },
       ]);
     });
     expectFixture(stdout, "plaid-accounts/list-table");

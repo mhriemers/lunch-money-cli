@@ -34,13 +34,14 @@ describe("auth", () => {
 
   function testConfig() {
     // Proxy to redirect configDir to temp directory
-    return getConfig().then((config) =>
-      new Proxy(config, {
-        get(target, prop, receiver) {
-          if (prop === "configDir") return tempDir;
-          return Reflect.get(target, prop, receiver);
-        },
-      }),
+    return getConfig().then(
+      (config) =>
+        new Proxy(config, {
+          get(target, prop, receiver) {
+            if (prop === "configDir") return tempDir;
+            return Reflect.get(target, prop, receiver);
+          },
+        }),
     );
   }
 

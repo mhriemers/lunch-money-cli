@@ -13,10 +13,15 @@ describe("plaid-accounts sync", () => {
   });
 
   it("maps date range and account ID flags", async () => {
-    const { client } = await runCommand(
-      PlaidAccountsSync,
-      ["--start-date", "2025-01-01", "--end-date", "2025-01-31", "--plaid-account-id", "42", "--json"],
-    );
+    const { client } = await runCommand(PlaidAccountsSync, [
+      "--start-date",
+      "2025-01-01",
+      "--end-date",
+      "2025-01-31",
+      "--plaid-account-id",
+      "42",
+      "--json",
+    ]);
     expect(client.plaidAccounts.triggerFetch.firstCall.args[0]).to.deep.equal({
       start_date: "2025-01-01",
       end_date: "2025-01-31",

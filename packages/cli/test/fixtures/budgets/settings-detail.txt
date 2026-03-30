@@ -1,0 +1,7 @@
+Granularity       month
+Quantity          1
+Anchor Date       2025-01-01
+Use Last Day      false
+Income Option     include
+Hide No Activity  true
+Rollover Left     false

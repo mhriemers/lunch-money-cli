@@ -1,0 +1,9 @@
+ID           5
+Description  Streaming
+Status       active
+Payee        Netflix
+Amount       15.99
+Currency     usd
+Granularity  monthly
+Anchor Date  2025-01-15
+Created At   2024-01-01T00:00:00Z

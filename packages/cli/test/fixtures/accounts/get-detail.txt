@@ -1,0 +1,12 @@
+ID             1
+Name           Checking
+Type           cash
+Subtype        -
+Display Name   -
+Balance        1000.00
+Currency       usd
+Status         active
+Institution    Chase
+Balance As Of  -
+Closed On      -
+Created At     -

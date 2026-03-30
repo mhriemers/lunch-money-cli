@@ -1,0 +1,3 @@
+ID  Name            Institution  Type        Balance  Currency  Status
+──  ──────────────  ───────────  ──────────  ───────  ────────  ──────
+1   Chase Checking  Chase        depository  1500.00  usd       active

@@ -1,0 +1,4 @@
+ID  Date        Payee   Amount  Currency  Status 
+──  ──────────  ──────  ──────  ────────  ───────
+1   2025-01-15  Coffee  -4.50   usd       cleared
+(more results available — use --offset to paginate)

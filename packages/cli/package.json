@@ -66,10 +66,13 @@
     "@oclif/test": "^4.1.17",
     "@types/mocha": "^10",
     "@types/node": "^25.5.0",
+    "@types/sinon": "^21.0.0",
     "chai": "^6",
     "mocha": "^11",
+    "nock": "^14.0.11",
     "oclif": "^4",
     "shx": "^0.4.0",
+    "sinon": "^21.0.3",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2"
   }

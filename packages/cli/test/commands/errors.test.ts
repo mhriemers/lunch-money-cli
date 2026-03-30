@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+/* eslint-disable @typescript-eslint/no-explicit-any -- calling protected _run() from tests */
 import { LunchMoneyError } from "@lunch-money/lunch-money-js-v2";
 import { captureOutput } from "@oclif/test";
 import { expect } from "chai";
@@ -147,7 +147,7 @@ describe("error handling", () => {
         expect(stderr).to.contain("No API key found");
       } finally {
         if (originalEnv !== undefined) process.env.LUNCH_MONEY_API_KEY = originalEnv;
-        rmSync(tempDir, { recursive: true, force: true });
+        rmSync(tempDir, { force: true, recursive: true });
       }
     });
   });

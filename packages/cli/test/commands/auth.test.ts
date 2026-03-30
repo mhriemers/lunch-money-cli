@@ -16,7 +16,7 @@ function mockStdin(input: string): void {
       this.push(null);
     },
   });
-  Object.defineProperty(process, "stdin", { value: readable, configurable: true });
+  Object.defineProperty(process, "stdin", { configurable: true, value: readable });
 }
 
 describe("auth", () => {
@@ -28,8 +28,8 @@ describe("auth", () => {
   });
 
   afterEach(() => {
-    Object.defineProperty(process, "stdin", { value: originalStdin, configurable: true });
-    rmSync(tempDir, { recursive: true, force: true });
+    Object.defineProperty(process, "stdin", { configurable: true, value: originalStdin });
+    rmSync(tempDir, { force: true, recursive: true });
   });
 
   function testConfig() {
@@ -54,7 +54,7 @@ describe("auth", () => {
       return cmd.run();
     });
 
-    const saved = JSON.parse(readFileSync(join(tempDir, "config.json"), "utf-8"));
+    const saved = JSON.parse(readFileSync(join(tempDir, "config.json"), "utf8"));
     expect(saved.api_key).to.equal("test-token-123");
   });
 
@@ -67,7 +67,7 @@ describe("auth", () => {
       return cmd.run();
     });
 
-    const saved = JSON.parse(readFileSync(join(tempDir, "config.json"), "utf-8"));
+    const saved = JSON.parse(readFileSync(join(tempDir, "config.json"), "utf8"));
     expect(saved.api_key).to.equal("spaced-token");
   });
 

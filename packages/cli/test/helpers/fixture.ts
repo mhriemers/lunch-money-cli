@@ -23,13 +23,13 @@ export function expectFixture(actual: string, name: string): void {
 
   if (updateMode) {
     mkdirSync(dirname(filePath), { recursive: true });
-    writeFileSync(filePath, actual, "utf-8");
+    writeFileSync(filePath, actual, "utf8");
     return;
   }
 
   let expected: string;
   try {
-    expected = readFileSync(filePath, "utf-8");
+    expected = readFileSync(filePath, "utf8");
   } catch {
     throw new Error(`Fixture not found: ${filePath}\nRun with UPDATE_FIXTURES=1 to generate it.`);
   }

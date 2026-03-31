@@ -1,62 +1,62 @@
-import sinon from "sinon";
+import { type SinonStub, stub } from "sinon";
 
 export interface MockClient {
   budgets: {
-    delete: sinon.SinonStub;
-    getSettings: sinon.SinonStub;
-    upsert: sinon.SinonStub;
+    delete: SinonStub;
+    getSettings: SinonStub;
+    upsert: SinonStub;
   };
   categories: {
-    create: sinon.SinonStub;
-    delete: sinon.SinonStub;
-    get: sinon.SinonStub;
-    getAll: sinon.SinonStub;
-    update: sinon.SinonStub;
+    create: SinonStub;
+    delete: SinonStub;
+    get: SinonStub;
+    getAll: SinonStub;
+    update: SinonStub;
   };
   manualAccounts: {
-    create: sinon.SinonStub;
-    delete: sinon.SinonStub;
-    get: sinon.SinonStub;
-    getAll: sinon.SinonStub;
-    update: sinon.SinonStub;
+    create: SinonStub;
+    delete: SinonStub;
+    get: SinonStub;
+    getAll: SinonStub;
+    update: SinonStub;
   };
   plaidAccounts: {
-    get: sinon.SinonStub;
-    getAll: sinon.SinonStub;
-    triggerFetch: sinon.SinonStub;
+    get: SinonStub;
+    getAll: SinonStub;
+    triggerFetch: SinonStub;
   };
   recurringItems: {
-    get: sinon.SinonStub;
-    getAll: sinon.SinonStub;
+    get: SinonStub;
+    getAll: SinonStub;
   };
   summary: {
-    get: sinon.SinonStub;
+    get: SinonStub;
   };
   tags: {
-    create: sinon.SinonStub;
-    delete: sinon.SinonStub;
-    get: sinon.SinonStub;
-    getAll: sinon.SinonStub;
-    update: sinon.SinonStub;
+    create: SinonStub;
+    delete: SinonStub;
+    get: SinonStub;
+    getAll: SinonStub;
+    update: SinonStub;
   };
   transactions: {
-    attachFile: sinon.SinonStub;
-    create: sinon.SinonStub;
-    delete: sinon.SinonStub;
-    deleteAttachment: sinon.SinonStub;
-    deleteMany: sinon.SinonStub;
-    get: sinon.SinonStub;
-    getAll: sinon.SinonStub;
-    getAttachmentUrl: sinon.SinonStub;
-    group: sinon.SinonStub;
-    split: sinon.SinonStub;
-    ungroup: sinon.SinonStub;
-    unsplit: sinon.SinonStub;
-    update: sinon.SinonStub;
-    updateMany: sinon.SinonStub;
+    attachFile: SinonStub;
+    create: SinonStub;
+    delete: SinonStub;
+    deleteAttachment: SinonStub;
+    deleteMany: SinonStub;
+    get: SinonStub;
+    getAll: SinonStub;
+    getAttachmentUrl: SinonStub;
+    group: SinonStub;
+    split: SinonStub;
+    ungroup: SinonStub;
+    unsplit: SinonStub;
+    update: SinonStub;
+    updateMany: SinonStub;
   };
   user: {
-    getMe: sinon.SinonStub;
+    getMe: SinonStub;
   };
 }
 
@@ -67,61 +67,61 @@ export interface MockClient {
 export function createMockClient(): MockClient {
   return {
     budgets: {
-      delete: sinon.stub().resolves(),
-      getSettings: sinon.stub().resolves({}),
-      upsert: sinon.stub().resolves({}),
+      delete: stub().resolves(),
+      getSettings: stub().resolves({}),
+      upsert: stub().resolves({}),
     },
     categories: {
-      create: sinon.stub().resolves({}),
-      delete: sinon.stub().resolves(),
-      get: sinon.stub().resolves({}),
-      getAll: sinon.stub().resolves([]),
-      update: sinon.stub().resolves({}),
+      create: stub().resolves({}),
+      delete: stub().resolves(),
+      get: stub().resolves({}),
+      getAll: stub().resolves([]),
+      update: stub().resolves({}),
     },
     manualAccounts: {
-      create: sinon.stub().resolves({}),
-      delete: sinon.stub().resolves(),
-      get: sinon.stub().resolves({}),
-      getAll: sinon.stub().resolves([]),
-      update: sinon.stub().resolves({}),
+      create: stub().resolves({}),
+      delete: stub().resolves(),
+      get: stub().resolves({}),
+      getAll: stub().resolves([]),
+      update: stub().resolves({}),
     },
     plaidAccounts: {
-      get: sinon.stub().resolves({}),
-      getAll: sinon.stub().resolves([]),
-      triggerFetch: sinon.stub().resolves(),
+      get: stub().resolves({}),
+      getAll: stub().resolves([]),
+      triggerFetch: stub().resolves(),
     },
     recurringItems: {
-      get: sinon.stub().resolves({}),
-      getAll: sinon.stub().resolves([]),
+      get: stub().resolves({}),
+      getAll: stub().resolves([]),
     },
     summary: {
-      get: sinon.stub().resolves({ categories: [] }),
+      get: stub().resolves({ categories: [] }),
     },
     tags: {
-      create: sinon.stub().resolves({}),
-      delete: sinon.stub().resolves(),
-      get: sinon.stub().resolves({}),
-      getAll: sinon.stub().resolves([]),
-      update: sinon.stub().resolves({}),
+      create: stub().resolves({}),
+      delete: stub().resolves(),
+      get: stub().resolves({}),
+      getAll: stub().resolves([]),
+      update: stub().resolves({}),
     },
     transactions: {
-      attachFile: sinon.stub().resolves({}),
-      create: sinon.stub().resolves({ ids: [] }),
-      delete: sinon.stub().resolves(),
-      deleteAttachment: sinon.stub().resolves(),
-      deleteMany: sinon.stub().resolves(),
-      get: sinon.stub().resolves({}),
-      getAll: sinon.stub().resolves({ has_more: false, transactions: [] }),
-      getAttachmentUrl: sinon.stub().resolves({ url: "https://example.com/file" }),
-      group: sinon.stub().resolves({}),
-      split: sinon.stub().resolves({}),
-      ungroup: sinon.stub().resolves(),
-      unsplit: sinon.stub().resolves(),
-      update: sinon.stub().resolves({}),
-      updateMany: sinon.stub().resolves({}),
+      attachFile: stub().resolves({}),
+      create: stub().resolves({ ids: [] }),
+      delete: stub().resolves(),
+      deleteAttachment: stub().resolves(),
+      deleteMany: stub().resolves(),
+      get: stub().resolves({}),
+      getAll: stub().resolves({ has_more: false, transactions: [] }),
+      getAttachmentUrl: stub().resolves({ url: "https://example.com/file" }),
+      group: stub().resolves({}),
+      split: stub().resolves({}),
+      ungroup: stub().resolves(),
+      unsplit: stub().resolves(),
+      update: stub().resolves({}),
+      updateMany: stub().resolves({}),
     },
     user: {
-      getMe: sinon.stub().resolves({}),
+      getMe: stub().resolves({}),
     },
   };
 }

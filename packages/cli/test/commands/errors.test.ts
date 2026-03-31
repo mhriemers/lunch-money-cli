@@ -5,7 +5,7 @@ import { expect } from "chai";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import sinon from "sinon";
+import { restore, stub } from "sinon";
 
 import AccountsList from "../../src/commands/accounts/list.js";
 import TransactionsCreate from "../../src/commands/transactions/create.js";
@@ -13,7 +13,7 @@ import { createMockClient, getConfig } from "../helpers/index.js";
 
 describe("error handling", () => {
   afterEach(() => {
-    sinon.restore();
+    restore();
     process.exitCode = undefined;
   });
 
@@ -21,8 +21,7 @@ describe("error handling", () => {
     it("shows error message and status", async () => {
       const client = createMockClient();
       client.manualAccounts.getAll.rejects(new LunchMoneyError("Not found", 404));
-      const stub = sinon.stub(AccountsList.prototype, "createClient" as keyof AccountsList);
-      stub.returns(client);
+      stub(AccountsList.prototype, "createClient" as keyof AccountsList).returns(client);
 
       const config = await getConfig();
       const { stderr } = await captureOutput(async () => {
@@ -39,8 +38,7 @@ describe("error handling", () => {
       client.manualAccounts.getAll.rejects(
         new LunchMoneyError("Validation failed", 422, null, ["Field 'name' is required", "Amount must be positive"]),
       );
-      const stub = sinon.stub(AccountsList.prototype, "createClient" as keyof AccountsList);
-      stub.returns(client);
+      stub(AccountsList.prototype, "createClient" as keyof AccountsList).returns(client);
 
       const config = await getConfig();
       const { stderr } = await captureOutput(async () => {
@@ -57,8 +55,7 @@ describe("error handling", () => {
     it("sets exit code to 1", async () => {
       const client = createMockClient();
       client.manualAccounts.getAll.rejects(new LunchMoneyError("Fail", 500));
-      const stub = sinon.stub(AccountsList.prototype, "createClient" as keyof AccountsList);
-      stub.returns(client);
+      stub(AccountsList.prototype, "createClient" as keyof AccountsList).returns(client);
 
       const config = await getConfig();
       await captureOutput(async () => {
@@ -74,8 +71,7 @@ describe("error handling", () => {
     it("outputs error as JSON", async () => {
       const client = createMockClient();
       client.manualAccounts.getAll.rejects(new LunchMoneyError("Unauthorized", 401, null, ["Invalid API key"]));
-      const stub = sinon.stub(AccountsList.prototype, "createClient" as keyof AccountsList);
-      stub.returns(client);
+      stub(AccountsList.prototype, "createClient" as keyof AccountsList).returns(client);
 
       const config = await getConfig();
       const { stdout } = await captureOutput(async () => {
@@ -94,8 +90,7 @@ describe("error handling", () => {
     it("shows error message in text mode", async () => {
       const client = createMockClient();
       client.manualAccounts.getAll.rejects(new Error("Connection refused"));
-      const stub = sinon.stub(AccountsList.prototype, "createClient" as keyof AccountsList);
-      stub.returns(client);
+      stub(AccountsList.prototype, "createClient" as keyof AccountsList).returns(client);
 
       const config = await getConfig();
       const { stderr } = await captureOutput(async () => {
@@ -109,8 +104,7 @@ describe("error handling", () => {
     it("outputs error as JSON in JSON mode", async () => {
       const client = createMockClient();
       client.manualAccounts.getAll.rejects(new Error("Connection refused"));
-      const stub = sinon.stub(AccountsList.prototype, "createClient" as keyof AccountsList);
-      stub.returns(client);
+      stub(AccountsList.prototype, "createClient" as keyof AccountsList).returns(client);
 
       const config = await getConfig();
       const { stdout } = await captureOutput(async () => {
@@ -154,8 +148,7 @@ describe("error handling", () => {
 
   describe("invalid JSON flags", () => {
     it("throws on invalid --transactions JSON", async () => {
-      const stub = sinon.stub(TransactionsCreate.prototype, "createClient" as keyof TransactionsCreate);
-      stub.returns(createMockClient());
+      stub(TransactionsCreate.prototype, "createClient" as keyof TransactionsCreate).returns(createMockClient());
 
       const config = await getConfig();
       const { stderr } = await captureOutput(async () => {

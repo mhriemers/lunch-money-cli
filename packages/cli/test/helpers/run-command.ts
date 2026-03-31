@@ -1,5 +1,5 @@
 import { captureOutput } from "@oclif/test";
-import sinon from "sinon";
+import { type SinonStub, stub } from "sinon";
 
 import { createMockClient, type MockClient } from "./mock-client.js";
 import { getConfig } from "./setup.js";
@@ -13,7 +13,7 @@ type CommandClass = {
 
 export interface RunResult<T = unknown> {
   client: MockClient;
-  createClientStub: sinon.SinonStub;
+  createClientStub: SinonStub;
   error?: Error;
   result: T;
   stderr: string;
@@ -25,23 +25,23 @@ export interface RunResult<T = unknown> {
  *
  * @param Command - The command class imported from src/
  * @param argv - CLI arguments array
- * @param setup - Optional callback to configure the mock client before execution
+ * @param configure - Optional callback to configure the mock client before execution
  * @returns Run result with stdout, stderr, result, and the mock client for assertions
  */
 export async function runCommand<T = unknown>(
   Command: CommandClass,
   argv: string[],
-  setup?: (client: MockClient) => void,
+  configure?: (client: MockClient) => void,
 ): Promise<RunResult<T>> {
   const config = await getConfig();
   const client = createMockClient();
 
-  if (setup) {
-    setup(client);
+  if (configure) {
+    configure(client);
   }
 
-  const stub = sinon.stub(Command.prototype, "createClient");
-  stub.returns(client);
+  const createClientStub = stub(Command.prototype, "createClient");
+  createClientStub.returns(client);
 
   // Fix terminal width for deterministic table output
   const origColumns = process.stdout.columns;
@@ -55,7 +55,7 @@ export async function runCommand<T = unknown>(
 
     return {
       client,
-      createClientStub: stub,
+      createClientStub,
       error: captured.error,
       result: captured.result as T,
       stderr: captured.stderr ?? "",
@@ -63,6 +63,6 @@ export async function runCommand<T = unknown>(
     };
   } finally {
     process.stdout.columns = origColumns;
-    stub.restore();
+    createClientStub.restore();
   }
 }

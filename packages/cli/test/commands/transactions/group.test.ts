@@ -1,4 +1,3 @@
- 
 import { expect } from "chai";
 
 import TransactionsGroup from "../../../src/commands/transactions/group.js";

@@ -1,4 +1,3 @@
- 
 import { expect } from "chai";
 
 import CategoriesList from "../../../src/commands/categories/list.js";

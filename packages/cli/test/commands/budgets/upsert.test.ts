@@ -1,4 +1,3 @@
- 
 import { expect } from "chai";
 
 import BudgetsUpsert from "../../../src/commands/budgets/upsert.js";

@@ -1,4 +1,3 @@
- 
 import { expect } from "chai";
 
 import TransactionsAttachFile from "../../../src/commands/transactions/attach-file.js";

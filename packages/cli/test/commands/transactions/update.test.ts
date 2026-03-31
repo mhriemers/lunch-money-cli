@@ -1,4 +1,3 @@
- 
 import { expect } from "chai";
 
 import TransactionsUpdate from "../../../src/commands/transactions/update.js";

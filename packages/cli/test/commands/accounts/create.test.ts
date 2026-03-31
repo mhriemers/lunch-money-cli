@@ -1,4 +1,3 @@
- 
 import { expect } from "chai";
 
 import AccountsCreate from "../../../src/commands/accounts/create.js";

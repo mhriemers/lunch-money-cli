@@ -1,4 +1,3 @@
- 
 import { expect } from "chai";
 
 import TagsDelete from "../../../src/commands/tags/delete.js";

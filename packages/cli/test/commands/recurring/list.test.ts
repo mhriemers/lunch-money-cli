@@ -1,4 +1,3 @@
- 
 import { expect } from "chai";
 
 import RecurringList from "../../../src/commands/recurring/list.js";

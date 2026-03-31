@@ -1,4 +1,3 @@
- 
 import { expect } from "chai";
 
 import TransactionsSplit from "../../../src/commands/transactions/split.js";

@@ -236,32 +236,17 @@ describe("error handling", () => {
     });
 
     it("throws on invalid --custom-metadata JSON (transactions update)", async () => {
-      const { stderr } = await runCommand(
-        TransactionsUpdate,
-        ["100", "--custom-metadata", "bad"],
-        undefined,
-        RAW,
-      );
+      const { stderr } = await runCommand(TransactionsUpdate, ["100", "--custom-metadata", "bad"], undefined, RAW);
       expect(stderr).to.contain("custom-metadata must be valid JSON");
     });
 
     it("throws on invalid --tag-ids JSON", async () => {
-      const { stderr } = await runCommand(
-        TransactionsUpdate,
-        ["100", "--tag-ids", "bad"],
-        undefined,
-        RAW,
-      );
+      const { stderr } = await runCommand(TransactionsUpdate, ["100", "--tag-ids", "bad"], undefined, RAW);
       expect(stderr).to.contain("tag-ids must be valid JSON");
     });
 
     it("throws on invalid --children JSON (categories create)", async () => {
-      const { stderr } = await runCommand(
-        CategoriesCreate,
-        ["--name", "X", "--children", "bad-json"],
-        undefined,
-        RAW,
-      );
+      const { stderr } = await runCommand(CategoriesCreate, ["--name", "X", "--children", "bad-json"], undefined, RAW);
       expect(stderr).to.contain("children must be valid JSON");
     });
   });

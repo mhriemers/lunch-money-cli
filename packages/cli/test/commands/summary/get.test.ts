@@ -53,8 +53,10 @@ describe("summary get", () => {
 
   it("omits boolean flags from params when not set", async () => {
     const { client } = await runCommand(SummaryGet, [
-      "--start-date", "2025-01-01",
-      "--end-date", "2025-01-31",
+      "--start-date",
+      "2025-01-01",
+      "--end-date",
+      "2025-01-31",
       "--json",
     ]);
     const params = client.summary.get.firstCall.args[0];

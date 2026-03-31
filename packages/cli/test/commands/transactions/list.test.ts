@@ -84,4 +84,52 @@ describe("transactions list", () => {
     });
     expectFixture(stdout, "transactions/list-no-pagination");
   });
+
+  it("shows pagination message when hasMore (camelCase) is true", async () => {
+    const { stdout } = await runCommand(TransactionsList, [], (c) => {
+      c.transactions.getAll.resolves({
+        hasMore: true,
+        transactions: [
+          { amount: "-4.50", currency: "usd", date: "2025-01-15", id: 1, payee: "Coffee", status: "cleared" },
+        ],
+      });
+    });
+    expectFixture(stdout, "transactions/list-pagination");
+  });
+
+  it("maps additional filter flags to API params", async () => {
+    const { client } = await runCommand(TransactionsList, [
+      "--tag-id", "7",
+      "--recurring-id", "3",
+      "--manual-account-id", "10",
+      "--plaid-account-id", "20",
+      "--created-since", "2025-01-01",
+      "--updated-since", "2025-01-15",
+      "--is-pending",
+      "--is-group-parent",
+      "--include-files",
+      "--include-metadata",
+      "--include-group-children",
+      "--include-split-parents",
+      "--json",
+    ]);
+    const params = client.transactions.getAll.firstCall.args[0];
+    expect(params.tag_id).to.equal(7);
+    expect(params.recurring_id).to.equal(3);
+    expect(params.manual_account_id).to.equal(10);
+    expect(params.plaid_account_id).to.equal(20);
+    expect(params.created_since).to.equal("2025-01-01");
+    expect(params.updated_since).to.equal("2025-01-15");
+    expect(params.is_pending).to.equal(true);
+    expect(params.is_group_parent).to.equal(true);
+    expect(params.include_files).to.equal(true);
+    expect(params.include_metadata).to.equal(true);
+    expect(params.include_group_children).to.equal(true);
+    expect(params.include_split_parents).to.equal(true);
+  });
+
+  it("calls getAll with empty params when no flags", async () => {
+    const { client } = await runCommand(TransactionsList, ["--json"]);
+    expect(client.transactions.getAll.firstCall.args[0]).to.deep.equal({});
+  });
 });

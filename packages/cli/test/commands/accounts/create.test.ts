@@ -43,6 +43,78 @@ describe("accounts create", () => {
     expect(body.custom_metadata).to.deep.equal({ foo: "bar" });
   });
 
+  it("converts closed-on 'null' to null", async () => {
+    const { client } = await runCommand(
+      AccountsCreate,
+      ["--name", "X", "--type", "cash", "--balance", "0", "--closed-on", "null", "--json"],
+      (c) => {
+        c.manualAccounts.create.resolves({ id: 1, name: "X" });
+      },
+    );
+    const body = client.manualAccounts.create.firstCall.args[0];
+    expect(body.closed_on).to.equal(null);
+  });
+
+  it("passes closed-on date value through", async () => {
+    const { client } = await runCommand(
+      AccountsCreate,
+      ["--name", "X", "--type", "cash", "--balance", "0", "--closed-on", "2025-06-15", "--json"],
+      (c) => {
+        c.manualAccounts.create.resolves({ id: 1, name: "X" });
+      },
+    );
+    const body = client.manualAccounts.create.firstCall.args[0];
+    expect(body.closed_on).to.equal("2025-06-15");
+  });
+
+  it("maps --exclude-from-transactions boolean flag", async () => {
+    const { client } = await runCommand(
+      AccountsCreate,
+      ["--name", "X", "--type", "cash", "--balance", "0", "--exclude-from-transactions", "--json"],
+      (c) => {
+        c.manualAccounts.create.resolves({ id: 1, name: "X" });
+      },
+    );
+    const body = client.manualAccounts.create.firstCall.args[0];
+    expect(body.exclude_from_transactions).to.equal(true);
+  });
+
+  it("maps remaining optional flags", async () => {
+    const { client } = await runCommand(
+      AccountsCreate,
+      [
+        "--name", "X", "--type", "cash", "--balance", "100",
+        "--balance-as-of", "2025-01-15T12:00:00Z",
+        "--display-name", "My Account",
+        "--external-id", "ext-123",
+        "--status", "active",
+        "--subtype", "checking",
+        "--json",
+      ],
+      (c) => {
+        c.manualAccounts.create.resolves({ id: 1, name: "X" });
+      },
+    );
+    const body = client.manualAccounts.create.firstCall.args[0];
+    expect(body.balance_as_of).to.equal("2025-01-15T12:00:00Z");
+    expect(body.display_name).to.equal("My Account");
+    expect(body.external_id).to.equal("ext-123");
+    expect(body.status).to.equal("active");
+    expect(body.subtype).to.equal("checking");
+  });
+
+  it("omits optional flags from body when not set", async () => {
+    const { client } = await runCommand(
+      AccountsCreate,
+      ["--name", "X", "--type", "cash", "--balance", "0", "--json"],
+      (c) => {
+        c.manualAccounts.create.resolves({ id: 1, name: "X" });
+      },
+    );
+    const body = client.manualAccounts.create.firstCall.args[0];
+    expect(body).to.deep.equal({ balance: "0", name: "X", type: "cash" });
+  });
+
   it("shows confirmation message", async () => {
     const { stdout } = await runCommand(
       AccountsCreate,

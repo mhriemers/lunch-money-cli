@@ -51,6 +51,16 @@ describe("summary get", () => {
     expect(params.include_rollover_pool).to.be.true;
   });
 
+  it("omits boolean flags from params when not set", async () => {
+    const { client } = await runCommand(SummaryGet, [
+      "--start-date", "2025-01-01",
+      "--end-date", "2025-01-31",
+      "--json",
+    ]);
+    const params = client.summary.get.firstCall.args[0];
+    expect(params).to.deep.equal({ end_date: "2025-01-31", start_date: "2025-01-01" });
+  });
+
   it("formats categories as a table", async () => {
     const { stdout } = await runCommand(SummaryGet, ["--start-date", "2025-01-01", "--end-date", "2025-01-31"], (c) => {
       c.summary.get.resolves({

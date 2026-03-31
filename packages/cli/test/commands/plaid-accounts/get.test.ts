@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
 
 import PlaidAccountsGet from "../../../src/commands/plaid-accounts/get.js";
@@ -11,7 +10,7 @@ describe("plaid-accounts get", () => {
       c.plaidAccounts.get.resolves(data);
     });
     expect(result).to.deep.equal(data);
-    expect(client.plaidAccounts.get.calledOnceWith(10)).to.be.true;
+    expect(client.plaidAccounts.get.firstCall.args[0]).to.equal(10);
   });
 
   it("formats plaid account detail as text", async () => {

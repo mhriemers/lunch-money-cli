@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
 
 import TransactionsUngroup from "../../../src/commands/transactions/ungroup.js";
@@ -8,7 +7,7 @@ describe("transactions ungroup", () => {
   it("ungroups transaction by ID", async () => {
     const { client, result } = await runCommand(TransactionsUngroup, ["999", "--json"]);
     expect(result).to.deep.equal({ success: true, ungrouped_id: 999 });
-    expect(client.transactions.ungroup.calledOnceWith(999)).to.be.true;
+    expect(client.transactions.ungroup.firstCall.args[0]).to.equal(999);
   });
 
   it("shows confirmation message", async () => {

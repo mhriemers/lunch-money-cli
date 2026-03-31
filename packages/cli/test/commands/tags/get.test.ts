@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
 
 import TagsGet from "../../../src/commands/tags/get.js";
@@ -11,7 +10,7 @@ describe("tags get", () => {
       c.tags.get.resolves(data);
     });
     expect(result).to.deep.equal(data);
-    expect(client.tags.get.calledOnceWith(5)).to.be.true;
+    expect(client.tags.get.firstCall.args[0]).to.equal(5);
   });
 
   it("formats tag detail as text", async () => {

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
 
 import TransactionsGet from "../../../src/commands/transactions/get.js";
@@ -11,7 +10,7 @@ describe("transactions get", () => {
       c.transactions.get.resolves(data);
     });
     expect(result).to.deep.equal(data);
-    expect(client.transactions.get.calledOnceWith(100)).to.be.true;
+    expect(client.transactions.get.firstCall.args[0]).to.equal(100);
   });
 
   it("formats transaction detail as text", async () => {

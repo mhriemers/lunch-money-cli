@@ -55,4 +55,19 @@ describe("transactions create", () => {
     );
     expect(stdout).to.equal("Created 2 transaction(s).\n");
   });
+
+  it("shows 0 count when response has neither ids nor transactions", async () => {
+    const { stdout } = await runCommand(TransactionsCreate, ["--transactions", txJson], (c) => {
+      c.transactions.create.resolves({});
+    });
+    expect(stdout).to.equal("Created 0 transaction(s).\n");
+  });
+
+  it("omits boolean flags from body when not set", async () => {
+    const { client } = await runCommand(TransactionsCreate, ["--transactions", txJson, "--json"]);
+    const body = client.transactions.create.firstCall.args[0];
+    expect(body).to.not.have.property("apply_rules");
+    expect(body).to.not.have.property("skip_duplicates");
+    expect(body).to.not.have.property("skip_balance_update");
+  });
 });

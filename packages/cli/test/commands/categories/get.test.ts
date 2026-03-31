@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
 
 import CategoriesGet from "../../../src/commands/categories/get.js";
@@ -11,7 +10,7 @@ describe("categories get", () => {
       c.categories.get.resolves(data);
     });
     expect(result).to.deep.equal(data);
-    expect(client.categories.get.calledOnceWith(10)).to.be.true;
+    expect(client.categories.get.firstCall.args[0]).to.equal(10);
   });
 
   it("formats category detail as text", async () => {

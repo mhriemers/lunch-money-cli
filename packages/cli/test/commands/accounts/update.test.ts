@@ -63,6 +63,64 @@ describe("accounts update", () => {
     expect(body.custom_metadata).to.deep.equal({ k: "v" });
   });
 
+  it("passes closed-on date value through", async () => {
+    const { client } = await runCommand(AccountsUpdate, ["42", "--closed-on", "2025-06-15", "--json"], (c) => {
+      c.manualAccounts.update.resolves({ id: 42 });
+    });
+    const body = client.manualAccounts.update.firstCall.args[1];
+    expect(body.closed_on).to.equal("2025-06-15");
+  });
+
+  it("converts exclude-from-transactions 'false' to boolean false", async () => {
+    const { client } = await runCommand(
+      AccountsUpdate,
+      ["42", "--exclude-from-transactions", "false", "--json"],
+      (c) => {
+        c.manualAccounts.update.resolves({ id: 42 });
+      },
+    );
+    const body = client.manualAccounts.update.firstCall.args[1];
+    expect(body.exclude_from_transactions).to.equal(false);
+  });
+
+  it("maps remaining optional flags", async () => {
+    const { client } = await runCommand(
+      AccountsUpdate,
+      [
+        "42",
+        "--balance", "999.99",
+        "--balance-as-of", "2025-01-15T12:00:00Z",
+        "--currency", "eur",
+        "--display-name", "My Account",
+        "--external-id", "ext-456",
+        "--status", "closed",
+        "--subtype", "savings",
+        "--type", "cash",
+        "--json",
+      ],
+      (c) => {
+        c.manualAccounts.update.resolves({ id: 42 });
+      },
+    );
+    const body = client.manualAccounts.update.firstCall.args[1];
+    expect(body.balance).to.equal("999.99");
+    expect(body.balance_as_of).to.equal("2025-01-15T12:00:00Z");
+    expect(body.currency).to.equal("eur");
+    expect(body.display_name).to.equal("My Account");
+    expect(body.external_id).to.equal("ext-456");
+    expect(body.status).to.equal("closed");
+    expect(body.subtype).to.equal("savings");
+    expect(body.type).to.equal("cash");
+  });
+
+  it("sends empty body when no update flags set", async () => {
+    const { client } = await runCommand(AccountsUpdate, ["42", "--json"], (c) => {
+      c.manualAccounts.update.resolves({ id: 42 });
+    });
+    const body = client.manualAccounts.update.firstCall.args[1];
+    expect(body).to.deep.equal({});
+  });
+
   it("shows confirmation message", async () => {
     const { stdout } = await runCommand(AccountsUpdate, ["42", "--name", "X"], (c) => {
       c.manualAccounts.update.resolves({ id: 42, name: "X" });

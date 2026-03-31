@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
 
 import AccountsGet from "../../../src/commands/accounts/get.js";
@@ -11,7 +10,7 @@ describe("accounts get", () => {
       c.manualAccounts.get.resolves(data);
     });
     expect(result).to.deep.equal(data);
-    expect(client.manualAccounts.get.calledOnceWith(42)).to.be.true;
+    expect(client.manualAccounts.get.firstCall.args[0]).to.equal(42);
   });
 
   it("formats account detail as text", async () => {
@@ -32,6 +31,6 @@ describe("accounts get", () => {
 
   it("passes --api-key to createClient", async () => {
     const { createClientStub } = await runCommand(AccountsGet, ["1", "--api-key", "k", "--json"]);
-    expect(createClientStub.calledOnceWith("k")).to.be.true;
+    expect(createClientStub.firstCall.args[0]).to.equal("k");
   });
 });

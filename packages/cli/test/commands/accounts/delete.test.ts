@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
 
 import AccountsDelete from "../../../src/commands/accounts/delete.js";
@@ -8,7 +7,7 @@ describe("accounts delete", () => {
   it("deletes account by ID", async () => {
     const { client, result } = await runCommand(AccountsDelete, ["42", "--json"]);
     expect(result).to.deep.equal({ deleted_id: 42, success: true });
-    expect(client.manualAccounts.delete.calledOnceWith(42)).to.be.true;
+    expect(client.manualAccounts.delete.firstCall.args[0]).to.equal(42);
   });
 
   it("shows confirmation message", async () => {

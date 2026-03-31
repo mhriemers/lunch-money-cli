@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
 
 import TransactionsDeleteAttachment from "../../../src/commands/transactions/delete-attachment.js";
@@ -8,7 +7,7 @@ describe("transactions delete-attachment", () => {
   it("deletes attachment by file ID", async () => {
     const { client, result } = await runCommand(TransactionsDeleteAttachment, ["50", "--json"]);
     expect(result).to.deep.equal({ deleted_file_id: 50, success: true });
-    expect(client.transactions.deleteAttachment.calledOnceWith(50)).to.be.true;
+    expect(client.transactions.deleteAttachment.firstCall.args[0]).to.equal(50);
   });
 
   it("shows confirmation message", async () => {

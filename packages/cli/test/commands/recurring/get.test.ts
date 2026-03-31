@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
 
 import RecurringGet from "../../../src/commands/recurring/get.js";
@@ -11,7 +10,7 @@ describe("recurring get", () => {
       c.recurringItems.get.resolves(data);
     });
     expect(result).to.deep.equal(data);
-    expect(client.recurringItems.get.calledOnceWith(5)).to.be.true;
+    expect(client.recurringItems.get.firstCall.args[0]).to.equal(5);
   });
 
   it("formats recurring item detail as text", async () => {

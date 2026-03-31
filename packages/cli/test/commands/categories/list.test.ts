@@ -45,4 +45,11 @@ describe("categories list", () => {
     const { client } = await runCommand(CategoriesList, ["--json"]);
     expect(client.categories.getAll.firstCall.args[0]).to.deep.equal({});
   });
+
+  it("passes both --flatten and --is-group together", async () => {
+    const { client } = await runCommand(CategoriesList, ["--flatten", "--is-group", "true", "--json"]);
+    const params = client.categories.getAll.firstCall.args[0];
+    expect(params.format).to.equal("flattened");
+    expect(params.is_group).to.equal(true);
+  });
 });

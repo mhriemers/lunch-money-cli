@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
 
 import TransactionsGetAttachmentUrl from "../../../src/commands/transactions/get-attachment-url.js";
@@ -11,7 +10,7 @@ describe("transactions get-attachment-url", () => {
       c.transactions.getAttachmentUrl.resolves(response);
     });
     expect(result).to.deep.equal(response);
-    expect(client.transactions.getAttachmentUrl.calledOnceWith(50)).to.be.true;
+    expect(client.transactions.getAttachmentUrl.firstCall.args[0]).to.equal(50);
   });
 
   it("outputs URL as text", async () => {

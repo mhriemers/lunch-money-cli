@@ -40,6 +40,6 @@ describe("accounts list", () => {
 
   it("passes --api-key to createClient", async () => {
     const { createClientStub } = await runCommand(AccountsList, ["--api-key", "test-key", "--json"]);
-    expect(createClientStub.calledOnceWith("test-key")).to.be.true;
+    expect(createClientStub.firstCall.args[0]).to.equal("test-key");
   });
 });

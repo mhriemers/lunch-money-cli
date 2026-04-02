@@ -37,10 +37,7 @@
   },
   "dependencies": {
     "@lunch-money/lunch-money-js-v2": "^2.9.0",
-    "@oclif/core": "^4"
-  },
-  "peerDependencies": {
-    "@oclif/core": "^4"
+    "@oclif/core": "^4.10.3"
   },
   "devDependencies": {
     "@types/mocha": "^10",

@@ -1272,7 +1272,7 @@ _See code: [src/commands/transactions/group.ts](https://github.com/mhriemers/lun
 
 ## `lm transactions list`
 
-Retrieve transactions with optional filters. Returns most recent transactions up to --limit (default 1000, max 2000). Use --offset for pagination when has_more is true.
+Retrieve transactions with optional filters. Returns most recent transactions up to --limit (default 1000, max 2000). Use --offset for pagination when hasMore is true.
 
 ```
 USAGE
@@ -1303,7 +1303,7 @@ FLAGS
   --is-pending                 Filter by pending status. Takes precedence over --include-pending. Pending transactions
                                always have status 'unreviewed'.
   --limit=<value>              Maximum number of transactions to return (1-2000, default 1000). Response includes
-                               has_more=true if more are available.
+                               hasMore=true if more are available.
   --manual-account-id=<value>  Filter by manual account ID. Set to 0 to exclude manual account transactions. Setting
                                both this and --plaid-account-id to 0 returns cash transactions. (integer)
   --offset=<value>             Number of records to skip for pagination (integer)
@@ -1324,7 +1324,7 @@ GLOBAL FLAGS
 
 DESCRIPTION
   Retrieve transactions with optional filters. Returns most recent transactions up to --limit (default 1000, max 2000).
-  Use --offset for pagination when has_more is true.
+  Use --offset for pagination when hasMore is true.
 ```
 
 _See code: [src/commands/transactions/list.ts](https://github.com/mhriemers/lunch-money-cli/blob/lunch-money-cli-v2.1.2/packages/cli/src/commands/transactions/list.ts)_

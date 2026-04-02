@@ -64,7 +64,7 @@ export default class TransactionsUpdate extends ApiCommand {
       if (flags.amount) data.amount = flags.amount;
       if (flags.payee) data.payee = flags.payee;
       if (flags["category-id"]) data.category_id = flags["category-id"];
-      if (flags.notes) data.notes = flags.notes;
+      if (flags.notes !== undefined) data.notes = flags.notes;
       if (flags.currency) data.currency = flags.currency as Currency;
       if (flags.status) data.status = flags.status as "reviewed" | "unreviewed";
       if (flags["tag-ids"]) data.tag_ids = parseJsonArg(flags["tag-ids"], "tag-ids") as number[];

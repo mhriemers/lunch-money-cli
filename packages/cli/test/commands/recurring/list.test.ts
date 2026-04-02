@@ -32,13 +32,7 @@ describe("recurring list", () => {
     const getAll = vi.fn().mockResolvedValue([]);
     mockClient({ recurringItems: { getAll } });
 
-    await runCommand(RecurringList, [
-      "--start-date",
-      "2025-01-01",
-      "--end-date",
-      "2025-01-31",
-      "--json",
-    ]);
+    await runCommand(RecurringList, ["--start-date", "2025-01-01", "--end-date", "2025-01-31", "--json"]);
     expect(getAll.mock.calls[0][0]).toEqual({
       end_date: "2025-01-31",
       start_date: "2025-01-01",

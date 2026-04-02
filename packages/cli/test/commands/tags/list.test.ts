@@ -15,9 +15,7 @@ describe("tags list", () => {
   });
 
   it("formats tags as a table", async () => {
-    const getAll = vi.fn().mockResolvedValue([
-      { archived: false, id: 1, name: "Travel" },
-    ]);
+    const getAll = vi.fn().mockResolvedValue([{ archived: false, id: 1, name: "Travel" }]);
     mockClient({ tags: { getAll } });
 
     const { stdout } = await runCommand(TagsList, []);

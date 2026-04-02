@@ -47,16 +47,13 @@ describe("transactions create", () => {
     const create = vi.fn().mockResolvedValue({ transactions: [{ id: 1 }, { id: 2 }] });
     mockClient({ transactions: { create } });
 
-    const { stdout } = await runCommand(
-      TransactionsCreate,
-      [
-        "--transactions",
-        JSON.stringify([
-          { amount: 1, date: "2025-01-01" },
-          { amount: 2, date: "2025-01-02" },
-        ]),
-      ],
-    );
+    const { stdout } = await runCommand(TransactionsCreate, [
+      "--transactions",
+      JSON.stringify([
+        { amount: 1, date: "2025-01-01" },
+        { amount: 2, date: "2025-01-02" },
+      ]),
+    ]);
     expect(stdout).toBe("Created 2 transaction(s).\n");
   });
 

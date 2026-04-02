@@ -20,10 +20,14 @@ describe("transactions attach-file", () => {
     const attachFile = vi.fn().mockResolvedValue({});
     mockClient({ transactions: { attachFile } });
 
-    await runCommand(
-      TransactionsAttachFile,
-      ["100", "--file", "/path/to/file.jpg", "--notes", "Receipt for dinner", "--json"],
-    );
+    await runCommand(TransactionsAttachFile, [
+      "100",
+      "--file",
+      "/path/to/file.jpg",
+      "--notes",
+      "Receipt for dinner",
+      "--json",
+    ]);
     expect(attachFile.mock.calls[0][1].notes).toBe("Receipt for dinner");
   });
 

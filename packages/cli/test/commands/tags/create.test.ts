@@ -18,21 +18,18 @@ describe("tags create", () => {
     const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
     mockClient({ tags: { create } });
 
-    await runCommand(
-      TagsCreate,
-      [
-        "--name",
-        "X",
-        "--description",
-        "Desc",
-        "--text-color",
-        "333",
-        "--background-color",
-        "FFE7D4",
-        "--archived",
-        "--json",
-      ],
-    );
+    await runCommand(TagsCreate, [
+      "--name",
+      "X",
+      "--description",
+      "Desc",
+      "--text-color",
+      "333",
+      "--background-color",
+      "FFE7D4",
+      "--archived",
+      "--json",
+    ]);
     const body = create.mock.calls[0][0];
     expect(body.description).toBe("Desc");
     expect(body.text_color).toBe("333");

@@ -18,10 +18,15 @@ describe("categories create", () => {
     const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
     mockClient({ categories: { create } });
 
-    await runCommand(
-      CategoriesCreate,
-      ["--name", "X", "--is-income", "--exclude-from-budget", "--exclude-from-totals", "--archived", "--json"],
-    );
+    await runCommand(CategoriesCreate, [
+      "--name",
+      "X",
+      "--is-income",
+      "--exclude-from-budget",
+      "--exclude-from-totals",
+      "--archived",
+      "--json",
+    ]);
     const body = create.mock.calls[0][0];
     expect(body.is_income).toBe(true);
     expect(body.exclude_from_budget).toBe(true);
@@ -33,10 +38,7 @@ describe("categories create", () => {
     const create = vi.fn().mockResolvedValue({ id: 1, name: "Grp" });
     mockClient({ categories: { create } });
 
-    await runCommand(
-      CategoriesCreate,
-      ["--name", "Grp", "--is-group", "--children", "[123, 456]", "--json"],
-    );
+    await runCommand(CategoriesCreate, ["--name", "Grp", "--is-group", "--children", "[123, 456]", "--json"]);
     const body = create.mock.calls[0][0];
     expect(body.is_group).toBe(true);
     expect(body.children).toEqual([123, 456]);
@@ -46,10 +48,7 @@ describe("categories create", () => {
     const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
     mockClient({ categories: { create } });
 
-    await runCommand(
-      CategoriesCreate,
-      ["--name", "X", "--group-id", "5", "--order", "3", "--json"],
-    );
+    await runCommand(CategoriesCreate, ["--name", "X", "--group-id", "5", "--order", "3", "--json"]);
     const body = create.mock.calls[0][0];
     expect(body.group_id).toBe(5);
     expect(body.order).toBe(3);

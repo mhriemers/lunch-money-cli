@@ -9,10 +9,14 @@ describe("accounts update", () => {
     const update = vi.fn().mockResolvedValue(updated);
     mockClient({ manualAccounts: { update } });
 
-    const { result } = await runCommand(
-      AccountsUpdate,
-      ["42", "--name", "Renamed", "--institution-name", "Chase", "--json"],
-    );
+    const { result } = await runCommand(AccountsUpdate, [
+      "42",
+      "--name",
+      "Renamed",
+      "--institution-name",
+      "Chase",
+      "--json",
+    ]);
     expect(result).toEqual(updated);
     expect(update).toHaveBeenCalledOnce();
     const [id, body] = update.mock.calls[0];
@@ -26,10 +30,7 @@ describe("accounts update", () => {
     const update = vi.fn().mockResolvedValue({ id: 42 });
     mockClient({ manualAccounts: { update } });
 
-    await runCommand(
-      AccountsUpdate,
-      ["42", "--data", JSON.stringify(payload), "--name", "Ignored", "--json"],
-    );
+    await runCommand(AccountsUpdate, ["42", "--data", JSON.stringify(payload), "--name", "Ignored", "--json"]);
     const body = update.mock.calls[0][1];
     expect(body).toEqual(payload);
   });
@@ -47,10 +48,7 @@ describe("accounts update", () => {
     const update = vi.fn().mockResolvedValue({ id: 42 });
     mockClient({ manualAccounts: { update } });
 
-    await runCommand(
-      AccountsUpdate,
-      ["42", "--exclude-from-transactions", "true", "--json"],
-    );
+    await runCommand(AccountsUpdate, ["42", "--exclude-from-transactions", "true", "--json"]);
     const body = update.mock.calls[0][1];
     expect(body.exclude_from_transactions).toBe(true);
   });
@@ -77,10 +75,7 @@ describe("accounts update", () => {
     const update = vi.fn().mockResolvedValue({ id: 42 });
     mockClient({ manualAccounts: { update } });
 
-    await runCommand(
-      AccountsUpdate,
-      ["42", "--exclude-from-transactions", "false", "--json"],
-    );
+    await runCommand(AccountsUpdate, ["42", "--exclude-from-transactions", "false", "--json"]);
     const body = update.mock.calls[0][1];
     expect(body.exclude_from_transactions).toBe(false);
   });
@@ -89,29 +84,26 @@ describe("accounts update", () => {
     const update = vi.fn().mockResolvedValue({ id: 42 });
     mockClient({ manualAccounts: { update } });
 
-    await runCommand(
-      AccountsUpdate,
-      [
-        "42",
-        "--balance",
-        "999.99",
-        "--balance-as-of",
-        "2025-01-15T12:00:00Z",
-        "--currency",
-        "eur",
-        "--display-name",
-        "My Account",
-        "--external-id",
-        "ext-456",
-        "--status",
-        "closed",
-        "--subtype",
-        "savings",
-        "--type",
-        "cash",
-        "--json",
-      ],
-    );
+    await runCommand(AccountsUpdate, [
+      "42",
+      "--balance",
+      "999.99",
+      "--balance-as-of",
+      "2025-01-15T12:00:00Z",
+      "--currency",
+      "eur",
+      "--display-name",
+      "My Account",
+      "--external-id",
+      "ext-456",
+      "--status",
+      "closed",
+      "--subtype",
+      "savings",
+      "--type",
+      "cash",
+      "--json",
+    ]);
     const body = update.mock.calls[0][1];
     expect(body.balance).toBe("999.99");
     expect(body.balance_as_of).toBe("2025-01-15T12:00:00Z");

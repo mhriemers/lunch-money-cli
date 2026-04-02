@@ -9,10 +9,15 @@ describe("budgets upsert", () => {
     const upsert = vi.fn().mockResolvedValue(response);
     mockClient({ budgets: { upsert } });
 
-    const { result } = await runCommand(
-      BudgetsUpsert,
-      ["--amount", "500", "--category-id", "10", "--start-date", "2025-01-01", "--json"],
-    );
+    const { result } = await runCommand(BudgetsUpsert, [
+      "--amount",
+      "500",
+      "--category-id",
+      "10",
+      "--start-date",
+      "2025-01-01",
+      "--json",
+    ]);
     expect(result).toEqual(response);
     const body = upsert.mock.calls[0][0];
     expect(body.amount).toBe(500);
@@ -24,22 +29,19 @@ describe("budgets upsert", () => {
     const upsert = vi.fn().mockResolvedValue({});
     mockClient({ budgets: { upsert } });
 
-    await runCommand(
-      BudgetsUpsert,
-      [
-        "--amount",
-        "250.50",
-        "--category-id",
-        "10",
-        "--start-date",
-        "2025-01-01",
-        "--currency",
-        "eur",
-        "--notes",
-        "Q1 budget",
-        "--json",
-      ],
-    );
+    await runCommand(BudgetsUpsert, [
+      "--amount",
+      "250.50",
+      "--category-id",
+      "10",
+      "--start-date",
+      "2025-01-01",
+      "--currency",
+      "eur",
+      "--notes",
+      "Q1 budget",
+      "--json",
+    ]);
     const body = upsert.mock.calls[0][0];
     expect(body.currency).toBe("eur");
     expect(body.notes).toBe("Q1 budget");
@@ -49,10 +51,14 @@ describe("budgets upsert", () => {
     const upsert = vi.fn().mockResolvedValue({});
     mockClient({ budgets: { upsert } });
 
-    const { stdout } = await runCommand(
-      BudgetsUpsert,
-      ["--amount", "500", "--category-id", "10", "--start-date", "2025-01-01"],
-    );
+    const { stdout } = await runCommand(BudgetsUpsert, [
+      "--amount",
+      "500",
+      "--category-id",
+      "10",
+      "--start-date",
+      "2025-01-01",
+    ]);
     expect(stdout).toBe("Budget saved for category 10 starting 2025-01-01.\n");
   });
 });

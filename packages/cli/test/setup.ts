@@ -16,7 +16,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 type CommandClass = new (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  argv: string[], config: any,
+  argv: string[],
+  config: any,
 ) => { _run(): Promise<unknown>; run(): Promise<unknown> };
 
 let _config: Config;

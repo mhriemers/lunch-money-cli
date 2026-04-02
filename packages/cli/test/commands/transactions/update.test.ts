@@ -8,10 +8,16 @@ describe("transactions update", () => {
     const update = vi.fn().mockResolvedValue({ id: 100 });
     mockClient({ transactions: { update } });
 
-    await runCommand(
-      TransactionsUpdate,
-      ["100", "--payee", "Starbucks", "--amount", "5.00", "--status", "reviewed", "--json"],
-    );
+    await runCommand(TransactionsUpdate, [
+      "100",
+      "--payee",
+      "Starbucks",
+      "--amount",
+      "5.00",
+      "--status",
+      "reviewed",
+      "--json",
+    ]);
     const [id, body] = update.mock.calls[0];
     expect(id).toBe(100);
     expect(body.payee).toBe("Starbucks");
@@ -24,10 +30,7 @@ describe("transactions update", () => {
     const update = vi.fn().mockResolvedValue({ id: 100 });
     mockClient({ transactions: { update } });
 
-    await runCommand(
-      TransactionsUpdate,
-      ["100", "--data", JSON.stringify(payload), "--payee", "Ignored", "--json"],
-    );
+    await runCommand(TransactionsUpdate, ["100", "--data", JSON.stringify(payload), "--payee", "Ignored", "--json"]);
     expect(update.mock.calls[0][1]).toEqual(payload);
   });
 
@@ -43,10 +46,7 @@ describe("transactions update", () => {
     const update = vi.fn().mockResolvedValue({ id: 100 });
     mockClient({ transactions: { update } });
 
-    await runCommand(
-      TransactionsUpdate,
-      ["100", "--additional-tag-ids", "[4, 5]", "--json"],
-    );
+    await runCommand(TransactionsUpdate, ["100", "--additional-tag-ids", "[4, 5]", "--json"]);
     expect(update.mock.calls[0][1].additional_tag_ids).toEqual([4, 5]);
   });
 
@@ -54,10 +54,7 @@ describe("transactions update", () => {
     const update = vi.fn().mockResolvedValue({ id: 100 });
     mockClient({ transactions: { update } });
 
-    await runCommand(
-      TransactionsUpdate,
-      ["100", "--custom-metadata", '{"k":"v"}', "--json"],
-    );
+    await runCommand(TransactionsUpdate, ["100", "--custom-metadata", '{"k":"v"}', "--json"]);
     expect(update.mock.calls[0][1].custom_metadata).toEqual({ k: "v" });
   });
 
@@ -65,31 +62,28 @@ describe("transactions update", () => {
     const update = vi.fn().mockResolvedValue({ id: 100 });
     mockClient({ transactions: { update } });
 
-    await runCommand(
-      TransactionsUpdate,
-      [
-        "100",
-        "--date",
-        "2025-03-15",
-        "--currency",
-        "eur",
-        "--category-id",
-        "5",
-        "--notes",
-        "Lunch meeting",
-        "--external-id",
-        "ext-789",
-        "--recurring-id",
-        "3",
-        "--original-name",
-        "RESTAURANT #42",
-        "--manual-account-id",
-        "10",
-        "--plaid-account-id",
-        "20",
-        "--json",
-      ],
-    );
+    await runCommand(TransactionsUpdate, [
+      "100",
+      "--date",
+      "2025-03-15",
+      "--currency",
+      "eur",
+      "--category-id",
+      "5",
+      "--notes",
+      "Lunch meeting",
+      "--external-id",
+      "ext-789",
+      "--recurring-id",
+      "3",
+      "--original-name",
+      "RESTAURANT #42",
+      "--manual-account-id",
+      "10",
+      "--plaid-account-id",
+      "20",
+      "--json",
+    ]);
     const body = update.mock.calls[0][1];
     expect(body.date).toBe("2025-03-15");
     expect(body.currency).toBe("eur");

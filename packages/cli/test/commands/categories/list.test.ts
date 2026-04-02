@@ -14,9 +14,9 @@ describe("categories list", () => {
   });
 
   it("formats categories as a table", async () => {
-    const getAll = vi.fn().mockResolvedValue([
-      { archived: false, id: 1, is_group: false, is_income: false, name: "Food" },
-    ]);
+    const getAll = vi
+      .fn()
+      .mockResolvedValue([{ archived: false, id: 1, is_group: false, is_income: false, name: "Food" }]);
     mockClient({ categories: { getAll } });
 
     const { stdout } = await runCommand(CategoriesList, []);

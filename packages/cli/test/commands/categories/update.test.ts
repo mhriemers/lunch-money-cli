@@ -18,10 +18,16 @@ describe("categories update", () => {
     const update = vi.fn().mockResolvedValue({ id: 10 });
     mockClient({ categories: { update } });
 
-    await runCommand(
-      CategoriesUpdate,
-      ["10", "--is-income", "true", "--exclude-from-budget", "false", "--archived", "true", "--json"],
-    );
+    await runCommand(CategoriesUpdate, [
+      "10",
+      "--is-income",
+      "true",
+      "--exclude-from-budget",
+      "false",
+      "--archived",
+      "true",
+      "--json",
+    ]);
     const body = update.mock.calls[0][1];
     expect(body.is_income).toBe(true);
     expect(body.exclude_from_budget).toBe(false);

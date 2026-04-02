@@ -18,10 +18,7 @@ describe("tags update", () => {
     const update = vi.fn().mockResolvedValue({ id: 5 });
     mockClient({ tags: { update } });
 
-    await runCommand(
-      TagsUpdate,
-      ["5", "--text-color", "null", "--background-color", "null", "--json"],
-    );
+    await runCommand(TagsUpdate, ["5", "--text-color", "null", "--background-color", "null", "--json"]);
     const body = update.mock.calls[0][1];
     expect(body.text_color).toBeNull();
     expect(body.background_color).toBeNull();
@@ -31,10 +28,7 @@ describe("tags update", () => {
     const update = vi.fn().mockResolvedValue({ id: 5 });
     mockClient({ tags: { update } });
 
-    await runCommand(
-      TagsUpdate,
-      ["5", "--text-color", "333", "--background-color", "FFE7D4", "--json"],
-    );
+    await runCommand(TagsUpdate, ["5", "--text-color", "333", "--background-color", "FFE7D4", "--json"]);
     const body = update.mock.calls[0][1];
     expect(body.text_color).toBe("333");
     expect(body.background_color).toBe("FFE7D4");

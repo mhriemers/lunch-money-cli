@@ -8,13 +8,7 @@ describe("budgets delete", () => {
     const deleteFn = vi.fn();
     mockClient({ budgets: { delete: deleteFn } });
 
-    const { result } = await runCommand(BudgetsDelete, [
-      "--category-id",
-      "10",
-      "--start-date",
-      "2025-01-01",
-      "--json",
-    ]);
+    const { result } = await runCommand(BudgetsDelete, ["--category-id", "10", "--start-date", "2025-01-01", "--json"]);
     expect(result).toEqual({ message: "Budget deleted", success: true });
     expect(deleteFn).toHaveBeenCalledOnce();
     expect(deleteFn.mock.calls[0][0]).toEqual({

@@ -9,10 +9,15 @@ describe("accounts create", () => {
     const create = vi.fn().mockResolvedValue(created);
     mockClient({ manualAccounts: { create } });
 
-    const { result } = await runCommand(
-      AccountsCreate,
-      ["--name", "New", "--type", "credit", "--balance", "500.00", "--json"],
-    );
+    const { result } = await runCommand(AccountsCreate, [
+      "--name",
+      "New",
+      "--type",
+      "credit",
+      "--balance",
+      "500.00",
+      "--json",
+    ]);
     expect(result).toEqual(created);
     const body = create.mock.calls[0][0];
     expect(body).toMatchObject({ balance: "500.00", name: "New", type: "credit" });
@@ -22,10 +27,19 @@ describe("accounts create", () => {
     const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
     mockClient({ manualAccounts: { create } });
 
-    await runCommand(
-      AccountsCreate,
-      ["--name", "X", "--type", "cash", "--balance", "0", "--institution-name", "Chase", "--currency", "eur", "--json"],
-    );
+    await runCommand(AccountsCreate, [
+      "--name",
+      "X",
+      "--type",
+      "cash",
+      "--balance",
+      "0",
+      "--institution-name",
+      "Chase",
+      "--currency",
+      "eur",
+      "--json",
+    ]);
     const body = create.mock.calls[0][0];
     expect(body.institution_name).toBe("Chase");
     expect(body.currency).toBe("eur");
@@ -35,10 +49,17 @@ describe("accounts create", () => {
     const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
     mockClient({ manualAccounts: { create } });
 
-    await runCommand(
-      AccountsCreate,
-      ["--name", "X", "--type", "cash", "--balance", "0", "--custom-metadata", '{"foo":"bar"}', "--json"],
-    );
+    await runCommand(AccountsCreate, [
+      "--name",
+      "X",
+      "--type",
+      "cash",
+      "--balance",
+      "0",
+      "--custom-metadata",
+      '{"foo":"bar"}',
+      "--json",
+    ]);
     const body = create.mock.calls[0][0];
     expect(body.custom_metadata).toEqual({ foo: "bar" });
   });
@@ -47,10 +68,17 @@ describe("accounts create", () => {
     const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
     mockClient({ manualAccounts: { create } });
 
-    await runCommand(
-      AccountsCreate,
-      ["--name", "X", "--type", "cash", "--balance", "0", "--closed-on", "null", "--json"],
-    );
+    await runCommand(AccountsCreate, [
+      "--name",
+      "X",
+      "--type",
+      "cash",
+      "--balance",
+      "0",
+      "--closed-on",
+      "null",
+      "--json",
+    ]);
     const body = create.mock.calls[0][0];
     expect(body.closed_on).toBe(null);
   });
@@ -59,10 +87,17 @@ describe("accounts create", () => {
     const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
     mockClient({ manualAccounts: { create } });
 
-    await runCommand(
-      AccountsCreate,
-      ["--name", "X", "--type", "cash", "--balance", "0", "--closed-on", "2025-06-15", "--json"],
-    );
+    await runCommand(AccountsCreate, [
+      "--name",
+      "X",
+      "--type",
+      "cash",
+      "--balance",
+      "0",
+      "--closed-on",
+      "2025-06-15",
+      "--json",
+    ]);
     const body = create.mock.calls[0][0];
     expect(body.closed_on).toBe("2025-06-15");
   });
@@ -71,10 +106,16 @@ describe("accounts create", () => {
     const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
     mockClient({ manualAccounts: { create } });
 
-    await runCommand(
-      AccountsCreate,
-      ["--name", "X", "--type", "cash", "--balance", "0", "--exclude-from-transactions", "--json"],
-    );
+    await runCommand(AccountsCreate, [
+      "--name",
+      "X",
+      "--type",
+      "cash",
+      "--balance",
+      "0",
+      "--exclude-from-transactions",
+      "--json",
+    ]);
     const body = create.mock.calls[0][0];
     expect(body.exclude_from_transactions).toBe(true);
   });
@@ -83,28 +124,25 @@ describe("accounts create", () => {
     const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
     mockClient({ manualAccounts: { create } });
 
-    await runCommand(
-      AccountsCreate,
-      [
-        "--name",
-        "X",
-        "--type",
-        "cash",
-        "--balance",
-        "100",
-        "--balance-as-of",
-        "2025-01-15T12:00:00Z",
-        "--display-name",
-        "My Account",
-        "--external-id",
-        "ext-123",
-        "--status",
-        "active",
-        "--subtype",
-        "checking",
-        "--json",
-      ],
-    );
+    await runCommand(AccountsCreate, [
+      "--name",
+      "X",
+      "--type",
+      "cash",
+      "--balance",
+      "100",
+      "--balance-as-of",
+      "2025-01-15T12:00:00Z",
+      "--display-name",
+      "My Account",
+      "--external-id",
+      "ext-123",
+      "--status",
+      "active",
+      "--subtype",
+      "checking",
+      "--json",
+    ]);
     const body = create.mock.calls[0][0];
     expect(body.balance_as_of).toBe("2025-01-15T12:00:00Z");
     expect(body.display_name).toBe("My Account");
@@ -117,10 +155,7 @@ describe("accounts create", () => {
     const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
     mockClient({ manualAccounts: { create } });
 
-    await runCommand(
-      AccountsCreate,
-      ["--name", "X", "--type", "cash", "--balance", "0", "--json"],
-    );
+    await runCommand(AccountsCreate, ["--name", "X", "--type", "cash", "--balance", "0", "--json"]);
     const body = create.mock.calls[0][0];
     expect(body).toEqual({ balance: "0", name: "X", type: "cash" });
   });
@@ -129,10 +164,7 @@ describe("accounts create", () => {
     const create = vi.fn().mockResolvedValue({ id: 101, name: "Visa" });
     mockClient({ manualAccounts: { create } });
 
-    const { stdout } = await runCommand(
-      AccountsCreate,
-      ["--name", "Visa", "--type", "credit", "--balance", "0"],
-    );
+    const { stdout } = await runCommand(AccountsCreate, ["--name", "Visa", "--type", "credit", "--balance", "0"]);
     expect(stdout).toBe('Created account "Visa" (ID: 101).\n');
   });
 });

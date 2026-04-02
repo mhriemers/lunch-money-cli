@@ -37,12 +37,14 @@ describe("error handling", () => {
     it("shows error details", async () => {
       mockClient({
         manualAccounts: {
-          getAll: vi.fn().mockRejectedValue(
-            new LunchMoneyError("Validation failed", 422, null, [
-              "Field 'name' is required",
-              "Amount must be positive",
-            ]),
-          ),
+          getAll: vi
+            .fn()
+            .mockRejectedValue(
+              new LunchMoneyError("Validation failed", 422, null, [
+                "Field 'name' is required",
+                "Amount must be positive",
+              ]),
+            ),
         },
       });
 
@@ -69,9 +71,7 @@ describe("error handling", () => {
     it("outputs error as JSON", async () => {
       mockClient({
         manualAccounts: {
-          getAll: vi.fn().mockRejectedValue(
-            new LunchMoneyError("Unauthorized", 401, null, ["Invalid API key"]),
-          ),
+          getAll: vi.fn().mockRejectedValue(new LunchMoneyError("Unauthorized", 401, null, ["Invalid API key"])),
         },
       });
 
@@ -221,31 +221,19 @@ describe("error handling", () => {
 
     it("throws on invalid --custom-metadata JSON (transactions update)", async () => {
       mockClient({ transactions: { update: vi.fn() } });
-      const { stderr } = await runCommand(
-        TransactionsUpdate,
-        ["100", "--custom-metadata", "bad"],
-        { raw: true },
-      );
+      const { stderr } = await runCommand(TransactionsUpdate, ["100", "--custom-metadata", "bad"], { raw: true });
       expect(stderr).toContain("custom-metadata must be valid JSON");
     });
 
     it("throws on invalid --tag-ids JSON", async () => {
       mockClient({ transactions: { update: vi.fn() } });
-      const { stderr } = await runCommand(
-        TransactionsUpdate,
-        ["100", "--tag-ids", "bad"],
-        { raw: true },
-      );
+      const { stderr } = await runCommand(TransactionsUpdate, ["100", "--tag-ids", "bad"], { raw: true });
       expect(stderr).toContain("tag-ids must be valid JSON");
     });
 
     it("throws on invalid --children JSON (categories create)", async () => {
       mockClient({ categories: { create: vi.fn() } });
-      const { stderr } = await runCommand(
-        CategoriesCreate,
-        ["--name", "X", "--children", "bad-json"],
-        { raw: true },
-      );
+      const { stderr } = await runCommand(CategoriesCreate, ["--name", "X", "--children", "bad-json"], { raw: true });
       expect(stderr).toContain("children must be valid JSON");
     });
   });

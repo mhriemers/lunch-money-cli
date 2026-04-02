@@ -55,13 +55,7 @@ describe("transactions list", () => {
     const getAll = vi.fn().mockResolvedValue({ transactions: [] });
     mockClient({ transactions: { getAll } });
 
-    await runCommand(TransactionsList, [
-      "--include-pending",
-      "--include-children",
-      "--offset",
-      "50",
-      "--json",
-    ]);
+    await runCommand(TransactionsList, ["--include-pending", "--include-children", "--offset", "50", "--json"]);
     const params = getAll.mock.calls[0][0];
     expect(params.include_pending).toBe(true);
     expect(params.include_children).toBe(true);
@@ -112,12 +106,18 @@ describe("transactions list", () => {
     mockClient({ transactions: { getAll } });
 
     await runCommand(TransactionsList, [
-      "--tag-id", "7",
-      "--recurring-id", "3",
-      "--manual-account-id", "10",
-      "--plaid-account-id", "20",
-      "--created-since", "2025-01-01",
-      "--updated-since", "2025-01-15",
+      "--tag-id",
+      "7",
+      "--recurring-id",
+      "3",
+      "--manual-account-id",
+      "10",
+      "--plaid-account-id",
+      "20",
+      "--created-since",
+      "2025-01-01",
+      "--updated-since",
+      "2025-01-15",
       "--is-pending",
       "--is-group-parent",
       "--include-files",

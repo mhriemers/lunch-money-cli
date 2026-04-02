@@ -9,10 +9,13 @@ describe("summary get", () => {
     const get = vi.fn().mockResolvedValue(data);
     mockClient({ summary: { get } });
 
-    const { result } = await runCommand(
-      SummaryGet,
-      ["--start-date", "2025-01-01", "--end-date", "2025-01-31", "--json"],
-    );
+    const { result } = await runCommand(SummaryGet, [
+      "--start-date",
+      "2025-01-01",
+      "--end-date",
+      "2025-01-31",
+      "--json",
+    ]);
     expect(result).toEqual(data);
   });
 
@@ -20,13 +23,7 @@ describe("summary get", () => {
     const get = vi.fn().mockResolvedValue({});
     mockClient({ summary: { get } });
 
-    await runCommand(SummaryGet, [
-      "--start-date",
-      "2025-01-01",
-      "--end-date",
-      "2025-01-31",
-      "--json",
-    ]);
+    await runCommand(SummaryGet, ["--start-date", "2025-01-01", "--end-date", "2025-01-31", "--json"]);
     const params = get.mock.calls[0][0];
     expect(params.start_date).toBe("2025-01-01");
     expect(params.end_date).toBe("2025-01-31");
@@ -60,11 +57,7 @@ describe("summary get", () => {
     const get = vi.fn().mockResolvedValue({});
     mockClient({ summary: { get } });
 
-    await runCommand(SummaryGet, [
-      "--start-date", "2025-01-01",
-      "--end-date", "2025-01-31",
-      "--json",
-    ]);
+    await runCommand(SummaryGet, ["--start-date", "2025-01-01", "--end-date", "2025-01-31", "--json"]);
     const params = get.mock.calls[0][0];
     expect(params).toEqual({ end_date: "2025-01-31", start_date: "2025-01-01" });
   });

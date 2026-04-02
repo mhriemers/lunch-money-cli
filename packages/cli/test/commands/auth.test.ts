@@ -77,11 +77,7 @@ describe("auth", () => {
     mockStdin("test-token");
     const config = await testConfig();
 
-    const { result } = await runCommand<{ config_path: string; success: boolean }>(
-      Auth,
-      ["--json"],
-      { config },
-    );
+    const { result } = await runCommand<{ config_path: string; success: boolean }>(Auth, ["--json"], { config });
 
     expect(result?.success).toBe(true);
     expect(result?.config_path).toBe(join(tempDir, "config.json"));

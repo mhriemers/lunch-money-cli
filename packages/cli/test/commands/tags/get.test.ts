@@ -1,29 +1,31 @@
-import { expect } from "chai";
+import { describe, expect, it, vi } from "vitest";
 
 import TagsGet from "../../../src/commands/tags/get.js";
-import { expectFixture, runCommand } from "../../helpers/index.js";
+import { fixture, mockClient, runCommand } from "../../setup.js";
 
 describe("tags get", () => {
   it("returns tag as JSON", async () => {
     const data = { description: "Travel expenses", id: 5, name: "Travel" };
-    const { client, result } = await runCommand(TagsGet, ["5", "--json"], (c) => {
-      c.tags.get.resolves(data);
-    });
-    expect(result).to.deep.equal(data);
-    expect(client.tags.get.firstCall.args[0]).to.equal(5);
+    const get = vi.fn().mockResolvedValue(data);
+    mockClient({ tags: { get } });
+
+    const { result } = await runCommand(TagsGet, ["5", "--json"]);
+    expect(result).toEqual(data);
+    expect(get.mock.calls[0][0]).toBe(5);
   });
 
   it("formats tag detail as text", async () => {
-    const { stdout } = await runCommand(TagsGet, ["5"], (c) => {
-      c.tags.get.resolves({
-        archived: false,
-        background_color: null,
-        description: null,
-        id: 5,
-        name: "Travel",
-        text_color: null,
-      });
+    const get = vi.fn().mockResolvedValue({
+      archived: false,
+      background_color: null,
+      description: null,
+      id: 5,
+      name: "Travel",
+      text_color: null,
     });
-    expectFixture(stdout, "tags/get-detail");
+    mockClient({ tags: { get } });
+
+    const { stdout } = await runCommand(TagsGet, ["5"]);
+    await expect(stdout).toMatchFileSnapshot(fixture("tags/get-detail"));
   });
 });

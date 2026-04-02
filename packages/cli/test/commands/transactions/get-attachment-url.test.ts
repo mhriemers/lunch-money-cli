@@ -1,22 +1,24 @@
-import { expect } from "chai";
+import { describe, expect, it, vi } from "vitest";
 
 import TransactionsGetAttachmentUrl from "../../../src/commands/transactions/get-attachment-url.js";
-import { runCommand } from "../../helpers/index.js";
+import { mockClient, runCommand } from "../../setup.js";
 
 describe("transactions get-attachment-url", () => {
   it("returns attachment URL as JSON", async () => {
     const response = { url: "https://cdn.example.com/file.pdf" };
-    const { client, result } = await runCommand(TransactionsGetAttachmentUrl, ["50", "--json"], (c) => {
-      c.transactions.getAttachmentUrl.resolves(response);
-    });
-    expect(result).to.deep.equal(response);
-    expect(client.transactions.getAttachmentUrl.firstCall.args[0]).to.equal(50);
+    const getAttachmentUrl = vi.fn().mockResolvedValue(response);
+    mockClient({ transactions: { getAttachmentUrl } });
+
+    const { result } = await runCommand(TransactionsGetAttachmentUrl, ["50", "--json"]);
+    expect(result).toEqual(response);
+    expect(getAttachmentUrl.mock.calls[0][0]).toBe(50);
   });
 
   it("outputs URL as text", async () => {
-    const { stdout } = await runCommand(TransactionsGetAttachmentUrl, ["50"], (c) => {
-      c.transactions.getAttachmentUrl.resolves({ url: "https://cdn.example.com/file.pdf" });
-    });
-    expect(stdout).to.equal("https://cdn.example.com/file.pdf\n");
+    const getAttachmentUrl = vi.fn().mockResolvedValue({ url: "https://cdn.example.com/file.pdf" });
+    mockClient({ transactions: { getAttachmentUrl } });
+
+    const { stdout } = await runCommand(TransactionsGetAttachmentUrl, ["50"]);
+    expect(stdout).toBe("https://cdn.example.com/file.pdf\n");
   });
 });

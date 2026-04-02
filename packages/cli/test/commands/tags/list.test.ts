@@ -1,35 +1,40 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-import { expect } from "chai";
+import { describe, expect, it, vi } from "vitest";
 
 import TagsList from "../../../src/commands/tags/list.js";
-import { expectFixture, runCommand } from "../../helpers/index.js";
+import { fixture, mockClient, runCommand } from "../../setup.js";
 
 describe("tags list", () => {
   it("returns tags as JSON", async () => {
     const data = [{ id: 1, name: "Travel" }];
-    const { client, result } = await runCommand(TagsList, ["--json"], (c) => {
-      c.tags.getAll.resolves(data);
-    });
-    expect(result).to.deep.equal(data);
-    expect(client.tags.getAll.calledOnce).to.be.true;
+    const getAll = vi.fn().mockResolvedValue(data);
+    mockClient({ tags: { getAll } });
+
+    const { result } = await runCommand(TagsList, ["--json"]);
+    expect(result).toEqual(data);
+    expect(getAll).toHaveBeenCalledOnce();
   });
 
   it("formats tags as a table", async () => {
-    const { stdout } = await runCommand(TagsList, [], (c) => {
-      c.tags.getAll.resolves([{ archived: false, id: 1, name: "Travel" }]);
-    });
-    expectFixture(stdout, "tags/list-table");
+    const getAll = vi.fn().mockResolvedValue([
+      { archived: false, id: 1, name: "Travel" },
+    ]);
+    mockClient({ tags: { getAll } });
+
+    const { stdout } = await runCommand(TagsList, []);
+    await expect(stdout).toMatchFileSnapshot(fixture("tags/list-table"));
   });
 
   it("shows empty table message", async () => {
-    const { stdout } = await runCommand(TagsList, [], (c) => {
-      c.tags.getAll.resolves([]);
-    });
-    expect(stdout).to.equal("No results.\n");
+    mockClient({ tags: { getAll: vi.fn().mockResolvedValue([]) } });
+
+    const { stdout } = await runCommand(TagsList, []);
+    expect(stdout).toBe("No results.\n");
   });
 
   it("handles empty result", async () => {
+    mockClient({ tags: { getAll: vi.fn().mockResolvedValue([]) } });
+
     const { result } = await runCommand(TagsList, ["--json"]);
-    expect(result).to.deep.equal([]);
+    expect(result).toEqual([]);
   });
 });

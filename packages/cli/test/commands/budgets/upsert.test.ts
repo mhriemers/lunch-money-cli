@@ -1,27 +1,30 @@
-import { expect } from "chai";
+import { describe, expect, it, vi } from "vitest";
 
 import BudgetsUpsert from "../../../src/commands/budgets/upsert.js";
-import { runCommand } from "../../helpers/index.js";
+import { mockClient, runCommand } from "../../setup.js";
 
 describe("budgets upsert", () => {
   it("creates budget with required flags", async () => {
     const response = { amount: 500, category_id: 10 };
-    const { client, result } = await runCommand(
+    const upsert = vi.fn().mockResolvedValue(response);
+    mockClient({ budgets: { upsert } });
+
+    const { result } = await runCommand(
       BudgetsUpsert,
       ["--amount", "500", "--category-id", "10", "--start-date", "2025-01-01", "--json"],
-      (c) => {
-        c.budgets.upsert.resolves(response);
-      },
     );
-    expect(result).to.deep.equal(response);
-    const body = client.budgets.upsert.firstCall.args[0];
-    expect(body.amount).to.equal(500);
-    expect(body.category_id).to.equal(10);
-    expect(body.start_date).to.equal("2025-01-01");
+    expect(result).toEqual(response);
+    const body = upsert.mock.calls[0][0];
+    expect(body.amount).toBe(500);
+    expect(body.category_id).toBe(10);
+    expect(body.start_date).toBe("2025-01-01");
   });
 
   it("maps optional currency and notes flags", async () => {
-    const { client } = await runCommand(
+    const upsert = vi.fn().mockResolvedValue({});
+    mockClient({ budgets: { upsert } });
+
+    await runCommand(
       BudgetsUpsert,
       [
         "--amount",
@@ -36,23 +39,20 @@ describe("budgets upsert", () => {
         "Q1 budget",
         "--json",
       ],
-      (c) => {
-        c.budgets.upsert.resolves({});
-      },
     );
-    const body = client.budgets.upsert.firstCall.args[0];
-    expect(body.currency).to.equal("eur");
-    expect(body.notes).to.equal("Q1 budget");
+    const body = upsert.mock.calls[0][0];
+    expect(body.currency).toBe("eur");
+    expect(body.notes).toBe("Q1 budget");
   });
 
   it("shows confirmation message", async () => {
+    const upsert = vi.fn().mockResolvedValue({});
+    mockClient({ budgets: { upsert } });
+
     const { stdout } = await runCommand(
       BudgetsUpsert,
       ["--amount", "500", "--category-id", "10", "--start-date", "2025-01-01"],
-      (c) => {
-        c.budgets.upsert.resolves({});
-      },
     );
-    expect(stdout).to.equal("Budget saved for category 10 starting 2025-01-01.\n");
+    expect(stdout).toBe("Budget saved for category 10 starting 2025-01-01.\n");
   });
 });

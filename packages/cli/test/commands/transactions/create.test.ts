@@ -1,24 +1,27 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-import { expect } from "chai";
+import { describe, expect, it, vi } from "vitest";
 
 import TransactionsCreate from "../../../src/commands/transactions/create.js";
-import { runCommand } from "../../helpers/index.js";
+import { mockClient, runCommand } from "../../setup.js";
 
 describe("transactions create", () => {
   const txJson = JSON.stringify([{ amount: 42.5, date: "2025-01-15", payee: "Coffee" }]);
 
   it("creates transactions from JSON", async () => {
     const response = { ids: [100] };
-    const { client, result } = await runCommand(TransactionsCreate, ["--transactions", txJson, "--json"], (c) => {
-      c.transactions.create.resolves(response);
-    });
-    expect(result).to.deep.equal(response);
-    const body = client.transactions.create.firstCall.args[0];
-    expect(body.transactions).to.deep.equal([{ amount: 42.5, date: "2025-01-15", payee: "Coffee" }]);
+    const create = vi.fn().mockResolvedValue(response);
+    mockClient({ transactions: { create } });
+
+    const { result } = await runCommand(TransactionsCreate, ["--transactions", txJson, "--json"]);
+    expect(result).toEqual(response);
+    const body = create.mock.calls[0][0];
+    expect(body.transactions).toEqual([{ amount: 42.5, date: "2025-01-15", payee: "Coffee" }]);
   });
 
   it("maps boolean flags", async () => {
-    const { client } = await runCommand(TransactionsCreate, [
+    const create = vi.fn().mockResolvedValue({});
+    mockClient({ transactions: { create } });
+
+    await runCommand(TransactionsCreate, [
       "--transactions",
       txJson,
       "--apply-rules",
@@ -26,20 +29,24 @@ describe("transactions create", () => {
       "--skip-balance-update",
       "--json",
     ]);
-    const body = client.transactions.create.firstCall.args[0];
-    expect(body.apply_rules).to.be.true;
-    expect(body.skip_duplicates).to.be.true;
-    expect(body.skip_balance_update).to.be.true;
+    const body = create.mock.calls[0][0];
+    expect(body.apply_rules).toBe(true);
+    expect(body.skip_duplicates).toBe(true);
+    expect(body.skip_balance_update).toBe(true);
   });
 
   it("shows count in confirmation message", async () => {
-    const { stdout } = await runCommand(TransactionsCreate, ["--transactions", txJson], (c) => {
-      c.transactions.create.resolves({ ids: [1] });
-    });
-    expect(stdout).to.equal("Created 1 transaction(s).\n");
+    const create = vi.fn().mockResolvedValue({ ids: [1] });
+    mockClient({ transactions: { create } });
+
+    const { stdout } = await runCommand(TransactionsCreate, ["--transactions", txJson]);
+    expect(stdout).toBe("Created 1 transaction(s).\n");
   });
 
   it("extracts count from transactions array", async () => {
+    const create = vi.fn().mockResolvedValue({ transactions: [{ id: 1 }, { id: 2 }] });
+    mockClient({ transactions: { create } });
+
     const { stdout } = await runCommand(
       TransactionsCreate,
       [
@@ -49,25 +56,26 @@ describe("transactions create", () => {
           { amount: 2, date: "2025-01-02" },
         ]),
       ],
-      (c) => {
-        c.transactions.create.resolves({ transactions: [{ id: 1 }, { id: 2 }] });
-      },
     );
-    expect(stdout).to.equal("Created 2 transaction(s).\n");
+    expect(stdout).toBe("Created 2 transaction(s).\n");
   });
 
   it("shows 0 count when response has neither ids nor transactions", async () => {
-    const { stdout } = await runCommand(TransactionsCreate, ["--transactions", txJson], (c) => {
-      c.transactions.create.resolves({});
-    });
-    expect(stdout).to.equal("Created 0 transaction(s).\n");
+    const create = vi.fn().mockResolvedValue({});
+    mockClient({ transactions: { create } });
+
+    const { stdout } = await runCommand(TransactionsCreate, ["--transactions", txJson]);
+    expect(stdout).toBe("Created 0 transaction(s).\n");
   });
 
   it("omits boolean flags from body when not set", async () => {
-    const { client } = await runCommand(TransactionsCreate, ["--transactions", txJson, "--json"]);
-    const body = client.transactions.create.firstCall.args[0];
-    expect(body).to.not.have.property("apply_rules");
-    expect(body).to.not.have.property("skip_duplicates");
-    expect(body).to.not.have.property("skip_balance_update");
+    const create = vi.fn().mockResolvedValue({});
+    mockClient({ transactions: { create } });
+
+    await runCommand(TransactionsCreate, ["--transactions", txJson, "--json"]);
+    const body = create.mock.calls[0][0];
+    expect(body).not.toHaveProperty("apply_rules");
+    expect(body).not.toHaveProperty("skip_duplicates");
+    expect(body).not.toHaveProperty("skip_balance_update");
   });
 });

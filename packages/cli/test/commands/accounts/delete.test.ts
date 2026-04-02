@@ -1,17 +1,22 @@
-import { expect } from "chai";
+import { describe, expect, it, vi } from "vitest";
 
 import AccountsDelete from "../../../src/commands/accounts/delete.js";
-import { runCommand } from "../../helpers/index.js";
+import { mockClient, runCommand } from "../../setup.js";
 
 describe("accounts delete", () => {
   it("deletes account by ID", async () => {
-    const { client, result } = await runCommand(AccountsDelete, ["42", "--json"]);
-    expect(result).to.deep.equal({ deleted_id: 42, success: true });
-    expect(client.manualAccounts.delete.firstCall.args[0]).to.equal(42);
+    const deleteFn = vi.fn();
+    mockClient({ manualAccounts: { delete: deleteFn } });
+
+    const { result } = await runCommand(AccountsDelete, ["42", "--json"]);
+    expect(result).toEqual({ deleted_id: 42, success: true });
+    expect(deleteFn.mock.calls[0][0]).toBe(42);
   });
 
   it("shows confirmation message", async () => {
+    mockClient({ manualAccounts: { delete: vi.fn() } });
+
     const { stdout } = await runCommand(AccountsDelete, ["42"]);
-    expect(stdout).to.equal("Deleted account 42.\n");
+    expect(stdout).toBe("Deleted account 42.\n");
   });
 });

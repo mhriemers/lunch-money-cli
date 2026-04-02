@@ -1,37 +1,42 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-import { expect } from "chai";
+import { describe, expect, it, vi } from "vitest";
 
 import SummaryGet from "../../../src/commands/summary/get.js";
-import { expectFixture, runCommand } from "../../helpers/index.js";
+import { fixture, mockClient, runCommand } from "../../setup.js";
 
 describe("summary get", () => {
   it("returns summary as JSON", async () => {
     const data = { categories: [{ category_name: "Food", spending: "250.00" }] };
+    const get = vi.fn().mockResolvedValue(data);
+    mockClient({ summary: { get } });
+
     const { result } = await runCommand(
       SummaryGet,
       ["--start-date", "2025-01-01", "--end-date", "2025-01-31", "--json"],
-      (c) => {
-        c.summary.get.resolves(data);
-      },
     );
-    expect(result).to.deep.equal(data);
+    expect(result).toEqual(data);
   });
 
   it("maps required date flags to params", async () => {
-    const { client } = await runCommand(SummaryGet, [
+    const get = vi.fn().mockResolvedValue({});
+    mockClient({ summary: { get } });
+
+    await runCommand(SummaryGet, [
       "--start-date",
       "2025-01-01",
       "--end-date",
       "2025-01-31",
       "--json",
     ]);
-    const params = client.summary.get.firstCall.args[0];
-    expect(params.start_date).to.equal("2025-01-01");
-    expect(params.end_date).to.equal("2025-01-31");
+    const params = get.mock.calls[0][0];
+    expect(params.start_date).toBe("2025-01-01");
+    expect(params.end_date).toBe("2025-01-31");
   });
 
   it("maps boolean include flags", async () => {
-    const { client } = await runCommand(SummaryGet, [
+    const get = vi.fn().mockResolvedValue({});
+    mockClient({ summary: { get } });
+
+    await runCommand(SummaryGet, [
       "--start-date",
       "2025-01-01",
       "--end-date",
@@ -43,37 +48,39 @@ describe("summary get", () => {
       "--include-rollover-pool",
       "--json",
     ]);
-    const params = client.summary.get.firstCall.args[0];
-    expect(params.include_exclude_from_budgets).to.be.true;
-    expect(params.include_occurrences).to.be.true;
-    expect(params.include_past_budget_dates).to.be.true;
-    expect(params.include_totals).to.be.true;
-    expect(params.include_rollover_pool).to.be.true;
+    const params = get.mock.calls[0][0];
+    expect(params.include_exclude_from_budgets).toBe(true);
+    expect(params.include_occurrences).toBe(true);
+    expect(params.include_past_budget_dates).toBe(true);
+    expect(params.include_totals).toBe(true);
+    expect(params.include_rollover_pool).toBe(true);
   });
 
   it("omits boolean flags from params when not set", async () => {
-    const { client } = await runCommand(SummaryGet, [
-      "--start-date",
-      "2025-01-01",
-      "--end-date",
-      "2025-01-31",
+    const get = vi.fn().mockResolvedValue({});
+    mockClient({ summary: { get } });
+
+    await runCommand(SummaryGet, [
+      "--start-date", "2025-01-01",
+      "--end-date", "2025-01-31",
       "--json",
     ]);
-    const params = client.summary.get.firstCall.args[0];
-    expect(params).to.deep.equal({ end_date: "2025-01-31", start_date: "2025-01-01" });
+    const params = get.mock.calls[0][0];
+    expect(params).toEqual({ end_date: "2025-01-31", start_date: "2025-01-01" });
   });
 
   it("formats categories as a table", async () => {
-    const { stdout } = await runCommand(SummaryGet, ["--start-date", "2025-01-01", "--end-date", "2025-01-31"], (c) => {
-      c.summary.get.resolves({
-        categories: [
-          {
-            category_id: 42,
-            totals: { available: "200.00", budgeted: "500.00", other_activity: "200.00", recurring_activity: "100.00" },
-          },
-        ],
-      });
+    const get = vi.fn().mockResolvedValue({
+      categories: [
+        {
+          category_id: 42,
+          totals: { available: "200.00", budgeted: "500.00", other_activity: "200.00", recurring_activity: "100.00" },
+        },
+      ],
     });
-    expectFixture(stdout, "summary/get-table");
+    mockClient({ summary: { get } });
+
+    const { stdout } = await runCommand(SummaryGet, ["--start-date", "2025-01-01", "--end-date", "2025-01-31"]);
+    await expect(stdout).toMatchFileSnapshot(fixture("summary/get-table"));
   });
 });

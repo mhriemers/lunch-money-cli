@@ -1,9 +1,8 @@
-import { LunchMoneyError } from "@lunch-money/lunch-money-js-v2";
-import { captureOutput } from "@oclif/test";
-import { expect } from "chai";
+import { LunchMoneyClient, LunchMoneyError } from "@lunch-money/lunch-money-js-v2";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { describe, expect, it, vi } from "vitest";
 
 import AccountsCreate from "../../src/commands/accounts/create.js";
 import AccountsList from "../../src/commands/accounts/list.js";
@@ -15,9 +14,7 @@ import TransactionsGroup from "../../src/commands/transactions/group.js";
 import TransactionsSplit from "../../src/commands/transactions/split.js";
 import TransactionsUpdateMany from "../../src/commands/transactions/update-many.js";
 import TransactionsUpdate from "../../src/commands/transactions/update.js";
-import { getConfig, runCommand } from "../helpers/index.js";
-
-const RAW = { raw: true };
+import { getConfig, mockClient, runCommand } from "../setup.js";
 
 function tempConfig() {
   const tempDir = mkdtempSync(join(tmpdir(), "lm-test-"));
@@ -25,104 +22,88 @@ function tempConfig() {
 }
 
 describe("error handling", () => {
-  afterEach(() => {
-    process.exitCode = undefined;
-  });
-
   describe("LunchMoneyError in text mode", () => {
     it("shows error message and status", async () => {
-      const { stderr } = await runCommand(
-        AccountsList,
-        [],
-        (c) => {
-          c.manualAccounts.getAll.rejects(new LunchMoneyError("Not found", 404));
-        },
-        RAW,
-      );
+      mockClient({
+        manualAccounts: { getAll: vi.fn().mockRejectedValue(new LunchMoneyError("Not found", 404)) },
+      });
 
-      expect(stderr).to.contain("Error: Not found");
-      expect(stderr).to.contain("Status: 404");
+      const { stderr } = await runCommand(AccountsList, [], { raw: true });
+
+      expect(stderr).toContain("Error: Not found");
+      expect(stderr).toContain("Status: 404");
     });
 
     it("shows error details", async () => {
-      const { stderr } = await runCommand(
-        AccountsList,
-        [],
-        (c) => {
-          c.manualAccounts.getAll.rejects(
+      mockClient({
+        manualAccounts: {
+          getAll: vi.fn().mockRejectedValue(
             new LunchMoneyError("Validation failed", 422, null, [
               "Field 'name' is required",
               "Amount must be positive",
             ]),
-          );
+          ),
         },
-        RAW,
-      );
+      });
 
-      expect(stderr).to.contain("Error: Validation failed");
-      expect(stderr).to.contain("Status: 422");
-      expect(stderr).to.contain("- Field 'name' is required");
-      expect(stderr).to.contain("- Amount must be positive");
+      const { stderr } = await runCommand(AccountsList, [], { raw: true });
+
+      expect(stderr).toContain("Error: Validation failed");
+      expect(stderr).toContain("Status: 422");
+      expect(stderr).toContain("- Field 'name' is required");
+      expect(stderr).toContain("- Amount must be positive");
     });
 
     it("sets exit code to 1", async () => {
-      await runCommand(
-        AccountsList,
-        [],
-        (c) => {
-          c.manualAccounts.getAll.rejects(new LunchMoneyError("Fail", 500));
-        },
-        RAW,
-      );
+      mockClient({
+        manualAccounts: { getAll: vi.fn().mockRejectedValue(new LunchMoneyError("Fail", 500)) },
+      });
 
-      expect(process.exitCode).to.equal(1);
+      await runCommand(AccountsList, [], { raw: true });
+
+      expect(process.exitCode).toBe(1);
     });
   });
 
   describe("LunchMoneyError in JSON mode", () => {
     it("outputs error as JSON", async () => {
-      const { stdout } = await runCommand(
-        AccountsList,
-        ["--json"],
-        (c) => {
-          c.manualAccounts.getAll.rejects(new LunchMoneyError("Unauthorized", 401, null, ["Invalid API key"]));
+      mockClient({
+        manualAccounts: {
+          getAll: vi.fn().mockRejectedValue(
+            new LunchMoneyError("Unauthorized", 401, null, ["Invalid API key"]),
+          ),
         },
-        RAW,
-      );
+      });
+
+      const { stdout } = await runCommand(AccountsList, ["--json"], { raw: true });
 
       const json = JSON.parse(stdout);
-      expect(json.error).to.equal("Unauthorized");
-      expect(json.status).to.equal(401);
-      expect(json.details).to.deep.equal(["Invalid API key"]);
+      expect(json.error).toBe("Unauthorized");
+      expect(json.status).toBe(401);
+      expect(json.details).toEqual(["Invalid API key"]);
     });
   });
 
   describe("generic Error", () => {
     it("shows error message in text mode", async () => {
-      const { stderr } = await runCommand(
-        AccountsList,
-        [],
-        (c) => {
-          c.manualAccounts.getAll.rejects(new Error("Connection refused"));
-        },
-        RAW,
-      );
+      mockClient({
+        manualAccounts: { getAll: vi.fn().mockRejectedValue(new Error("Connection refused")) },
+      });
 
-      expect(stderr).to.contain("Error: Connection refused");
+      const { stderr } = await runCommand(AccountsList, [], { raw: true });
+
+      expect(stderr).toContain("Error: Connection refused");
     });
 
     it("outputs error as JSON in JSON mode", async () => {
-      const { stdout } = await runCommand(
-        AccountsList,
-        ["--json"],
-        (c) => {
-          c.manualAccounts.getAll.rejects(new Error("Connection refused"));
-        },
-        RAW,
-      );
+      mockClient({
+        manualAccounts: { getAll: vi.fn().mockRejectedValue(new Error("Connection refused")) },
+      });
+
+      const { stdout } = await runCommand(AccountsList, ["--json"], { raw: true });
 
       const json = JSON.parse(stdout);
-      expect(json.error).to.equal("Connection refused");
+      expect(json.error).toBe("Connection refused");
     });
   });
 
@@ -141,15 +122,9 @@ describe("error handling", () => {
           },
         });
 
-        // Use captureOutput directly — createClient must NOT be stubbed
-        // so the real API key resolution runs and fails.
-        const { stderr } = await captureOutput(async () => {
-          const cmd = new AccountsList([], testConfig);
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          await (cmd as any)._run();
-        });
+        const { stderr } = await runCommand(AccountsList, [], { config: testConfig, raw: true });
 
-        expect(stderr).to.contain("No API key found");
+        expect(stderr).toContain("No API key found");
       } finally {
         if (originalEnv !== undefined) process.env.LUNCH_MONEY_API_KEY = originalEnv;
         cleanup();
@@ -161,6 +136,11 @@ describe("error handling", () => {
       const originalEnv = process.env.LUNCH_MONEY_API_KEY;
       process.env.LUNCH_MONEY_API_KEY = "env-token-123";
 
+      // mockClient provides a working mock so no real HTTP requests are made.
+      // The real createClient runs key resolution, finds the env var, and
+      // calls the mocked LunchMoneyClient constructor with { apiKey: "env-token-123" }.
+      mockClient({ manualAccounts: { getAll: vi.fn().mockResolvedValue([]) } });
+
       try {
         const config = await getConfig();
         const testConfig = new Proxy(config, {
@@ -170,13 +150,10 @@ describe("error handling", () => {
           },
         });
 
-        // Run without --api-key flag — should use env var and succeed (no missing-key error)
-        const { createClientStub, error } = await runCommand(AccountsList, ["--json"], undefined, {
-          config: testConfig,
-        });
+        const { stderr } = await runCommand(AccountsList, ["--json"], { config: testConfig, raw: true });
 
-        expect(error).to.equal(undefined);
-        expect(createClientStub.firstCall.args[0]).to.equal(undefined);
+        expect(stderr).not.toContain("No API key found");
+        expect(LunchMoneyClient).toHaveBeenCalledWith({ apiKey: "env-token-123" });
       } finally {
         if (originalEnv === undefined) {
           delete process.env.LUNCH_MONEY_API_KEY;
@@ -191,63 +168,85 @@ describe("error handling", () => {
 
   describe("invalid JSON flags", () => {
     it("throws on invalid --transactions JSON (create)", async () => {
-      const { stderr } = await runCommand(TransactionsCreate, ["--transactions", "not-json"], undefined, RAW);
-      expect(stderr).to.contain("transactions must be valid JSON");
+      mockClient({ transactions: { create: vi.fn() } });
+      const { stderr } = await runCommand(TransactionsCreate, ["--transactions", "not-json"], { raw: true });
+      expect(stderr).toContain("transactions must be valid JSON");
     });
 
     it("throws on invalid --transactions JSON (update-many)", async () => {
-      const { stderr } = await runCommand(TransactionsUpdateMany, ["--transactions", "{bad"], undefined, RAW);
-      expect(stderr).to.contain("transactions must be valid JSON");
+      mockClient({ transactions: { update: vi.fn() } });
+      const { stderr } = await runCommand(TransactionsUpdateMany, ["--transactions", "{bad"], { raw: true });
+      expect(stderr).toContain("transactions must be valid JSON");
     });
 
     it("throws on invalid --data JSON (accounts update)", async () => {
-      const { stderr } = await runCommand(AccountsUpdate, ["42", "--data", "bad-json"], undefined, RAW);
-      expect(stderr).to.contain("data must be valid JSON");
+      mockClient({ manualAccounts: { update: vi.fn() } });
+      const { stderr } = await runCommand(AccountsUpdate, ["42", "--data", "bad-json"], { raw: true });
+      expect(stderr).toContain("data must be valid JSON");
     });
 
     it("throws on invalid --data JSON (transactions update)", async () => {
-      const { stderr } = await runCommand(TransactionsUpdate, ["100", "--data", "bad-json"], undefined, RAW);
-      expect(stderr).to.contain("data must be valid JSON");
+      mockClient({ transactions: { update: vi.fn() } });
+      const { stderr } = await runCommand(TransactionsUpdate, ["100", "--data", "bad-json"], { raw: true });
+      expect(stderr).toContain("data must be valid JSON");
     });
 
     it("throws on invalid --data JSON (transactions group)", async () => {
-      const { stderr } = await runCommand(TransactionsGroup, ["--data", "bad-json"], undefined, RAW);
-      expect(stderr).to.contain("data must be valid JSON");
+      mockClient({ transactions: { group: vi.fn() } });
+      const { stderr } = await runCommand(TransactionsGroup, ["--data", "bad-json"], { raw: true });
+      expect(stderr).toContain("data must be valid JSON");
     });
 
     it("throws on invalid --ids JSON (delete-many)", async () => {
-      const { stderr } = await runCommand(TransactionsDeleteMany, ["--ids", "bad-json"], undefined, RAW);
-      expect(stderr).to.contain("ids must be valid JSON");
+      mockClient({ transactions: { delete: vi.fn() } });
+      const { stderr } = await runCommand(TransactionsDeleteMany, ["--ids", "bad-json"], { raw: true });
+      expect(stderr).toContain("ids must be valid JSON");
     });
 
     it("throws on invalid --parts JSON (split)", async () => {
-      const { stderr } = await runCommand(TransactionsSplit, ["100", "--parts", "bad-json"], undefined, RAW);
-      expect(stderr).to.contain("parts must be valid JSON");
+      mockClient({ transactions: { split: vi.fn() } });
+      const { stderr } = await runCommand(TransactionsSplit, ["100", "--parts", "bad-json"], { raw: true });
+      expect(stderr).toContain("parts must be valid JSON");
     });
 
     it("throws on invalid --custom-metadata JSON (accounts create)", async () => {
+      mockClient({ manualAccounts: { create: vi.fn() } });
       const { stderr } = await runCommand(
         AccountsCreate,
         ["--name", "X", "--type", "cash", "--balance", "0", "--custom-metadata", "bad"],
-        undefined,
-        RAW,
+        { raw: true },
       );
-      expect(stderr).to.contain("custom-metadata must be valid JSON");
+      expect(stderr).toContain("custom-metadata must be valid JSON");
     });
 
     it("throws on invalid --custom-metadata JSON (transactions update)", async () => {
-      const { stderr } = await runCommand(TransactionsUpdate, ["100", "--custom-metadata", "bad"], undefined, RAW);
-      expect(stderr).to.contain("custom-metadata must be valid JSON");
+      mockClient({ transactions: { update: vi.fn() } });
+      const { stderr } = await runCommand(
+        TransactionsUpdate,
+        ["100", "--custom-metadata", "bad"],
+        { raw: true },
+      );
+      expect(stderr).toContain("custom-metadata must be valid JSON");
     });
 
     it("throws on invalid --tag-ids JSON", async () => {
-      const { stderr } = await runCommand(TransactionsUpdate, ["100", "--tag-ids", "bad"], undefined, RAW);
-      expect(stderr).to.contain("tag-ids must be valid JSON");
+      mockClient({ transactions: { update: vi.fn() } });
+      const { stderr } = await runCommand(
+        TransactionsUpdate,
+        ["100", "--tag-ids", "bad"],
+        { raw: true },
+      );
+      expect(stderr).toContain("tag-ids must be valid JSON");
     });
 
     it("throws on invalid --children JSON (categories create)", async () => {
-      const { stderr } = await runCommand(CategoriesCreate, ["--name", "X", "--children", "bad-json"], undefined, RAW);
-      expect(stderr).to.contain("children must be valid JSON");
+      mockClient({ categories: { create: vi.fn() } });
+      const { stderr } = await runCommand(
+        CategoriesCreate,
+        ["--name", "X", "--children", "bad-json"],
+        { raw: true },
+      );
+      expect(stderr).toContain("children must be valid JSON");
     });
   });
 });

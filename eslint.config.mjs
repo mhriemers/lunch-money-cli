@@ -16,4 +16,10 @@ export default [
       "mocha/max-top-level-suites": "off",
     },
   },
+  {
+    files: ["**/test/setup.ts"],
+    rules: {
+      "mocha/no-top-level-hooks": "off",
+    },
+  },
 ];

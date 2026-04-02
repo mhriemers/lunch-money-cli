@@ -1,16 +1,18 @@
-import { expect } from "chai";
+import { LunchMoneyClient } from "@lunch-money/lunch-money-js-v2";
+import { describe, expect, it, vi } from "vitest";
 
 import AccountsGet from "../../../src/commands/accounts/get.js";
-import { expectFixture, runCommand } from "../../helpers/index.js";
+import { fixture, mockClient, runCommand } from "../../setup.js";
 
 describe("accounts get", () => {
   it("returns account as JSON", async () => {
     const data = { balance: "1234.56", id: 42, name: "Checking", type: "cash" };
-    const { client, result } = await runCommand(AccountsGet, ["42", "--json"], (c) => {
-      c.manualAccounts.get.resolves(data);
-    });
-    expect(result).to.deep.equal(data);
-    expect(client.manualAccounts.get.firstCall.args[0]).to.equal(42);
+    const get = vi.fn().mockResolvedValue(data);
+    mockClient({ manualAccounts: { get } });
+
+    const { result } = await runCommand(AccountsGet, ["42", "--json"]);
+    expect(result).toEqual(data);
+    expect(get.mock.calls[0][0]).toBe(42);
   });
 
   it("formats account detail as text", async () => {
@@ -23,14 +25,17 @@ describe("accounts get", () => {
       status: "active",
       type: "cash",
     };
-    const { stdout } = await runCommand(AccountsGet, ["1"], (c) => {
-      c.manualAccounts.get.resolves(data);
-    });
-    expectFixture(stdout, "accounts/get-detail");
+    const get = vi.fn().mockResolvedValue(data);
+    mockClient({ manualAccounts: { get } });
+
+    const { stdout } = await runCommand(AccountsGet, ["1"]);
+    await expect(stdout).toMatchFileSnapshot(fixture("accounts/get-detail"));
   });
 
-  it("passes --api-key to createClient", async () => {
-    const { createClientStub } = await runCommand(AccountsGet, ["1", "--api-key", "k", "--json"]);
-    expect(createClientStub.firstCall.args[0]).to.equal("k");
+  it("passes --api-key to LunchMoneyClient", async () => {
+    mockClient({ manualAccounts: { get: vi.fn().mockResolvedValue({}) } });
+
+    await runCommand(AccountsGet, ["1", "--api-key", "k", "--json"]);
+    expect(LunchMoneyClient).toHaveBeenCalledWith({ apiKey: "k" });
   });
 });

@@ -1,90 +1,95 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-import { expect } from "chai";
+import { describe, expect, it, vi } from "vitest";
 
 import AccountsUpdate from "../../../src/commands/accounts/update.js";
-import { runCommand } from "../../helpers/index.js";
+import { mockClient, runCommand } from "../../setup.js";
 
 describe("accounts update", () => {
   it("updates with individual flags", async () => {
     const updated = { id: 42, name: "Renamed" };
-    const { client, result } = await runCommand(
+    const update = vi.fn().mockResolvedValue(updated);
+    mockClient({ manualAccounts: { update } });
+
+    const { result } = await runCommand(
       AccountsUpdate,
       ["42", "--name", "Renamed", "--institution-name", "Chase", "--json"],
-      (c) => {
-        c.manualAccounts.update.resolves(updated);
-      },
     );
-    expect(result).to.deep.equal(updated);
-    expect(client.manualAccounts.update.calledOnce).to.be.true;
-    const [id, body] = client.manualAccounts.update.firstCall.args;
-    expect(id).to.equal(42);
-    expect(body.name).to.equal("Renamed");
-    expect(body.institution_name).to.equal("Chase");
+    expect(result).toEqual(updated);
+    expect(update).toHaveBeenCalledOnce();
+    const [id, body] = update.mock.calls[0];
+    expect(id).toBe(42);
+    expect(body.name).toBe("Renamed");
+    expect(body.institution_name).toBe("Chase");
   });
 
   it("uses --data escape hatch and ignores other flags", async () => {
     const payload = { balance: "999.00", name: "FromJSON" };
-    const { client } = await runCommand(
+    const update = vi.fn().mockResolvedValue({ id: 42 });
+    mockClient({ manualAccounts: { update } });
+
+    await runCommand(
       AccountsUpdate,
       ["42", "--data", JSON.stringify(payload), "--name", "Ignored", "--json"],
-      (c) => {
-        c.manualAccounts.update.resolves({ id: 42 });
-      },
     );
-    const body = client.manualAccounts.update.firstCall.args[1];
-    expect(body).to.deep.equal(payload);
+    const body = update.mock.calls[0][1];
+    expect(body).toEqual(payload);
   });
 
   it("converts closed-on 'null' to null", async () => {
-    const { client } = await runCommand(AccountsUpdate, ["42", "--closed-on", "null", "--json"], (c) => {
-      c.manualAccounts.update.resolves({ id: 42 });
-    });
-    const body = client.manualAccounts.update.firstCall.args[1];
-    expect(body.closed_on).to.be.null;
+    const update = vi.fn().mockResolvedValue({ id: 42 });
+    mockClient({ manualAccounts: { update } });
+
+    await runCommand(AccountsUpdate, ["42", "--closed-on", "null", "--json"]);
+    const body = update.mock.calls[0][1];
+    expect(body.closed_on).toBeNull();
   });
 
   it("converts exclude-from-transactions to boolean", async () => {
-    const { client } = await runCommand(
+    const update = vi.fn().mockResolvedValue({ id: 42 });
+    mockClient({ manualAccounts: { update } });
+
+    await runCommand(
       AccountsUpdate,
       ["42", "--exclude-from-transactions", "true", "--json"],
-      (c) => {
-        c.manualAccounts.update.resolves({ id: 42 });
-      },
     );
-    const body = client.manualAccounts.update.firstCall.args[1];
-    expect(body.exclude_from_transactions).to.be.true;
+    const body = update.mock.calls[0][1];
+    expect(body.exclude_from_transactions).toBe(true);
   });
 
   it("parses --custom-metadata as JSON", async () => {
-    const { client } = await runCommand(AccountsUpdate, ["42", "--custom-metadata", '{"k":"v"}', "--json"], (c) => {
-      c.manualAccounts.update.resolves({ id: 42 });
-    });
-    const body = client.manualAccounts.update.firstCall.args[1];
-    expect(body.custom_metadata).to.deep.equal({ k: "v" });
+    const update = vi.fn().mockResolvedValue({ id: 42 });
+    mockClient({ manualAccounts: { update } });
+
+    await runCommand(AccountsUpdate, ["42", "--custom-metadata", '{"k":"v"}', "--json"]);
+    const body = update.mock.calls[0][1];
+    expect(body.custom_metadata).toEqual({ k: "v" });
   });
 
   it("passes closed-on date value through", async () => {
-    const { client } = await runCommand(AccountsUpdate, ["42", "--closed-on", "2025-06-15", "--json"], (c) => {
-      c.manualAccounts.update.resolves({ id: 42 });
-    });
-    const body = client.manualAccounts.update.firstCall.args[1];
-    expect(body.closed_on).to.equal("2025-06-15");
+    const update = vi.fn().mockResolvedValue({ id: 42 });
+    mockClient({ manualAccounts: { update } });
+
+    await runCommand(AccountsUpdate, ["42", "--closed-on", "2025-06-15", "--json"]);
+    const body = update.mock.calls[0][1];
+    expect(body.closed_on).toBe("2025-06-15");
   });
 
   it("converts exclude-from-transactions 'false' to boolean false", async () => {
-    const { client } = await runCommand(
+    const update = vi.fn().mockResolvedValue({ id: 42 });
+    mockClient({ manualAccounts: { update } });
+
+    await runCommand(
       AccountsUpdate,
       ["42", "--exclude-from-transactions", "false", "--json"],
-      (c) => {
-        c.manualAccounts.update.resolves({ id: 42 });
-      },
     );
-    const body = client.manualAccounts.update.firstCall.args[1];
-    expect(body.exclude_from_transactions).to.equal(false);
+    const body = update.mock.calls[0][1];
+    expect(body.exclude_from_transactions).toBe(false);
   });
 
   it("maps remaining optional flags", async () => {
-    const { client } = await runCommand(
+    const update = vi.fn().mockResolvedValue({ id: 42 });
+    mockClient({ manualAccounts: { update } });
+
+    await runCommand(
       AccountsUpdate,
       [
         "42",
@@ -106,33 +111,32 @@ describe("accounts update", () => {
         "cash",
         "--json",
       ],
-      (c) => {
-        c.manualAccounts.update.resolves({ id: 42 });
-      },
     );
-    const body = client.manualAccounts.update.firstCall.args[1];
-    expect(body.balance).to.equal("999.99");
-    expect(body.balance_as_of).to.equal("2025-01-15T12:00:00Z");
-    expect(body.currency).to.equal("eur");
-    expect(body.display_name).to.equal("My Account");
-    expect(body.external_id).to.equal("ext-456");
-    expect(body.status).to.equal("closed");
-    expect(body.subtype).to.equal("savings");
-    expect(body.type).to.equal("cash");
+    const body = update.mock.calls[0][1];
+    expect(body.balance).toBe("999.99");
+    expect(body.balance_as_of).toBe("2025-01-15T12:00:00Z");
+    expect(body.currency).toBe("eur");
+    expect(body.display_name).toBe("My Account");
+    expect(body.external_id).toBe("ext-456");
+    expect(body.status).toBe("closed");
+    expect(body.subtype).toBe("savings");
+    expect(body.type).toBe("cash");
   });
 
   it("sends empty body when no update flags set", async () => {
-    const { client } = await runCommand(AccountsUpdate, ["42", "--json"], (c) => {
-      c.manualAccounts.update.resolves({ id: 42 });
-    });
-    const body = client.manualAccounts.update.firstCall.args[1];
-    expect(body).to.deep.equal({});
+    const update = vi.fn().mockResolvedValue({ id: 42 });
+    mockClient({ manualAccounts: { update } });
+
+    await runCommand(AccountsUpdate, ["42", "--json"]);
+    const body = update.mock.calls[0][1];
+    expect(body).toEqual({});
   });
 
   it("shows confirmation message", async () => {
-    const { stdout } = await runCommand(AccountsUpdate, ["42", "--name", "X"], (c) => {
-      c.manualAccounts.update.resolves({ id: 42, name: "X" });
-    });
-    expect(stdout).to.equal("Updated account 42.\n");
+    const update = vi.fn().mockResolvedValue({ id: 42, name: "X" });
+    mockClient({ manualAccounts: { update } });
+
+    const { stdout } = await runCommand(AccountsUpdate, ["42", "--name", "X"]);
+    expect(stdout).toBe("Updated account 42.\n");
   });
 });

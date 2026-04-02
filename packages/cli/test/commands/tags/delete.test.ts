@@ -1,27 +1,39 @@
-import { expect } from "chai";
+import { describe, expect, it, vi } from "vitest";
 
 import TagsDelete from "../../../src/commands/tags/delete.js";
-import { runCommand } from "../../helpers/index.js";
+import { mockClient, runCommand } from "../../setup.js";
 
 describe("tags delete", () => {
   it("deletes tag by ID", async () => {
-    const { client, result } = await runCommand(TagsDelete, ["5", "--json"]);
-    expect(result).to.deep.equal({ deleted_id: 5, success: true });
-    expect(client.tags.delete.firstCall.args[0]).to.equal(5);
+    const deleteFn = vi.fn().mockResolvedValue({ deleted_id: 5, success: true });
+    mockClient({ tags: { delete: deleteFn } });
+
+    const { result } = await runCommand(TagsDelete, ["5", "--json"]);
+    expect(result).toEqual({ deleted_id: 5, success: true });
+    expect(deleteFn.mock.calls[0][0]).toBe(5);
   });
 
   it("passes --force flag", async () => {
-    const { client } = await runCommand(TagsDelete, ["5", "--force", "--json"]);
-    expect(client.tags.delete.firstCall.args[1]).to.deep.include({ force: true });
+    const deleteFn = vi.fn().mockResolvedValue({ deleted_id: 5, success: true });
+    mockClient({ tags: { delete: deleteFn } });
+
+    await runCommand(TagsDelete, ["5", "--force", "--json"]);
+    expect(deleteFn.mock.calls[0][1]).toMatchObject({ force: true });
   });
 
   it("omits force when not set", async () => {
-    const { client } = await runCommand(TagsDelete, ["5", "--json"]);
-    expect(client.tags.delete.firstCall.args[1]).to.deep.equal({});
+    const deleteFn = vi.fn().mockResolvedValue({ deleted_id: 5, success: true });
+    mockClient({ tags: { delete: deleteFn } });
+
+    await runCommand(TagsDelete, ["5", "--json"]);
+    expect(deleteFn.mock.calls[0][1]).toEqual({});
   });
 
   it("shows confirmation message", async () => {
+    const deleteFn = vi.fn().mockResolvedValue({ deleted_id: 5, success: true });
+    mockClient({ tags: { delete: deleteFn } });
+
     const { stdout } = await runCommand(TagsDelete, ["5"]);
-    expect(stdout).to.equal("Deleted tag 5.\n");
+    expect(stdout).toBe("Deleted tag 5.\n");
   });
 });

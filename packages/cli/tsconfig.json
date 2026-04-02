@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "declaration": true,
-    "types": ["node", "mocha"]
+    "types": ["node"]
   },
   "include": ["src/**/*"]
 }

@@ -1,17 +1,23 @@
-import { expect } from "chai";
+import { describe, expect, it, vi } from "vitest";
 
 import TransactionsUngroup from "../../../src/commands/transactions/ungroup.js";
-import { runCommand } from "../../helpers/index.js";
+import { mockClient, runCommand } from "../../setup.js";
 
 describe("transactions ungroup", () => {
   it("ungroups transaction by ID", async () => {
-    const { client, result } = await runCommand(TransactionsUngroup, ["999", "--json"]);
-    expect(result).to.deep.equal({ success: true, ungrouped_id: 999 });
-    expect(client.transactions.ungroup.firstCall.args[0]).to.equal(999);
+    const ungroup = vi.fn().mockResolvedValue({ success: true, ungrouped_id: 999 });
+    mockClient({ transactions: { ungroup } });
+
+    const { result } = await runCommand(TransactionsUngroup, ["999", "--json"]);
+    expect(result).toEqual({ success: true, ungrouped_id: 999 });
+    expect(ungroup.mock.calls[0][0]).toBe(999);
   });
 
   it("shows confirmation message", async () => {
+    const ungroup = vi.fn().mockResolvedValue({ success: true, ungrouped_id: 999 });
+    mockClient({ transactions: { ungroup } });
+
     const { stdout } = await runCommand(TransactionsUngroup, ["999"]);
-    expect(stdout).to.equal("Ungrouped transaction 999.\n");
+    expect(stdout).toBe("Ungrouped transaction 999.\n");
   });
 });

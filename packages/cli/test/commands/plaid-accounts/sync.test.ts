@@ -1,19 +1,24 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-import { expect } from "chai";
+import { describe, expect, it, vi } from "vitest";
 
 import PlaidAccountsSync from "../../../src/commands/plaid-accounts/sync.js";
-import { runCommand } from "../../helpers/index.js";
+import { mockClient, runCommand } from "../../setup.js";
 
 describe("plaid-accounts sync", () => {
   it("triggers sync with no params", async () => {
-    const { client, result } = await runCommand(PlaidAccountsSync, ["--json"]);
-    expect(result).to.deep.equal({ message: "Plaid sync triggered", success: true });
-    expect(client.plaidAccounts.triggerFetch.calledOnce).to.be.true;
-    expect(client.plaidAccounts.triggerFetch.firstCall.args[0]).to.deep.equal({});
+    const triggerFetch = vi.fn().mockResolvedValue();
+    mockClient({ plaidAccounts: { triggerFetch } });
+
+    const { result } = await runCommand(PlaidAccountsSync, ["--json"]);
+    expect(result).toEqual({ message: "Plaid sync triggered", success: true });
+    expect(triggerFetch).toHaveBeenCalledOnce();
+    expect(triggerFetch.mock.calls[0][0]).toEqual({});
   });
 
   it("maps date range and account ID flags", async () => {
-    const { client } = await runCommand(PlaidAccountsSync, [
+    const triggerFetch = vi.fn().mockResolvedValue();
+    mockClient({ plaidAccounts: { triggerFetch } });
+
+    await runCommand(PlaidAccountsSync, [
       "--start-date",
       "2025-01-01",
       "--end-date",
@@ -22,7 +27,7 @@ describe("plaid-accounts sync", () => {
       "42",
       "--json",
     ]);
-    expect(client.plaidAccounts.triggerFetch.firstCall.args[0]).to.deep.equal({
+    expect(triggerFetch.mock.calls[0][0]).toEqual({
       end_date: "2025-01-31",
       id: 42,
       start_date: "2025-01-01",
@@ -30,7 +35,10 @@ describe("plaid-accounts sync", () => {
   });
 
   it("shows confirmation message", async () => {
+    const triggerFetch = vi.fn().mockResolvedValue();
+    mockClient({ plaidAccounts: { triggerFetch } });
+
     const { stdout } = await runCommand(PlaidAccountsSync, []);
-    expect(stdout).to.equal("Plaid sync triggered.\n");
+    expect(stdout).toBe("Plaid sync triggered.\n");
   });
 });

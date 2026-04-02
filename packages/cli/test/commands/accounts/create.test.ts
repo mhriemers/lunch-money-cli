@@ -1,86 +1,89 @@
-import { expect } from "chai";
+import { describe, expect, it, vi } from "vitest";
 
 import AccountsCreate from "../../../src/commands/accounts/create.js";
-import { runCommand } from "../../helpers/index.js";
+import { mockClient, runCommand } from "../../setup.js";
 
 describe("accounts create", () => {
   it("creates with required flags", async () => {
     const created = { balance: "500.00", id: 99, name: "New", type: "credit" };
-    const { client, result } = await runCommand(
+    const create = vi.fn().mockResolvedValue(created);
+    mockClient({ manualAccounts: { create } });
+
+    const { result } = await runCommand(
       AccountsCreate,
       ["--name", "New", "--type", "credit", "--balance", "500.00", "--json"],
-      (c) => {
-        c.manualAccounts.create.resolves(created);
-      },
     );
-    expect(result).to.deep.equal(created);
-    const body = client.manualAccounts.create.firstCall.args[0];
-    expect(body).to.include({ balance: "500.00", name: "New", type: "credit" });
+    expect(result).toEqual(created);
+    const body = create.mock.calls[0][0];
+    expect(body).toMatchObject({ balance: "500.00", name: "New", type: "credit" });
   });
 
   it("maps optional flags to request body", async () => {
-    const { client } = await runCommand(
+    const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
+    mockClient({ manualAccounts: { create } });
+
+    await runCommand(
       AccountsCreate,
       ["--name", "X", "--type", "cash", "--balance", "0", "--institution-name", "Chase", "--currency", "eur", "--json"],
-      (c) => {
-        c.manualAccounts.create.resolves({ id: 1, name: "X" });
-      },
     );
-    const body = client.manualAccounts.create.firstCall.args[0];
-    expect(body.institution_name).to.equal("Chase");
-    expect(body.currency).to.equal("eur");
+    const body = create.mock.calls[0][0];
+    expect(body.institution_name).toBe("Chase");
+    expect(body.currency).toBe("eur");
   });
 
   it("parses --custom-metadata as JSON", async () => {
-    const { client } = await runCommand(
+    const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
+    mockClient({ manualAccounts: { create } });
+
+    await runCommand(
       AccountsCreate,
       ["--name", "X", "--type", "cash", "--balance", "0", "--custom-metadata", '{"foo":"bar"}', "--json"],
-      (c) => {
-        c.manualAccounts.create.resolves({ id: 1, name: "X" });
-      },
     );
-    const body = client.manualAccounts.create.firstCall.args[0];
-    expect(body.custom_metadata).to.deep.equal({ foo: "bar" });
+    const body = create.mock.calls[0][0];
+    expect(body.custom_metadata).toEqual({ foo: "bar" });
   });
 
   it("converts closed-on 'null' to null", async () => {
-    const { client } = await runCommand(
+    const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
+    mockClient({ manualAccounts: { create } });
+
+    await runCommand(
       AccountsCreate,
       ["--name", "X", "--type", "cash", "--balance", "0", "--closed-on", "null", "--json"],
-      (c) => {
-        c.manualAccounts.create.resolves({ id: 1, name: "X" });
-      },
     );
-    const body = client.manualAccounts.create.firstCall.args[0];
-    expect(body.closed_on).to.equal(null);
+    const body = create.mock.calls[0][0];
+    expect(body.closed_on).toBe(null);
   });
 
   it("passes closed-on date value through", async () => {
-    const { client } = await runCommand(
+    const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
+    mockClient({ manualAccounts: { create } });
+
+    await runCommand(
       AccountsCreate,
       ["--name", "X", "--type", "cash", "--balance", "0", "--closed-on", "2025-06-15", "--json"],
-      (c) => {
-        c.manualAccounts.create.resolves({ id: 1, name: "X" });
-      },
     );
-    const body = client.manualAccounts.create.firstCall.args[0];
-    expect(body.closed_on).to.equal("2025-06-15");
+    const body = create.mock.calls[0][0];
+    expect(body.closed_on).toBe("2025-06-15");
   });
 
   it("maps --exclude-from-transactions boolean flag", async () => {
-    const { client } = await runCommand(
+    const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
+    mockClient({ manualAccounts: { create } });
+
+    await runCommand(
       AccountsCreate,
       ["--name", "X", "--type", "cash", "--balance", "0", "--exclude-from-transactions", "--json"],
-      (c) => {
-        c.manualAccounts.create.resolves({ id: 1, name: "X" });
-      },
     );
-    const body = client.manualAccounts.create.firstCall.args[0];
-    expect(body.exclude_from_transactions).to.equal(true);
+    const body = create.mock.calls[0][0];
+    expect(body.exclude_from_transactions).toBe(true);
   });
 
   it("maps remaining optional flags", async () => {
-    const { client } = await runCommand(
+    const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
+    mockClient({ manualAccounts: { create } });
+
+    await runCommand(
       AccountsCreate,
       [
         "--name",
@@ -101,38 +104,35 @@ describe("accounts create", () => {
         "checking",
         "--json",
       ],
-      (c) => {
-        c.manualAccounts.create.resolves({ id: 1, name: "X" });
-      },
     );
-    const body = client.manualAccounts.create.firstCall.args[0];
-    expect(body.balance_as_of).to.equal("2025-01-15T12:00:00Z");
-    expect(body.display_name).to.equal("My Account");
-    expect(body.external_id).to.equal("ext-123");
-    expect(body.status).to.equal("active");
-    expect(body.subtype).to.equal("checking");
+    const body = create.mock.calls[0][0];
+    expect(body.balance_as_of).toBe("2025-01-15T12:00:00Z");
+    expect(body.display_name).toBe("My Account");
+    expect(body.external_id).toBe("ext-123");
+    expect(body.status).toBe("active");
+    expect(body.subtype).toBe("checking");
   });
 
   it("omits optional flags from body when not set", async () => {
-    const { client } = await runCommand(
+    const create = vi.fn().mockResolvedValue({ id: 1, name: "X" });
+    mockClient({ manualAccounts: { create } });
+
+    await runCommand(
       AccountsCreate,
       ["--name", "X", "--type", "cash", "--balance", "0", "--json"],
-      (c) => {
-        c.manualAccounts.create.resolves({ id: 1, name: "X" });
-      },
     );
-    const body = client.manualAccounts.create.firstCall.args[0];
-    expect(body).to.deep.equal({ balance: "0", name: "X", type: "cash" });
+    const body = create.mock.calls[0][0];
+    expect(body).toEqual({ balance: "0", name: "X", type: "cash" });
   });
 
   it("shows confirmation message", async () => {
+    const create = vi.fn().mockResolvedValue({ id: 101, name: "Visa" });
+    mockClient({ manualAccounts: { create } });
+
     const { stdout } = await runCommand(
       AccountsCreate,
       ["--name", "Visa", "--type", "credit", "--balance", "0"],
-      (c) => {
-        c.manualAccounts.create.resolves({ id: 101, name: "Visa" });
-      },
     );
-    expect(stdout).to.equal('Created account "Visa" (ID: 101).\n');
+    expect(stdout).toBe('Created account "Visa" (ID: 101).\n');
   });
 });

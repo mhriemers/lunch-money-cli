@@ -1,27 +1,29 @@
-import { expect } from "chai";
+import { describe, expect, it, vi } from "vitest";
 
 import TransactionsGroup from "../../../src/commands/transactions/group.js";
-import { runCommand } from "../../helpers/index.js";
+import { mockClient, runCommand } from "../../setup.js";
 
 describe("transactions group", () => {
   const groupData = JSON.stringify({ date: "2025-01-15", ids: [1, 2, 3], payee: "Grouped" });
 
   it("groups transactions from JSON data", async () => {
     const response = { id: 999 };
-    const { client, result } = await runCommand(TransactionsGroup, ["--data", groupData, "--json"], (c) => {
-      c.transactions.group.resolves(response);
-    });
-    expect(result).to.deep.equal(response);
-    const body = client.transactions.group.firstCall.args[0];
-    expect(body.ids).to.deep.equal([1, 2, 3]);
-    expect(body.date).to.equal("2025-01-15");
-    expect(body.payee).to.equal("Grouped");
+    const group = vi.fn().mockResolvedValue(response);
+    mockClient({ transactions: { group } });
+
+    const { result } = await runCommand(TransactionsGroup, ["--data", groupData, "--json"]);
+    expect(result).toEqual(response);
+    const body = group.mock.calls[0][0];
+    expect(body.ids).toEqual([1, 2, 3]);
+    expect(body.date).toBe("2025-01-15");
+    expect(body.payee).toBe("Grouped");
   });
 
   it("shows group ID in confirmation message", async () => {
-    const { stdout } = await runCommand(TransactionsGroup, ["--data", groupData], (c) => {
-      c.transactions.group.resolves({ id: 999 });
-    });
-    expect(stdout).to.equal("Grouped transactions (group ID: 999).\n");
+    const group = vi.fn().mockResolvedValue({ id: 999 });
+    mockClient({ transactions: { group } });
+
+    const { stdout } = await runCommand(TransactionsGroup, ["--data", groupData]);
+    expect(stdout).toBe("Grouped transactions (group ID: 999).\n");
   });
 });

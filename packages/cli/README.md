@@ -513,7 +513,7 @@ DESCRIPTION
   Display help for lm.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/6.2.40/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/6.2.41/src/commands/help.ts)_
 
 ## `lm plaid-accounts get ID`
 

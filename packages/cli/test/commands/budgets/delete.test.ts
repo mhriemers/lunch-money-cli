@@ -5,13 +5,13 @@ import { mockClient, runCommand } from "../../setup.js";
 
 describe("budgets delete", () => {
   it("deletes budget by category and start date", async () => {
-    const deleteFn = vi.fn();
-    mockClient({ budgets: { delete: deleteFn } });
+    const deleteFunction = vi.fn();
+    mockClient({ budgets: { delete: deleteFunction } });
 
     const { result } = await runCommand(BudgetsDelete, ["--category-id", "10", "--start-date", "2025-01-01", "--json"]);
     expect(result).toEqual({ message: "Budget deleted", success: true });
-    expect(deleteFn).toHaveBeenCalledOnce();
-    expect(deleteFn.mock.calls[0][0]).toEqual({
+    expect(deleteFunction).toHaveBeenCalledOnce();
+    expect(deleteFunction.mock.calls[0][0]).toEqual({
       category_id: 10,
       start_date: "2025-01-01",
     });

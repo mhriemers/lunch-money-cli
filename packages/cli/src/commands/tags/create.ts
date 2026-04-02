@@ -1,7 +1,14 @@
 import type { CreateTagBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { ApiCommand } from "lunch-money-cli-core";
+import { ApiCommand, buildBody, type FieldMapping } from "lunch-money-cli-core";
+
+const optionalFields: FieldMapping[] = [
+  { flag: "description" },
+  { flag: "text-color" },
+  { flag: "background-color" },
+  { flag: "archived", type: "boolean" },
+];
 
 export default class TagsCreate extends ApiCommand {
   static override description = "Create a new tag. Tag name must be unique.";
@@ -21,13 +28,11 @@ export default class TagsCreate extends ApiCommand {
   async run(): Promise<unknown> {
     const { flags } = await this.parse(TagsCreate);
     const client = this.createClient(flags["api-key"]);
-    const data: CreateTagBody = { name: flags.name };
-    if (flags.description) data.description = flags.description;
-    if (flags["text-color"]) data.text_color = flags["text-color"];
-    if (flags["background-color"]) data.background_color = flags["background-color"];
-    if (flags.archived) data.archived = true;
+    const data: CreateTagBody = {
+      name: flags.name,
+      ...buildBody<CreateTagBody>(flags, optionalFields),
+    };
     const tag = await client.tags.create(data);
-    const t = tag as unknown as Record<string, unknown>;
-    return this.output(tag, `Created tag "${t.name ?? ""}" (ID: ${t.id}).`);
+    return this.output(tag, `Created tag "${tag.name}" (ID: ${tag.id}).`);
   }
 }

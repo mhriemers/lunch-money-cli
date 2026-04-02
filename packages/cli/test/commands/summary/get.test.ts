@@ -24,9 +24,9 @@ describe("summary get", () => {
     mockClient({ summary: { get } });
 
     await runCommand(SummaryGet, ["--start-date", "2025-01-01", "--end-date", "2025-01-31", "--json"]);
-    const params = get.mock.calls[0][0];
-    expect(params.start_date).toBe("2025-01-01");
-    expect(params.end_date).toBe("2025-01-31");
+    const parameters = get.mock.calls[0][0];
+    expect(parameters.start_date).toBe("2025-01-01");
+    expect(parameters.end_date).toBe("2025-01-31");
   });
 
   it("maps boolean include flags", async () => {
@@ -45,12 +45,12 @@ describe("summary get", () => {
       "--include-rollover-pool",
       "--json",
     ]);
-    const params = get.mock.calls[0][0];
-    expect(params.include_exclude_from_budgets).toBe(true);
-    expect(params.include_occurrences).toBe(true);
-    expect(params.include_past_budget_dates).toBe(true);
-    expect(params.include_totals).toBe(true);
-    expect(params.include_rollover_pool).toBe(true);
+    const parameters = get.mock.calls[0][0];
+    expect(parameters.include_exclude_from_budgets).toBe(true);
+    expect(parameters.include_occurrences).toBe(true);
+    expect(parameters.include_past_budget_dates).toBe(true);
+    expect(parameters.include_totals).toBe(true);
+    expect(parameters.include_rollover_pool).toBe(true);
   });
 
   it("omits boolean flags from params when not set", async () => {
@@ -58,8 +58,8 @@ describe("summary get", () => {
     mockClient({ summary: { get } });
 
     await runCommand(SummaryGet, ["--start-date", "2025-01-01", "--end-date", "2025-01-31", "--json"]);
-    const params = get.mock.calls[0][0];
-    expect(params).toEqual({ end_date: "2025-01-31", start_date: "2025-01-01" });
+    const parameters = get.mock.calls[0][0];
+    expect(parameters).toEqual({ end_date: "2025-01-31", start_date: "2025-01-01" });
   });
 
   it("formats categories as a table", async () => {

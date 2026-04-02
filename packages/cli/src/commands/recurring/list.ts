@@ -1,7 +1,9 @@
 import type { GetAllRecurringItemsParams } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { ApiCommand, formatTable, recurringColumns } from "lunch-money-cli-core";
+import { ApiCommand, buildBody, type FieldMapping, formatTable, recurringColumns } from "lunch-money-cli-core";
+
+const optionalFields: FieldMapping[] = [{ flag: "start-date" }, { flag: "end-date" }];
 
 export default class RecurringList extends ApiCommand {
   static override description =
@@ -19,10 +21,8 @@ export default class RecurringList extends ApiCommand {
   async run(): Promise<unknown> {
     const { flags } = await this.parse(RecurringList);
     const client = this.createClient(flags["api-key"]);
-    const params: GetAllRecurringItemsParams = {};
-    if (flags["start-date"]) params.start_date = flags["start-date"];
-    if (flags["end-date"]) params.end_date = flags["end-date"];
-    const items = await client.recurringItems.getAll(params);
+    const parameters = buildBody<GetAllRecurringItemsParams>(flags, optionalFields);
+    const items = await client.recurringItems.getAll(parameters);
     return this.output(items, formatTable(items as Record<string, unknown>[], recurringColumns));
   }
 }

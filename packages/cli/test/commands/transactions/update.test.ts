@@ -114,6 +114,24 @@ describe("transactions update", () => {
     expect(body).toEqual({});
   });
 
+  it("sends category-id 0 to uncategorize a transaction", async () => {
+    const update = vi.fn().mockResolvedValue({ id: 100 });
+    mockClient({ transactions: { update } });
+
+    await runCommand(TransactionsUpdate, ["100", "--category-id", "0", "--json"]);
+    const body = update.mock.calls[0][1];
+    expect(body.category_id).toBe(0);
+  });
+
+  it("sends amount '0' when updating balance to zero", async () => {
+    const update = vi.fn().mockResolvedValue({ id: 100 });
+    mockClient({ transactions: { update } });
+
+    await runCommand(TransactionsUpdate, ["100", "--amount", "0", "--json"]);
+    const body = update.mock.calls[0][1];
+    expect(body.amount).toBe("0");
+  });
+
   it("shows confirmation message", async () => {
     const update = vi.fn().mockResolvedValue({ id: 100 });
     mockClient({ transactions: { update } });

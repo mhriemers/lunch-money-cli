@@ -7,7 +7,7 @@ describe("transactions create", () => {
   const txJson = JSON.stringify([{ amount: 42.5, date: "2025-01-15", payee: "Coffee" }]);
 
   it("creates transactions from JSON", async () => {
-    const response = { ids: [100] };
+    const response = { skipped_duplicates: [], transactions: [{ id: 100 }] };
     const create = vi.fn().mockResolvedValue(response);
     mockClient({ transactions: { create } });
 
@@ -18,7 +18,7 @@ describe("transactions create", () => {
   });
 
   it("maps boolean flags", async () => {
-    const create = vi.fn().mockResolvedValue({});
+    const create = vi.fn().mockResolvedValue({ skipped_duplicates: [], transactions: [] });
     mockClient({ transactions: { create } });
 
     await runCommand(TransactionsCreate, [
@@ -36,7 +36,7 @@ describe("transactions create", () => {
   });
 
   it("shows count in confirmation message", async () => {
-    const create = vi.fn().mockResolvedValue({ ids: [1] });
+    const create = vi.fn().mockResolvedValue({ skipped_duplicates: [], transactions: [{ id: 1 }] });
     mockClient({ transactions: { create } });
 
     const { stdout } = await runCommand(TransactionsCreate, ["--transactions", txJson]);
@@ -44,7 +44,7 @@ describe("transactions create", () => {
   });
 
   it("extracts count from transactions array", async () => {
-    const create = vi.fn().mockResolvedValue({ transactions: [{ id: 1 }, { id: 2 }] });
+    const create = vi.fn().mockResolvedValue({ skipped_duplicates: [], transactions: [{ id: 1 }, { id: 2 }] });
     mockClient({ transactions: { create } });
 
     const { stdout } = await runCommand(TransactionsCreate, [
@@ -57,8 +57,8 @@ describe("transactions create", () => {
     expect(stdout).toBe("Created 2 transaction(s).\n");
   });
 
-  it("shows 0 count when response has neither ids nor transactions", async () => {
-    const create = vi.fn().mockResolvedValue({});
+  it("shows 0 count when response has empty transactions", async () => {
+    const create = vi.fn().mockResolvedValue({ skipped_duplicates: [], transactions: [] });
     mockClient({ transactions: { create } });
 
     const { stdout } = await runCommand(TransactionsCreate, ["--transactions", txJson]);
@@ -66,7 +66,7 @@ describe("transactions create", () => {
   });
 
   it("omits boolean flags from body when not set", async () => {
-    const create = vi.fn().mockResolvedValue({});
+    const create = vi.fn().mockResolvedValue({ skipped_duplicates: [], transactions: [] });
     mockClient({ transactions: { create } });
 
     await runCommand(TransactionsCreate, ["--transactions", txJson, "--json"]);

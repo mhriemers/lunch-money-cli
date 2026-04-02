@@ -1,7 +1,9 @@
 import type { AttachFileToTransactionBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Args, Flags } from "@oclif/core";
-import { ApiCommand } from "lunch-money-cli-core";
+import { ApiCommand, buildBody, type FieldMapping } from "lunch-money-cli-core";
+
+const optionalFields: FieldMapping[] = [{ flag: "notes" }];
 
 export default class TransactionsAttachFile extends ApiCommand {
   static override args = {
@@ -24,8 +26,10 @@ export default class TransactionsAttachFile extends ApiCommand {
   async run(): Promise<unknown> {
     const { args, flags } = await this.parse(TransactionsAttachFile);
     const client = this.createClient(flags["api-key"]);
-    const data: AttachFileToTransactionBody = { file: flags.file };
-    if (flags.notes) data.notes = flags.notes;
+    const data: AttachFileToTransactionBody = {
+      file: flags.file,
+      ...buildBody<AttachFileToTransactionBody>(flags, optionalFields),
+    };
     const result = await client.transactions.attachFile(args["transaction-id"], data);
     return this.output(result, `Attached file to transaction ${args["transaction-id"]}.`);
   }

@@ -1,7 +1,4 @@
 import { LunchMoneyClient, LunchMoneyError } from "@lunch-money/lunch-money-js-v2";
-import { mkdtempSync, rmSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
 
 import AccountsCreate from "../../src/commands/accounts/create.js";
@@ -14,12 +11,7 @@ import TransactionsGroup from "../../src/commands/transactions/group.js";
 import TransactionsSplit from "../../src/commands/transactions/split.js";
 import TransactionsUpdateMany from "../../src/commands/transactions/update-many.js";
 import TransactionsUpdate from "../../src/commands/transactions/update.js";
-import { getConfig, mockClient, runCommand } from "../setup.js";
-
-function tempConfig() {
-  const tempDir = mkdtempSync(join(tmpdir(), "lm-test-"));
-  return { cleanup: () => rmSync(tempDir, { force: true, recursive: true }), tempDir };
-}
+import { configWithTempDir, mockClient, runCommand, tempConfigDir } from "../setup.js";
 
 describe("error handling", () => {
   describe("LunchMoneyError in text mode", () => {
@@ -109,56 +101,41 @@ describe("error handling", () => {
 
   describe("API key resolution", () => {
     it("throws when no API key is available", async () => {
-      const { cleanup, tempDir } = tempConfig();
-      const originalEnv = process.env.LUNCH_MONEY_API_KEY;
+      const { cleanup, dir } = tempConfigDir();
+      const originalEnvironment = process.env.LUNCH_MONEY_API_KEY;
       delete process.env.LUNCH_MONEY_API_KEY;
 
       try {
-        const config = await getConfig();
-        const testConfig = new Proxy(config, {
-          get(target, prop, receiver) {
-            if (prop === "configDir") return tempDir;
-            return Reflect.get(target, prop, receiver);
-          },
-        });
+        const config = await configWithTempDir(dir);
 
-        const { stderr } = await runCommand(AccountsList, [], { config: testConfig, raw: true });
+        const { stderr } = await runCommand(AccountsList, [], { config, raw: true });
 
         expect(stderr).toContain("No API key found");
       } finally {
-        if (originalEnv !== undefined) process.env.LUNCH_MONEY_API_KEY = originalEnv;
+        if (originalEnvironment !== undefined) process.env.LUNCH_MONEY_API_KEY = originalEnvironment;
         cleanup();
       }
     });
 
     it("uses LUNCH_MONEY_API_KEY env var when no flag or config", async () => {
-      const { cleanup, tempDir } = tempConfig();
-      const originalEnv = process.env.LUNCH_MONEY_API_KEY;
+      const { cleanup, dir } = tempConfigDir();
+      const originalEnvironment = process.env.LUNCH_MONEY_API_KEY;
       process.env.LUNCH_MONEY_API_KEY = "env-token-123";
 
-      // mockClient provides a working mock so no real HTTP requests are made.
-      // The real createClient runs key resolution, finds the env var, and
-      // calls the mocked LunchMoneyClient constructor with { apiKey: "env-token-123" }.
       mockClient({ manualAccounts: { getAll: vi.fn().mockResolvedValue([]) } });
 
       try {
-        const config = await getConfig();
-        const testConfig = new Proxy(config, {
-          get(target, prop, receiver) {
-            if (prop === "configDir") return tempDir;
-            return Reflect.get(target, prop, receiver);
-          },
-        });
+        const config = await configWithTempDir(dir);
 
-        const { stderr } = await runCommand(AccountsList, ["--json"], { config: testConfig, raw: true });
+        const { stderr } = await runCommand(AccountsList, ["--json"], { config, raw: true });
 
         expect(stderr).not.toContain("No API key found");
         expect(LunchMoneyClient).toHaveBeenCalledWith({ apiKey: "env-token-123" });
       } finally {
-        if (originalEnv === undefined) {
+        if (originalEnvironment === undefined) {
           delete process.env.LUNCH_MONEY_API_KEY;
         } else {
-          process.env.LUNCH_MONEY_API_KEY = originalEnv;
+          process.env.LUNCH_MONEY_API_KEY = originalEnvironment;
         }
 
         cleanup();

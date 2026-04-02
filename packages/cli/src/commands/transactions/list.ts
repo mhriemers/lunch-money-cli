@@ -1,43 +1,34 @@
 import type { GetAllTransactionsParams } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { ApiCommand, formatTable, transactionColumns } from "lunch-money-cli-core";
+import { ApiCommand, buildBody, type FieldMapping, formatTable, transactionColumns } from "lunch-money-cli-core";
 
-const flagParamMap: Record<string, string> = {
-  "category-id": "category_id",
-  "created-since": "created_since",
-  "end-date": "end_date",
-  "include-children": "include_children",
-  "include-files": "include_files",
-  "include-group-children": "include_group_children",
-  "include-metadata": "include_metadata",
-  "include-pending": "include_pending",
-  "include-split-parents": "include_split_parents",
-  "is-group-parent": "is_group_parent",
-  "is-pending": "is_pending",
-  limit: "limit",
-  "manual-account-id": "manual_account_id",
-  offset: "offset",
-  "plaid-account-id": "plaid_account_id",
-  "recurring-id": "recurring_id",
-  "start-date": "start_date",
-  status: "status",
-  "tag-id": "tag_id",
-  "updated-since": "updated_since",
-};
-
-function buildParams(flags: Record<string, unknown>): GetAllTransactionsParams {
-  const params: Record<string, unknown> = {};
-  for (const [flag, param] of Object.entries(flagParamMap)) {
-    if (flags[flag] !== undefined) params[param] = flags[flag];
-  }
-
-  return params as GetAllTransactionsParams;
-}
+const fieldMappings: FieldMapping[] = [
+  { flag: "category-id" },
+  { flag: "created-since" },
+  { flag: "end-date" },
+  { flag: "include-children" },
+  { flag: "include-files" },
+  { flag: "include-group-children" },
+  { flag: "include-metadata" },
+  { flag: "include-pending" },
+  { flag: "include-split-parents" },
+  { flag: "is-group-parent" },
+  { flag: "is-pending" },
+  { flag: "limit" },
+  { flag: "manual-account-id" },
+  { flag: "offset" },
+  { flag: "plaid-account-id" },
+  { flag: "recurring-id" },
+  { flag: "start-date" },
+  { flag: "status" },
+  { flag: "tag-id" },
+  { flag: "updated-since" },
+];
 
 export default class TransactionsList extends ApiCommand {
   static override description =
-    "Retrieve transactions with optional filters. Returns most recent transactions up to --limit (default 1000, max 2000). Use --offset for pagination when has_more is true.";
+    "Retrieve transactions with optional filters. Returns most recent transactions up to --limit (default 1000, max 2000). Use --offset for pagination when hasMore is true.";
   static override flags = {
     "category-id": Flags.integer({
       description:
@@ -78,7 +69,7 @@ export default class TransactionsList extends ApiCommand {
     }),
     limit: Flags.integer({
       description:
-        "Maximum number of transactions to return (1-2000, default 1000). Response includes has_more=true if more are available.",
+        "Maximum number of transactions to return (1-2000, default 1000). Response includes hasMore=true if more are available.",
     }),
     "manual-account-id": Flags.integer({
       description:
@@ -105,11 +96,10 @@ export default class TransactionsList extends ApiCommand {
   async run(): Promise<unknown> {
     const { flags } = await this.parse(TransactionsList);
     const client = this.createClient(flags["api-key"]);
-    const params = buildParams(flags);
-    const result = await client.transactions.getAll(params);
-    const r = result as unknown as { has_more?: boolean; hasMore?: boolean; transactions: Record<string, unknown>[] };
-    let formatted = formatTable(r.transactions ?? [], transactionColumns);
-    if (r.hasMore || r.has_more) formatted += "\n(more results available — use --offset to paginate)";
+    const parameters = buildBody<GetAllTransactionsParams>(flags, fieldMappings);
+    const result = await client.transactions.getAll(parameters);
+    let formatted = formatTable(result.transactions as Record<string, unknown>[], transactionColumns);
+    if (result.hasMore) formatted += "\n(more results available — use --offset to paginate)";
     return this.output(result, formatted);
   }
 }

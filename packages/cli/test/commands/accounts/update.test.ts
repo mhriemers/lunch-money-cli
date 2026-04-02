@@ -115,6 +115,15 @@ describe("accounts update", () => {
     expect(body.type).toBe("cash");
   });
 
+  it("sends balance '0' when updating balance to zero", async () => {
+    const update = vi.fn().mockResolvedValue({ id: 42 });
+    mockClient({ manualAccounts: { update } });
+
+    await runCommand(AccountsUpdate, ["42", "--balance", "0", "--json"]);
+    const body = update.mock.calls[0][1];
+    expect(body.balance).toBe("0");
+  });
+
   it("sends empty body when no update flags set", async () => {
     const update = vi.fn().mockResolvedValue({ id: 42 });
     mockClient({ manualAccounts: { update } });

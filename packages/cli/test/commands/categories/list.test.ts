@@ -67,8 +67,8 @@ describe("categories list", () => {
     mockClient({ categories: { getAll } });
 
     await runCommand(CategoriesList, ["--flatten", "--is-group", "true", "--json"]);
-    const params = getAll.mock.calls[0][0];
-    expect(params.format).toBe("flattened");
-    expect(params.is_group).toBe(true);
+    const parameters = getAll.mock.calls[0][0];
+    expect(parameters.format).toBe("flattened");
+    expect(parameters.is_group).toBe(true);
   });
 });

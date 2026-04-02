@@ -5,7 +5,7 @@ import { fixture, mockClient, runCommand } from "../../setup.js";
 
 describe("transactions list", () => {
   it("returns transactions as JSON", async () => {
-    const data = { transactions: [{ amount: "-4.50", id: 1, payee: "Coffee" }] };
+    const data = { hasMore: false, transactions: [{ amount: "-4.50", id: 1, payee: "Coffee" }] };
     const getAll = vi.fn().mockResolvedValue(data);
     mockClient({ transactions: { getAll } });
 
@@ -15,6 +15,7 @@ describe("transactions list", () => {
 
   it("formats transactions as a table", async () => {
     const getAll = vi.fn().mockResolvedValue({
+      hasMore: false,
       transactions: [
         { amount: "-4.50", currency: "usd", date: "2025-01-15", id: 1, payee: "Coffee", status: "cleared" },
       ],
@@ -26,7 +27,7 @@ describe("transactions list", () => {
   });
 
   it("maps CLI flags to API params", async () => {
-    const getAll = vi.fn().mockResolvedValue({ transactions: [] });
+    const getAll = vi.fn().mockResolvedValue({ hasMore: false, transactions: [] });
     mockClient({ transactions: { getAll } });
 
     await runCommand(TransactionsList, [
@@ -52,43 +53,17 @@ describe("transactions list", () => {
   });
 
   it("maps boolean and pagination flags", async () => {
-    const getAll = vi.fn().mockResolvedValue({ transactions: [] });
+    const getAll = vi.fn().mockResolvedValue({ hasMore: false, transactions: [] });
     mockClient({ transactions: { getAll } });
 
     await runCommand(TransactionsList, ["--include-pending", "--include-children", "--offset", "50", "--json"]);
-    const params = getAll.mock.calls[0][0];
-    expect(params.include_pending).toBe(true);
-    expect(params.include_children).toBe(true);
-    expect(params.offset).toBe(50);
+    const parameters = getAll.mock.calls[0][0];
+    expect(parameters.include_pending).toBe(true);
+    expect(parameters.include_children).toBe(true);
+    expect(parameters.offset).toBe(50);
   });
 
-  it("shows pagination message when has_more is true", async () => {
-    const getAll = vi.fn().mockResolvedValue({
-      has_more: true,
-      transactions: [
-        { amount: "-4.50", currency: "usd", date: "2025-01-15", id: 1, payee: "Coffee", status: "cleared" },
-      ],
-    });
-    mockClient({ transactions: { getAll } });
-
-    const { stdout } = await runCommand(TransactionsList, []);
-    await expect(stdout).toMatchFileSnapshot(fixture("transactions/list-pagination"));
-  });
-
-  it("does not show pagination message when has_more is false", async () => {
-    const getAll = vi.fn().mockResolvedValue({
-      has_more: false,
-      transactions: [
-        { amount: "-4.50", currency: "usd", date: "2025-01-15", id: 1, payee: "Coffee", status: "cleared" },
-      ],
-    });
-    mockClient({ transactions: { getAll } });
-
-    const { stdout } = await runCommand(TransactionsList, []);
-    await expect(stdout).toMatchFileSnapshot(fixture("transactions/list-no-pagination"));
-  });
-
-  it("shows pagination message when hasMore (camelCase) is true", async () => {
+  it("shows pagination message when hasMore is true", async () => {
     const getAll = vi.fn().mockResolvedValue({
       hasMore: true,
       transactions: [
@@ -101,8 +76,21 @@ describe("transactions list", () => {
     await expect(stdout).toMatchFileSnapshot(fixture("transactions/list-pagination"));
   });
 
+  it("does not show pagination message when hasMore is false", async () => {
+    const getAll = vi.fn().mockResolvedValue({
+      hasMore: false,
+      transactions: [
+        { amount: "-4.50", currency: "usd", date: "2025-01-15", id: 1, payee: "Coffee", status: "cleared" },
+      ],
+    });
+    mockClient({ transactions: { getAll } });
+
+    const { stdout } = await runCommand(TransactionsList, []);
+    await expect(stdout).toMatchFileSnapshot(fixture("transactions/list-no-pagination"));
+  });
+
   it("maps additional filter flags to API params", async () => {
-    const getAll = vi.fn().mockResolvedValue({ transactions: [] });
+    const getAll = vi.fn().mockResolvedValue({ hasMore: false, transactions: [] });
     mockClient({ transactions: { getAll } });
 
     await runCommand(TransactionsList, [
@@ -126,23 +114,23 @@ describe("transactions list", () => {
       "--include-split-parents",
       "--json",
     ]);
-    const params = getAll.mock.calls[0][0];
-    expect(params.tag_id).toBe(7);
-    expect(params.recurring_id).toBe(3);
-    expect(params.manual_account_id).toBe(10);
-    expect(params.plaid_account_id).toBe(20);
-    expect(params.created_since).toBe("2025-01-01");
-    expect(params.updated_since).toBe("2025-01-15");
-    expect(params.is_pending).toBe(true);
-    expect(params.is_group_parent).toBe(true);
-    expect(params.include_files).toBe(true);
-    expect(params.include_metadata).toBe(true);
-    expect(params.include_group_children).toBe(true);
-    expect(params.include_split_parents).toBe(true);
+    const parameters = getAll.mock.calls[0][0];
+    expect(parameters.tag_id).toBe(7);
+    expect(parameters.recurring_id).toBe(3);
+    expect(parameters.manual_account_id).toBe(10);
+    expect(parameters.plaid_account_id).toBe(20);
+    expect(parameters.created_since).toBe("2025-01-01");
+    expect(parameters.updated_since).toBe("2025-01-15");
+    expect(parameters.is_pending).toBe(true);
+    expect(parameters.is_group_parent).toBe(true);
+    expect(parameters.include_files).toBe(true);
+    expect(parameters.include_metadata).toBe(true);
+    expect(parameters.include_group_children).toBe(true);
+    expect(parameters.include_split_parents).toBe(true);
   });
 
   it("calls getAll with empty params when no flags", async () => {
-    const getAll = vi.fn().mockResolvedValue({ transactions: [] });
+    const getAll = vi.fn().mockResolvedValue({ hasMore: false, transactions: [] });
     mockClient({ transactions: { getAll } });
 
     await runCommand(TransactionsList, ["--json"]);

@@ -1,7 +1,9 @@
-import type { Currency, UpsertBudgetBody } from "@lunch-money/lunch-money-js-v2";
+import type { UpsertBudgetBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { ApiCommand } from "lunch-money-cli-core";
+import { ApiCommand, buildBody, type FieldMapping } from "lunch-money-cli-core";
+
+const optionalFields: FieldMapping[] = [{ flag: "currency" }, { flag: "notes" }];
 
 export default class BudgetsUpsert extends ApiCommand {
   static override description =
@@ -34,9 +36,8 @@ export default class BudgetsUpsert extends ApiCommand {
       amount: Number(flags.amount),
       category_id: flags["category-id"],
       start_date: flags["start-date"],
+      ...buildBody<UpsertBudgetBody>(flags, optionalFields),
     };
-    if (flags.currency) data.currency = flags.currency as Currency;
-    if (flags.notes) data.notes = flags.notes;
     const result = await client.budgets.upsert(data);
     return this.output(result, `Budget saved for category ${flags["category-id"]} starting ${flags["start-date"]}.`);
   }

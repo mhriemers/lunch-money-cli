@@ -1,7 +1,21 @@
 import type { UpdateCategoryBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Args, Flags } from "@oclif/core";
-import { ApiCommand, parseJsonArg } from "lunch-money-cli-core";
+import { ApiCommand, buildBody, type FieldMapping } from "lunch-money-cli-core";
+
+const fieldMappings: FieldMapping[] = [
+  { flag: "name" },
+  { flag: "description" },
+  { flag: "is-income", type: "boolean" },
+  { flag: "exclude-from-budget", type: "boolean" },
+  { flag: "exclude-from-totals", type: "boolean" },
+  { flag: "archived", type: "boolean" },
+  { flag: "group-id", type: "nullable-int" },
+  { flag: "is-group", type: "nullable-boolean" },
+  { flag: "children", type: "json" },
+  { flag: "order", type: "nullable-int" },
+  { flag: "collapsed", type: "nullable-boolean" },
+];
 
 export default class CategoriesUpdate extends ApiCommand {
   static override args = {
@@ -48,20 +62,7 @@ export default class CategoriesUpdate extends ApiCommand {
   async run(): Promise<unknown> {
     const { args, flags } = await this.parse(CategoriesUpdate);
     const client = this.createClient(flags["api-key"]);
-    const data: UpdateCategoryBody = {};
-    if (flags.name) data.name = flags.name;
-    if (flags.description !== undefined) data.description = flags.description;
-    if (flags["is-income"] !== undefined) data.is_income = flags["is-income"] === "true";
-    if (flags["exclude-from-budget"] !== undefined) data.exclude_from_budget = flags["exclude-from-budget"] === "true";
-    if (flags["exclude-from-totals"] !== undefined) data.exclude_from_totals = flags["exclude-from-totals"] === "true";
-    if (flags.archived !== undefined) data.archived = flags.archived === "true";
-    if (flags["group-id"] !== undefined)
-      data.group_id = flags["group-id"] === "null" ? null : Number.parseInt(flags["group-id"], 10);
-    if (flags["is-group"] !== undefined)
-      data.is_group = flags["is-group"] === "null" ? null : flags["is-group"] === "true";
-    if (flags.children) data.children = parseJsonArg(flags.children, "children") as UpdateCategoryBody["children"];
-    if (flags.order !== undefined) data.order = flags.order === "null" ? null : Number.parseInt(flags.order, 10);
-    if (flags.collapsed !== undefined) data.collapsed = flags.collapsed === "null" ? null : flags.collapsed === "true";
+    const data = buildBody<UpdateCategoryBody>(flags, fieldMappings);
     const category = await client.categories.update(args.id, data);
     return this.output(category, `Updated category ${args.id}.`);
   }

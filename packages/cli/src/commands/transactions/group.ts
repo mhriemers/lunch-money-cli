@@ -19,9 +19,6 @@ export default class TransactionsGroup extends ApiCommand {
     const client = this.createClient(flags["api-key"]);
     const data = parseJsonArg(flags.data, "data") as GroupTransactionsBody;
     const result = await client.transactions.group(data);
-    return this.output(
-      result,
-      `Grouped transactions (group ID: ${(result as unknown as Record<string, unknown>).id ?? "unknown"}).`,
-    );
+    return this.output(result, `Grouped transactions (group ID: ${result.id}).`);
   }
 }

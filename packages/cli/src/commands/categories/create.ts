@@ -1,7 +1,20 @@
 import type { CreateCategoryBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { ApiCommand, parseJsonArg } from "lunch-money-cli-core";
+import { ApiCommand, buildBody, type FieldMapping } from "lunch-money-cli-core";
+
+const optionalFields: FieldMapping[] = [
+  { flag: "description" },
+  { flag: "is-income", type: "boolean" },
+  { flag: "exclude-from-budget", type: "boolean" },
+  { flag: "exclude-from-totals", type: "boolean" },
+  { flag: "is-group", type: "boolean" },
+  { flag: "group-id" },
+  { flag: "children", type: "json" },
+  { flag: "archived", type: "boolean" },
+  { flag: "order" },
+  { flag: "collapsed", type: "boolean" },
+];
 
 export default class CategoriesCreate extends ApiCommand {
   static override description =
@@ -40,19 +53,11 @@ export default class CategoriesCreate extends ApiCommand {
   async run(): Promise<unknown> {
     const { flags } = await this.parse(CategoriesCreate);
     const client = this.createClient(flags["api-key"]);
-    const data: CreateCategoryBody = { name: flags.name };
-    if (flags.description) data.description = flags.description;
-    if (flags["is-income"]) data.is_income = true;
-    if (flags["exclude-from-budget"]) data.exclude_from_budget = true;
-    if (flags["exclude-from-totals"]) data.exclude_from_totals = true;
-    if (flags["is-group"]) data.is_group = true;
-    if (flags["group-id"]) data.group_id = flags["group-id"];
-    if (flags.children) data.children = parseJsonArg(flags.children, "children") as CreateCategoryBody["children"];
-    if (flags.archived) data.archived = true;
-    if (flags.order !== undefined) data.order = flags.order;
-    if (flags.collapsed) data.collapsed = true;
+    const data: CreateCategoryBody = {
+      name: flags.name,
+      ...buildBody<CreateCategoryBody>(flags, optionalFields),
+    };
     const category = await client.categories.create(data);
-    const c = category as unknown as Record<string, unknown>;
-    return this.output(category, `Created category "${c.name ?? ""}" (ID: ${c.id}).`);
+    return this.output(category, `Created category "${category.name}" (ID: ${category.id}).`);
   }
 }

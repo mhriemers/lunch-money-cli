@@ -1,7 +1,15 @@
 import type { UpdateTagBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Args, Flags } from "@oclif/core";
-import { ApiCommand } from "lunch-money-cli-core";
+import { ApiCommand, buildBody, type FieldMapping } from "lunch-money-cli-core";
+
+const fieldMappings: FieldMapping[] = [
+  { flag: "name" },
+  { flag: "description" },
+  { flag: "text-color", type: "nullable" },
+  { flag: "background-color", type: "nullable" },
+  { flag: "archived", type: "boolean" },
+];
 
 export default class TagsUpdate extends ApiCommand {
   static override args = {
@@ -22,14 +30,7 @@ export default class TagsUpdate extends ApiCommand {
   async run(): Promise<unknown> {
     const { args, flags } = await this.parse(TagsUpdate);
     const client = this.createClient(flags["api-key"]);
-    const data: UpdateTagBody = {};
-    if (flags.name) data.name = flags.name;
-    if (flags.description !== undefined) data.description = flags.description;
-    if (flags["text-color"] !== undefined)
-      data.text_color = flags["text-color"] === "null" ? null : flags["text-color"];
-    if (flags["background-color"] !== undefined)
-      data.background_color = flags["background-color"] === "null" ? null : flags["background-color"];
-    if (flags.archived !== undefined) data.archived = flags.archived === "true";
+    const data = buildBody<UpdateTagBody>(flags, fieldMappings);
     const tag = await client.tags.update(args.id, data);
     return this.output(tag, `Updated tag ${args.id}.`);
   }

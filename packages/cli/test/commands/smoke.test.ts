@@ -46,9 +46,9 @@ const commands = [
 ];
 
 describe("command help", () => {
-  for (const args of commands) {
-    it(`${args.join(" ")} --help`, async () => {
-      const { stdout } = await runCommand([...args, "--help"], { root });
+  for (const arguments_ of commands) {
+    it(`${arguments_.join(" ")} --help`, async () => {
+      const { stdout } = await runCommand([...arguments_, "--help"], { root });
       expect(stdout).toBeTruthy();
     });
   }

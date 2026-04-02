@@ -1,7 +1,13 @@
 import type { CreateTransactionsBody, InsertTransaction } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { ApiCommand, parseJsonArg } from "lunch-money-cli-core";
+import { ApiCommand, buildBody, type FieldMapping, parseJsonArg } from "lunch-money-cli-core";
+
+const optionalFields: FieldMapping[] = [
+  { flag: "apply-rules", type: "boolean" },
+  { flag: "skip-duplicates", type: "boolean" },
+  { flag: "skip-balance-update", type: "boolean" },
+];
 
 export default class TransactionsCreate extends ApiCommand {
   static override description =
@@ -27,17 +33,12 @@ export default class TransactionsCreate extends ApiCommand {
   async run(): Promise<unknown> {
     const { flags } = await this.parse(TransactionsCreate);
     const client = this.createClient(flags["api-key"]);
-    const transactions = parseJsonArg(flags.transactions, "transactions");
+    const transactions = parseJsonArg(flags.transactions, "transactions") as InsertTransaction[];
     const data: CreateTransactionsBody = {
-      transactions: transactions as InsertTransaction[],
+      transactions,
+      ...buildBody<CreateTransactionsBody>(flags, optionalFields),
     };
-    if (flags["apply-rules"]) data.apply_rules = true;
-    if (flags["skip-duplicates"]) data.skip_duplicates = true;
-    if (flags["skip-balance-update"]) data.skip_balance_update = true;
     const result = await client.transactions.create(data);
-    const r = result as unknown as Record<string, unknown>;
-    const txns = r.transactions ?? r.ids;
-    const n = Array.isArray(txns) ? txns.length : 0;
-    return this.output(result, `Created ${n} transaction(s).`);
+    return this.output(result, `Created ${result.transactions.length} transaction(s).`);
   }
 }

@@ -5,12 +5,12 @@ import { mockClient, runCommand } from "../../setup.js";
 
 describe("accounts delete", () => {
   it("deletes account by ID", async () => {
-    const deleteFn = vi.fn();
-    mockClient({ manualAccounts: { delete: deleteFn } });
+    const deleteFunction = vi.fn();
+    mockClient({ manualAccounts: { delete: deleteFunction } });
 
     const { result } = await runCommand(AccountsDelete, ["42", "--json"]);
     expect(result).toEqual({ deleted_id: 42, success: true });
-    expect(deleteFn.mock.calls[0][0]).toBe(42);
+    expect(deleteFunction.mock.calls[0][0]).toBe(42);
   });
 
   it("shows confirmation message", async () => {

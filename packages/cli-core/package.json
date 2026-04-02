@@ -13,7 +13,7 @@
   "scripts": {
     "build": "shx rm -rf dist && tsc",
     "lint": "eslint",
-    "test": "mocha"
+    "test": "vitest run"
   },
   "repository": {
     "type": "git",
@@ -43,12 +43,10 @@
     "@oclif/core": "^4"
   },
   "devDependencies": {
-    "@types/mocha": "^10",
     "@types/node": "^25.5.0",
-    "chai": "^6",
-    "mocha": "^11",
     "shx": "^0.4.0",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "vitest": "^3"
   }
 }

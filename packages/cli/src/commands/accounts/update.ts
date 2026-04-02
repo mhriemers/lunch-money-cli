@@ -1,7 +1,23 @@
-import type { AccountType, Currency, UpdateManualAccountBody } from "@lunch-money/lunch-money-js-v2";
+import type { UpdateManualAccountBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Args, Flags } from "@oclif/core";
-import { ApiCommand, parseJsonArg } from "lunch-money-cli-core";
+import { ApiCommand, buildBody, type FieldMapping, parseJsonArg } from "lunch-money-cli-core";
+
+const fieldMappings: FieldMapping[] = [
+  { flag: "name" },
+  { flag: "institution-name" },
+  { flag: "display-name" },
+  { flag: "type" },
+  { flag: "subtype" },
+  { flag: "balance" },
+  { flag: "currency" },
+  { flag: "balance-as-of" },
+  { flag: "status" },
+  { flag: "closed-on", type: "nullable" },
+  { flag: "external-id" },
+  { flag: "custom-metadata", type: "json" },
+  { flag: "exclude-from-transactions", type: "boolean" },
+];
 
 export default class AccountsUpdate extends ApiCommand {
   static override args = {
@@ -59,28 +75,9 @@ export default class AccountsUpdate extends ApiCommand {
   async run(): Promise<unknown> {
     const { args, flags } = await this.parse(AccountsUpdate);
     const client = this.createClient(flags["api-key"]);
-    let data: UpdateManualAccountBody;
-    if (flags.data) {
-      data = parseJsonArg(flags.data, "data") as UpdateManualAccountBody;
-    } else {
-      data = {};
-      if (flags.name) data.name = flags.name;
-      if (flags["institution-name"]) data.institution_name = flags["institution-name"];
-      if (flags["display-name"]) data.display_name = flags["display-name"];
-      if (flags.type) data.type = flags.type as AccountType;
-      if (flags.subtype) data.subtype = flags.subtype;
-      if (flags.balance) data.balance = flags.balance;
-      if (flags.currency) data.currency = flags.currency as Currency;
-      if (flags["balance-as-of"]) data.balance_as_of = flags["balance-as-of"];
-      if (flags.status) data.status = flags.status as "active" | "closed";
-      if (flags["closed-on"] !== undefined) data.closed_on = flags["closed-on"] === "null" ? null : flags["closed-on"];
-      if (flags["external-id"]) data.external_id = flags["external-id"];
-      if (flags["custom-metadata"])
-        data.custom_metadata = parseJsonArg(flags["custom-metadata"], "custom-metadata") as { [key: string]: unknown };
-      if (flags["exclude-from-transactions"] !== undefined)
-        data.exclude_from_transactions = flags["exclude-from-transactions"] === "true";
-    }
-
+    const data: UpdateManualAccountBody = flags.data
+      ? (parseJsonArg(flags.data, "data") as UpdateManualAccountBody)
+      : buildBody<UpdateManualAccountBody>(flags, fieldMappings);
     const account = await client.manualAccounts.update(args.id, data);
     return this.output(account, `Updated account ${args.id}.`);
   }

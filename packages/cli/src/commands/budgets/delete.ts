@@ -19,11 +19,11 @@ export default class BudgetsDelete extends ApiCommand {
   async run(): Promise<unknown> {
     const { flags } = await this.parse(BudgetsDelete);
     const client = this.createClient(flags["api-key"]);
-    const params: DeleteBudgetParams = {
+    const parameters: DeleteBudgetParams = {
       category_id: flags["category-id"],
       start_date: flags["start-date"],
     };
-    await client.budgets.delete(params);
+    await client.budgets.delete(parameters);
     return this.output(
       { message: "Budget deleted", success: true },
       `Deleted budget for category ${flags["category-id"]} starting ${flags["start-date"]}.`,

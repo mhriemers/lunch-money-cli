@@ -23,15 +23,13 @@ export function saveConfig(configDir: string, config: Partial<Config>): void {
   let existing: Record<string, unknown> = {};
   try {
     existing = JSON.parse(readFileSync(getConfigPath(configDir), "utf8"));
-  } catch {}
+  } catch {
+    /* file may not exist yet */
+  }
 
   const merged = deepMerge(existing, config as Record<string, unknown>);
   mkdirSync(configDir, { recursive: true });
   writeFileSync(getConfigPath(configDir), JSON.stringify(merged, null, 2) + "\n");
-}
-
-function isPlainObject(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 function deepMerge(target: Record<string, unknown>, source: Record<string, unknown>): Record<string, unknown> {
@@ -45,4 +43,8 @@ function deepMerge(target: Record<string, unknown>, source: Record<string, unkno
   }
 
   return result;
+}
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }

@@ -1,0 +1,15 @@
+ID                100
+Date              2025-01-15
+Payee             Coffee
+Original Name     COFFEE SHOP #123
+Amount            -4.50
+Currency          usd
+Status            cleared
+Category ID       10
+Notes             Morning coffee
+Recurring ID      -
+Account ID        42
+Plaid Account ID  -
+External ID       -
+Created At        2025-01-15T12:00:00.000Z
+Updated At        2025-01-15T12:00:00.000Z

@@ -1,0 +1,4 @@
+ID  Name         Type    Balance  Currency  Status
+──  ───────────  ──────  ───────  ────────  ──────
+1   Checking     cash    1000.00  usd       active
+2   Credit Card  credit  -500.00  usd       active

@@ -1,0 +1,11 @@
+ID               10
+Name             Savings
+Display Name     My Savings
+Institution      Chase
+Type             depository
+Subtype          savings
+Balance          5000.00
+Currency         usd
+Status           active
+Balance Updated  2025-01-15T10:00:00Z
+Date Linked      2024-06-01

@@ -20,10 +20,10 @@ export default class CategoriesList extends ApiCommand {
   async run(): Promise<unknown> {
     const { flags } = await this.parse(CategoriesList);
     const client = this.createClient(flags["api-key"]);
-    const params: GetAllCategoriesParams = {};
-    if (flags.flatten) params.format = "flattened";
-    if (flags["is-group"] !== undefined) params.is_group = flags["is-group"] === "true";
-    const categories = await client.categories.getAll(params);
+    const parameters: GetAllCategoriesParams = {};
+    if (flags.flatten) parameters.format = "flattened";
+    if (flags["is-group"] !== undefined) parameters.is_group = flags["is-group"] === "true";
+    const categories = await client.categories.getAll(parameters);
     return this.output(categories, formatTable(categories as Record<string, unknown>[], categoryColumns));
   }
 }

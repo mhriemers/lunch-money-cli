@@ -1,7 +1,7 @@
-import { expect } from "chai";
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import { getConfigPath, loadConfig, saveConfig } from "../../src/config.js";
 
@@ -19,18 +19,18 @@ describe("config", () => {
 
   describe("getConfigPath", () => {
     it("returns config.json inside configDir", () => {
-      expect(getConfigPath("/some/dir")).to.equal("/some/dir/config.json");
+      expect(getConfigPath("/some/dir")).toBe("/some/dir/config.json");
     });
   });
 
   describe("loadConfig", () => {
     it("returns empty object when no config file exists", () => {
-      expect(loadConfig(configDir)).to.deep.equal({});
+      expect(loadConfig(configDir)).toEqual({});
     });
 
     it("loads existing config", () => {
       writeFileSync(join(configDir, "config.json"), JSON.stringify({ api_key: "abc" }));
-      expect(loadConfig(configDir)).to.deep.equal({ api_key: "abc" });
+      expect(loadConfig(configDir)).toEqual({ api_key: "abc" });
     });
   });
 
@@ -38,14 +38,14 @@ describe("config", () => {
     it("creates config file when none exists", () => {
       saveConfig(configDir, { api_key: "abc" });
       const raw = JSON.parse(readFileSync(join(configDir, "config.json"), "utf8"));
-      expect(raw).to.deep.equal({ api_key: "abc" });
+      expect(raw).toEqual({ api_key: "abc" });
     });
 
     it("merges top-level keys", () => {
       saveConfig(configDir, { api_key: "abc" });
       saveConfig(configDir, { plugins: { foo: { x: 1 } } });
       const raw = JSON.parse(readFileSync(join(configDir, "config.json"), "utf8"));
-      expect(raw).to.deep.equal({ api_key: "abc", plugins: { foo: { x: 1 } } });
+      expect(raw).toEqual({ api_key: "abc", plugins: { foo: { x: 1 } } });
     });
 
     it("deep merges nested objects", () => {
@@ -60,7 +60,7 @@ describe("config", () => {
         },
       });
       const raw = JSON.parse(readFileSync(join(configDir, "config.json"), "utf8"));
-      expect(raw.plugins.splitser).to.deep.equal({
+      expect(raw.plugins.splitser).toEqual({
         access_token: "tok123",
         lists: { a: { account_id: 1 } },
         username: "user",
@@ -80,22 +80,22 @@ describe("config", () => {
         },
       });
       const raw = JSON.parse(readFileSync(join(configDir, "config.json"), "utf8"));
-      expect(raw.plugins.bar.key).to.equal("val2");
-      expect(raw.plugins.foo.key).to.equal("updated");
+      expect(raw.plugins.bar.key).toBe("val2");
+      expect(raw.plugins.foo.key).toBe("updated");
     });
 
     it("overwrites non-object values", () => {
       saveConfig(configDir, { api_key: "old" });
       saveConfig(configDir, { api_key: "new" });
       const raw = JSON.parse(readFileSync(join(configDir, "config.json"), "utf8"));
-      expect(raw.api_key).to.equal("new");
+      expect(raw.api_key).toBe("new");
     });
 
     it("replaces arrays instead of merging them", () => {
       saveConfig(configDir, { plugins: { p: { items: [1, 2, 3] } } });
       saveConfig(configDir, { plugins: { p: { items: [4, 5] } } });
       const raw = JSON.parse(readFileSync(join(configDir, "config.json"), "utf8"));
-      expect(raw.plugins.p.items).to.deep.equal([4, 5]);
+      expect(raw.plugins.p.items).toEqual([4, 5]);
     });
   });
 });

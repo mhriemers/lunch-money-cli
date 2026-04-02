@@ -1,7 +1,13 @@
 import type { TriggerPlaidAccountFetchParams } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { ApiCommand } from "lunch-money-cli-core";
+import { ApiCommand, buildBody, type FieldMapping } from "lunch-money-cli-core";
+
+const optionalFields: FieldMapping[] = [
+  { flag: "start-date" },
+  { flag: "end-date" },
+  { flag: "plaid-account-id", param: "id" },
+];
 
 export default class PlaidAccountsSync extends ApiCommand {
   static override description =
@@ -22,11 +28,8 @@ export default class PlaidAccountsSync extends ApiCommand {
   async run(): Promise<unknown> {
     const { flags } = await this.parse(PlaidAccountsSync);
     const client = this.createClient(flags["api-key"]);
-    const params: TriggerPlaidAccountFetchParams = {};
-    if (flags["start-date"]) params.start_date = flags["start-date"];
-    if (flags["end-date"]) params.end_date = flags["end-date"];
-    if (flags["plaid-account-id"]) params.id = flags["plaid-account-id"];
-    await client.plaidAccounts.triggerFetch(params);
+    const parameters = buildBody<TriggerPlaidAccountFetchParams>(flags, optionalFields);
+    await client.plaidAccounts.triggerFetch(parameters);
     return this.output({ message: "Plaid sync triggered", success: true }, "Plaid sync triggered.");
   }
 }

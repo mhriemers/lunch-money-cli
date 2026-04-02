@@ -9,22 +9,23 @@ import { loadConfig } from "./config.js";
 export abstract class BaseCommand extends Command {
   static enableJsonFlag = true;
 
-  protected async catch(err: Error & { exitCode?: number }): Promise<void> {
-    process.exitCode = err.exitCode ?? 1;
+  protected async catch(error: Error & { exitCode?: number }): Promise<void> {
+    process.exitCode = error.exitCode ?? 1;
 
     if (this.jsonEnabled()) {
-      const json = err instanceof LunchMoneyError ? this.formatErrorJson(err) : { error: err.message ?? String(err) };
+      const json =
+        error instanceof LunchMoneyError ? this.formatErrorJson(error) : { error: error.message ?? String(error) };
       this.logJson(json);
-    } else if (err instanceof LunchMoneyError) {
-      this.logToStderr(`Error: ${err.message}`);
-      if (err.status) this.logToStderr(`  Status: ${err.status}`);
-      if (err.errors?.length) {
-        for (const detail of err.errors) {
+    } else if (error instanceof LunchMoneyError) {
+      this.logToStderr(`Error: ${error.message}`);
+      if (error.status) this.logToStderr(`  Status: ${error.status}`);
+      if (error.errors?.length) {
+        for (const detail of error.errors) {
           this.logToStderr(`  - ${typeof detail === "string" ? detail : JSON.stringify(detail)}`);
         }
       }
     } else {
-      this.logToStderr(`Error: ${err.message ?? String(err)}`);
+      this.logToStderr(`Error: ${error.message ?? String(error)}`);
     }
   }
 
@@ -33,10 +34,10 @@ export abstract class BaseCommand extends Command {
     return data;
   }
 
-  private formatErrorJson(err: LunchMoneyError): Record<string, unknown> {
-    const output: Record<string, unknown> = { error: err.message };
-    if (err.status) output.status = err.status;
-    if (err.errors?.length) output.details = err.errors;
+  private formatErrorJson(error: LunchMoneyError): Record<string, unknown> {
+    const output: Record<string, unknown> = { error: error.message };
+    if (error.status) output.status = error.status;
+    if (error.errors?.length) output.details = error.errors;
     return output;
   }
 }

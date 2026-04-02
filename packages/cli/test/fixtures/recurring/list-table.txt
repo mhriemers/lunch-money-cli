@@ -1,0 +1,3 @@
+ID  Description  Payee    Amount  Currency  Status
+──  ───────────  ───────  ──────  ────────  ──────
+1   Streaming    Netflix  15.99   usd       active

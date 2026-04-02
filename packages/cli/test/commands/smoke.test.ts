@@ -1,11 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { runCommand } from "@oclif/test";
-import { expect } from "chai";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { describe, expect, it } from "vitest";
+
+const root = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
 describe("root help", () => {
   it("shows help text", async () => {
-    const { stdout } = await runCommand(["--help"]);
-    expect(stdout).to.contain("lunch-money-cli");
+    const { stdout } = await runCommand(["--help"], { root });
+    expect(stdout).toContain("lunch-money-cli");
   });
 });
 
@@ -24,8 +27,8 @@ const topics = [
 describe("topic help", () => {
   for (const topic of topics) {
     it(`${topic} --help`, async () => {
-      const { stdout } = await runCommand([topic, "--help"]);
-      expect(stdout).to.be.ok;
+      const { stdout } = await runCommand([topic, "--help"], { root });
+      expect(stdout).toBeTruthy();
     });
   }
 });
@@ -43,10 +46,10 @@ const commands = [
 ];
 
 describe("command help", () => {
-  for (const args of commands) {
-    it(`${args.join(" ")} --help`, async () => {
-      const { stdout } = await runCommand([...args, "--help"]);
-      expect(stdout).to.be.ok;
+  for (const arguments_ of commands) {
+    it(`${arguments_.join(" ")} --help`, async () => {
+      const { stdout } = await runCommand([...arguments_, "--help"], { root });
+      expect(stdout).toBeTruthy();
     });
   }
 });

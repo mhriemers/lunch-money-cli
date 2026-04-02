@@ -1,7 +1,20 @@
-import type { CreateManualAccountBody, Currency } from "@lunch-money/lunch-money-js-v2";
+import type { CreateManualAccountBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { ApiCommand, parseJsonArg } from "lunch-money-cli-core";
+import { ApiCommand, buildBody, type FieldMapping } from "lunch-money-cli-core";
+
+const optionalFields: FieldMapping[] = [
+  { flag: "institution-name" },
+  { flag: "display-name" },
+  { flag: "subtype" },
+  { flag: "currency" },
+  { flag: "status" },
+  { flag: "external-id" },
+  { flag: "custom-metadata", type: "json" },
+  { flag: "balance-as-of" },
+  { flag: "closed-on", type: "nullable" },
+  { flag: "exclude-from-transactions", type: "boolean" },
+];
 
 export default class AccountsCreate extends ApiCommand {
   static override description = "Create a new manually-managed account. Requires name, type, and balance at minimum.";
@@ -55,20 +68,9 @@ export default class AccountsCreate extends ApiCommand {
       balance: flags.balance,
       name: flags.name,
       type: flags.type as CreateManualAccountBody["type"],
+      ...buildBody<CreateManualAccountBody>(flags, optionalFields),
     };
-    if (flags["institution-name"]) data.institution_name = flags["institution-name"];
-    if (flags["display-name"]) data.display_name = flags["display-name"];
-    if (flags.subtype) data.subtype = flags.subtype;
-    if (flags.currency) data.currency = flags.currency as Currency;
-    if (flags.status) data.status = flags.status as "active" | "closed";
-    if (flags["external-id"]) data.external_id = flags["external-id"];
-    if (flags["custom-metadata"])
-      data.custom_metadata = parseJsonArg(flags["custom-metadata"], "custom-metadata") as { [key: string]: unknown };
-    if (flags["balance-as-of"]) data.balance_as_of = flags["balance-as-of"];
-    if (flags["closed-on"] !== undefined) data.closed_on = flags["closed-on"] === "null" ? null : flags["closed-on"];
-    if (flags["exclude-from-transactions"]) data.exclude_from_transactions = true;
     const account = await client.manualAccounts.create(data);
-    const a = account as unknown as Record<string, unknown>;
-    return this.output(account, `Created account "${a.name ?? ""}" (ID: ${a.id}).`);
+    return this.output(account, `Created account "${account.name}" (ID: ${account.id}).`);
   }
 }

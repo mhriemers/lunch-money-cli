@@ -15,9 +15,9 @@ export default class TagsDelete extends ApiCommand {
   async run(): Promise<unknown> {
     const { args, flags } = await this.parse(TagsDelete);
     const client = this.createClient(flags["api-key"]);
-    const params: DeleteTagParams = {};
-    if (flags.force) params.force = true;
-    await client.tags.delete(args.id, params);
+    const parameters: DeleteTagParams = {};
+    if (flags.force) parameters.force = true;
+    await client.tags.delete(args.id, parameters);
     return this.output({ deleted_id: args.id, success: true }, `Deleted tag ${args.id}.`);
   }
 }

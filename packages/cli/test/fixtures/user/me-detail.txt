@@ -1,0 +1,7 @@
+User ID        100
+Name           Test User
+Email          test@example.com
+Account ID     200
+Budget Name    My Budget
+Currency       usd
+API Key Label  CLI Key

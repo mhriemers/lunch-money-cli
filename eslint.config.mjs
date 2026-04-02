@@ -1,19 +1,18 @@
-import { includeIgnoreFile } from "@eslint/compat";
-import oclif from "eslint-config-oclif";
+import eslint from "@eslint/js";
 import prettier from "eslint-config-prettier";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import perfectionist from "eslint-plugin-perfectionist";
+import tseslint from "typescript-eslint";
 
-const gitignorePath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), ".gitignore");
-
-export default [
-  includeIgnoreFile(gitignorePath),
-  ...oclif,
+export default tseslint.config(
+  { ignores: ["**/dist/", "**/node_modules/", "**/*.js", "**/*.mjs"] },
+  eslint.configs.recommended,
+  tseslint.configs.recommended,
+  perfectionist.configs["recommended-natural"],
   prettier,
   {
     rules: {
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
       camelcase: "off",
-      "mocha/max-top-level-suites": "off",
     },
   },
-];
+);

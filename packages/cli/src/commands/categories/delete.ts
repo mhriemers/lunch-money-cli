@@ -19,9 +19,9 @@ export default class CategoriesDelete extends ApiCommand {
   async run(): Promise<unknown> {
     const { args, flags } = await this.parse(CategoriesDelete);
     const client = this.createClient(flags["api-key"]);
-    const params: DeleteCategoryParams = {};
-    if (flags.force) params.force = true;
-    await client.categories.delete(args.id, params);
+    const parameters: DeleteCategoryParams = {};
+    if (flags.force) parameters.force = true;
+    await client.categories.delete(args.id, parameters);
     return this.output({ deleted_id: args.id, success: true }, `Deleted category ${args.id}.`);
   }
 }

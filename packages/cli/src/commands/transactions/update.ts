@@ -1,7 +1,25 @@
-import type { Currency, UpdateTransactionBody } from "@lunch-money/lunch-money-js-v2";
+import type { UpdateTransactionBody } from "@lunch-money/lunch-money-js-v2";
 
 import { Args, Flags } from "@oclif/core";
-import { ApiCommand, parseJsonArg } from "lunch-money-cli-core";
+import { ApiCommand, buildBody, type FieldMapping, parseJsonArg } from "lunch-money-cli-core";
+
+const fieldMappings: FieldMapping[] = [
+  { flag: "date" },
+  { flag: "amount" },
+  { flag: "payee" },
+  { flag: "category-id" },
+  { flag: "notes" },
+  { flag: "currency" },
+  { flag: "status" },
+  { flag: "tag-ids", type: "json" },
+  { flag: "additional-tag-ids", type: "json" },
+  { flag: "external-id" },
+  { flag: "recurring-id" },
+  { flag: "original-name" },
+  { flag: "manual-account-id" },
+  { flag: "plaid-account-id" },
+  { flag: "custom-metadata", type: "json" },
+];
 
 export default class TransactionsUpdate extends ApiCommand {
   static override args = {
@@ -55,30 +73,9 @@ export default class TransactionsUpdate extends ApiCommand {
   async run(): Promise<unknown> {
     const { args, flags } = await this.parse(TransactionsUpdate);
     const client = this.createClient(flags["api-key"]);
-    let data: UpdateTransactionBody;
-    if (flags.data) {
-      data = parseJsonArg(flags.data, "data") as UpdateTransactionBody;
-    } else {
-      data = {};
-      if (flags.date) data.date = flags.date;
-      if (flags.amount) data.amount = flags.amount;
-      if (flags.payee) data.payee = flags.payee;
-      if (flags["category-id"]) data.category_id = flags["category-id"];
-      if (flags.notes) data.notes = flags.notes;
-      if (flags.currency) data.currency = flags.currency as Currency;
-      if (flags.status) data.status = flags.status as "reviewed" | "unreviewed";
-      if (flags["tag-ids"]) data.tag_ids = parseJsonArg(flags["tag-ids"], "tag-ids") as number[];
-      if (flags["additional-tag-ids"])
-        data.additional_tag_ids = parseJsonArg(flags["additional-tag-ids"], "additional-tag-ids") as number[];
-      if (flags["external-id"]) data.external_id = flags["external-id"];
-      if (flags["recurring-id"]) data.recurring_id = flags["recurring-id"];
-      if (flags["original-name"]) data.original_name = flags["original-name"];
-      if (flags["manual-account-id"]) data.manual_account_id = flags["manual-account-id"];
-      if (flags["plaid-account-id"]) data.plaid_account_id = flags["plaid-account-id"];
-      if (flags["custom-metadata"])
-        data.custom_metadata = parseJsonArg(flags["custom-metadata"], "custom-metadata") as Record<string, never>;
-    }
-
+    const data: UpdateTransactionBody = flags.data
+      ? (parseJsonArg(flags.data, "data") as UpdateTransactionBody)
+      : buildBody<UpdateTransactionBody>(flags, fieldMappings);
     const tx = await client.transactions.update(args.id, data);
     return this.output(tx, `Updated transaction ${args.id}.`);
   }

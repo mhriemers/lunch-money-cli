@@ -1,7 +1,19 @@
-import type { GetBudgetSummaryParams } from "@lunch-money/lunch-money-js-v2";
+import type {
+  AlignedSummaryResponse,
+  GetBudgetSummaryParams,
+  NonAlignedSummaryResponse,
+} from "@lunch-money/lunch-money-js-v2";
 
 import { Flags } from "@oclif/core";
-import { ApiCommand, formatTable, summaryColumns } from "lunch-money-cli-core";
+import { ApiCommand, buildBody, type FieldMapping, formatTable, summaryColumns } from "lunch-money-cli-core";
+
+const optionalFields: FieldMapping[] = [
+  { flag: "include-exclude-from-budgets", type: "boolean" },
+  { flag: "include-occurrences", type: "boolean" },
+  { flag: "include-past-budget-dates", type: "boolean" },
+  { flag: "include-totals", type: "boolean" },
+  { flag: "include-rollover-pool", type: "boolean" },
+];
 
 export default class SummaryGet extends ApiCommand {
   static override description =
@@ -41,18 +53,13 @@ export default class SummaryGet extends ApiCommand {
   async run(): Promise<unknown> {
     const { flags } = await this.parse(SummaryGet);
     const client = this.createClient(flags["api-key"]);
-    const params: GetBudgetSummaryParams = {
+    const parameters: GetBudgetSummaryParams = {
       end_date: flags["end-date"],
       start_date: flags["start-date"],
+      ...buildBody<GetBudgetSummaryParams>(flags, optionalFields),
     };
-    if (flags["include-exclude-from-budgets"]) params.include_exclude_from_budgets = true;
-    if (flags["include-occurrences"]) params.include_occurrences = true;
-    if (flags["include-past-budget-dates"]) params.include_past_budget_dates = true;
-    if (flags["include-totals"]) params.include_totals = true;
-    if (flags["include-rollover-pool"]) params.include_rollover_pool = true;
-    const result = await client.summary.get(params);
-    const r = result as unknown as { categories?: Record<string, unknown>[] };
-    const rows = r.categories ?? [];
-    return this.output(result, formatTable(rows, summaryColumns));
+    const result = await client.summary.get(parameters);
+    const rows = (result as AlignedSummaryResponse | NonAlignedSummaryResponse).categories as Record<string, unknown>[];
+    return this.output(result, formatTable(rows ?? [], summaryColumns));
   }
 }

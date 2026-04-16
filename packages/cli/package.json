@@ -57,18 +57,18 @@
   "homepage": "https://github.com/mhriemers/lunch-money-cli/tree/main/packages/cli#readme",
   "dependencies": {
     "@lunch-money/lunch-money-js-v2": "^2.9.0",
-    "@oclif/core": "^4",
-    "@oclif/plugin-help": "^6",
-    "@oclif/plugin-plugins": "^5",
+    "@oclif/core": "^4.10.5",
+    "@oclif/plugin-help": "^6.2.44",
+    "@oclif/plugin-plugins": "^5.4.61",
     "lunch-money-cli-core": "^2.1.1"
   },
   "devDependencies": {
-    "@oclif/test": "^4.1.17",
+    "@oclif/test": "^4.1.18",
     "@types/mocha": "^10",
     "@types/node": "^25.5.0",
     "chai": "^6",
     "mocha": "^11",
-    "oclif": "^4",
+    "oclif": "^4.23.0",
     "shx": "^0.4.0",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2"

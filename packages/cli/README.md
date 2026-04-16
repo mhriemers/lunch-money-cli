@@ -513,7 +513,7 @@ DESCRIPTION
   Display help for lm.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/6.2.40/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/6.2.44/src/commands/help.ts)_
 
 ## `lm plaid-accounts get ID`
 
@@ -603,7 +603,7 @@ EXAMPLES
   $ lm plugins
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.59/src/commands/plugins/index.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.61/src/commands/plugins/index.ts)_
 
 ## `lm plugins add PLUGIN`
 
@@ -677,7 +677,7 @@ EXAMPLES
   $ lm plugins inspect myplugin
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.59/src/commands/plugins/inspect.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.61/src/commands/plugins/inspect.ts)_
 
 ## `lm plugins install PLUGIN`
 
@@ -726,7 +726,7 @@ EXAMPLES
     $ lm plugins install someuser/someplugin
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.59/src/commands/plugins/install.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.61/src/commands/plugins/install.ts)_
 
 ## `lm plugins link PATH`
 
@@ -757,7 +757,7 @@ EXAMPLES
   $ lm plugins link myplugin
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.59/src/commands/plugins/link.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.61/src/commands/plugins/link.ts)_
 
 ## `lm plugins remove [PLUGIN]`
 
@@ -798,7 +798,7 @@ FLAGS
   --reinstall  Reinstall all plugins after uninstalling.
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.59/src/commands/plugins/reset.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.61/src/commands/plugins/reset.ts)_
 
 ## `lm plugins uninstall [PLUGIN]`
 
@@ -826,7 +826,7 @@ EXAMPLES
   $ lm plugins uninstall myplugin
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.59/src/commands/plugins/uninstall.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.61/src/commands/plugins/uninstall.ts)_
 
 ## `lm plugins unlink [PLUGIN]`
 
@@ -870,7 +870,7 @@ DESCRIPTION
   Update installed plugins.
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.59/src/commands/plugins/update.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/5.4.61/src/commands/plugins/update.ts)_
 
 ## `lm recurring get ID`
 

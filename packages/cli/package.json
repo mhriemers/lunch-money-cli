@@ -59,7 +59,7 @@
     "@lunch-money/lunch-money-js-v2": "^2.9.0",
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
-    "@oclif/plugin-plugins": "^5",
+    "@oclif/plugin-plugins": "^5.4.78",
     "lunch-money-cli-core": "^2.1.1"
   },
   "devDependencies": {
